@@ -1,0 +1,37 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import ServicesBlock from "@/components/blocks/services-3.astro";
+import placeholderImage from "@/assets/image-placeholder.Daj0eFyq_29eYCW.webp";
+---
+
+<SiteLayout
+  lang="en"
+  title="Services – Personal Shopper"
+  description="Our services"
+>
+  <ServicesBlock
+    items={[
+      {
+        title: "Wardrobe Audit",
+        description: "Lorem ipsum dolor sit amet.",
+        image: { src: placeholderImage, alt: "", width: 256, height: 256 },
+        links: [{ text: "Contact", href: "/en/contact" }],
+      },
+      {
+        title: "Personal Shopping",
+        description: "Consectetur adipiscing elit.",
+        image: { src: placeholderImage, alt: "", width: 256, height: 256 },
+        links: [{ text: "Contact", href: "/en/contact" }],
+      },
+      {
+        title: "Event Styling",
+        description: "Sed do eiusmod tempor.",
+        image: { src: placeholderImage, alt: "", width: 256, height: 256 },
+        links: [{ text: "Contact", href: "/en/contact" }],
+      },
+    ]}
+  >
+    <h1>Services</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+  </ServicesBlock>
+</SiteLayout>

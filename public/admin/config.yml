@@ -1,0 +1,179 @@
+backend:
+  name: github
+  repo: your-github-username/personal-shopper-landing-page
+  branch: main
+  base_url: /
+  auth_endpoint: /api/auth
+
+local_backend: true
+
+publish_mode: editorial_workflow
+
+media_folder: public/uploads
+public_folder: /uploads
+
+collections:
+  # Pages - English
+  - name: pages_en
+    label: Pages (EN)
+    editor:
+      preview: false
+    files:
+      - label: Home
+        name: home
+        file: content/en/home.md
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Description, name: description, widget: text, required: false }
+          - { label: Body, name: body, widget: markdown, required: false }
+      - label: About
+        name: about
+        file: content/en/about.md
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Description, name: description, widget: text, required: false }
+          - { label: Body, name: body, widget: markdown, required: false }
+      - label: Services
+        name: services
+        file: content/en/services.md
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Description, name: description, widget: text, required: false }
+          - { label: Body, name: body, widget: markdown, required: false }
+      - label: Testimonials
+        name: testimonials
+        file: content/en/testimonials.md
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Description, name: description, widget: text, required: false }
+          - { label: Body, name: body, widget: markdown, required: false }
+      - label: FAQ
+        name: faq
+        file: content/en/faq.md
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Description, name: description, widget: text, required: false }
+          - { label: Body, name: body, widget: markdown, required: false }
+
+  # Blog - English
+  - name: blog_en
+    label: Blog (EN)
+    folder: content/en/blog
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Description, name: description, widget: text, required: false }
+      - { label: Date, name: date, widget: datetime }
+      - { label: Image, name: image, widget: image, required: false }
+      - { label: Body, name: body, widget: markdown }
+
+  # Pages - Spanish
+  - name: pages_es
+    label: Páginas (ES)
+    editor:
+      preview: false
+    files:
+      - label: Home
+        name: home
+        file: content/es/home.md
+        fields:
+          - { label: Título, name: title, widget: string }
+          - { label: Descripción, name: description, widget: text, required: false }
+          - { label: Contenido, name: body, widget: markdown, required: false }
+      - label: Acerca de
+        name: about
+        file: content/es/about.md
+        fields:
+          - { label: Título, name: title, widget: string }
+          - { label: Descripción, name: description, widget: text, required: false }
+          - { label: Contenido, name: body, widget: markdown, required: false }
+      - label: Servicios
+        name: services
+        file: content/es/services.md
+        fields:
+          - { label: Título, name: title, widget: string }
+          - { label: Descripción, name: description, widget: text, required: false }
+          - { label: Contenido, name: body, widget: markdown, required: false }
+      - label: Testimonios
+        name: testimonials
+        file: content/es/testimonials.md
+        fields:
+          - { label: Título, name: title, widget: string }
+          - { label: Descripción, name: description, widget: text, required: false }
+          - { label: Contenido, name: body, widget: markdown, required: false }
+      - label: FAQ
+        name: faq
+        file: content/es/faq.md
+        fields:
+          - { label: Título, name: title, widget: string }
+          - { label: Descripción, name: description, widget: text, required: false }
+          - { label: Contenido, name: body, widget: markdown, required: false }
+
+  # Blog - Spanish
+  - name: blog_es
+    label: Blog (ES)
+    folder: content/es/blog
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Título, name: title, widget: string }
+      - { label: Descripción, name: description, widget: text, required: false }
+      - { label: Fecha, name: date, widget: datetime }
+      - { label: Imagen, name: image, widget: image, required: false }
+      - { label: Contenido, name: body, widget: markdown }
+
+  # Pages - French
+  - name: pages_fr
+    label: Pages (FR)
+    editor:
+      preview: false
+    files:
+      - label: Accueil
+        name: home
+        file: content/fr/home.md
+        fields:
+          - { label: Titre, name: title, widget: string }
+          - { label: Description, name: description, widget: text, required: false }
+          - { label: Contenu, name: body, widget: markdown, required: false }
+      - label: À propos
+        name: about
+        file: content/fr/about.md
+        fields:
+          - { label: Titre, name: title, widget: string }
+          - { label: Description, name: description, widget: text, required: false }
+          - { label: Contenu, name: body, widget: markdown, required: false }
+      - label: Services
+        name: services
+        file: content/fr/services.md
+        fields:
+          - { label: Titre, name: title, widget: string }
+          - { label: Description, name: description, widget: text, required: false }
+          - { label: Contenu, name: body, widget: markdown, required: false }
+      - label: Témoignages
+        name: testimonials
+        file: content/fr/testimonials.md
+        fields:
+          - { label: Titre, name: title, widget: string }
+          - { label: Description, name: description, widget: text, required: false }
+          - { label: Contenu, name: body, widget: markdown, required: false }
+      - label: FAQ
+        name: faq
+        file: content/fr/faq.md
+        fields:
+          - { label: Titre, name: title, widget: string }
+          - { label: Description, name: description, widget: text, required: false }
+          - { label: Contenu, name: body, widget: markdown, required: false }
+
+  # Blog - French
+  - name: blog_fr
+    label: Blog (FR)
+    folder: content/fr/blog
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Titre, name: title, widget: string }
+      - { label: Description, name: description, widget: text, required: false }
+      - { label: Date, name: date, widget: datetime }
+      - { label: Image, name: image, widget: image, required: false }
+      - { label: Contenu, name: body, widget: markdown }

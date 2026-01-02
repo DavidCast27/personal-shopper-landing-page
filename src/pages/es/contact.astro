@@ -1,0 +1,37 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import { Section } from '@/components/ui/section';
+import { Field, FieldLabel, FieldDescription } from '@/components/ui/field';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
+---
+
+<SiteLayout
+  lang="es"
+  title="Contacto – Personal Shopper"
+  description="Contáctanos"
+  header={{ logo: { text: 'Personal Shopper', href: '/es' } }}
+  footer={{ logo: { text: 'Personal Shopper', href: '/es' } }}
+>
+  <Section style="--section-width: 672px;">
+    <h1 class="text-2xl font-semibold">Contacto</h1>
+    <form name="contact" method="POST" data-netlify="true" class="mt-6 grid gap-4">
+      <input type="hidden" name="form-name" value="contact" />
+      <Field>
+        <FieldLabel>Nombre</FieldLabel>
+        <Input name="name" placeholder="Nombre" required />
+      </Field>
+      <Field>
+        <FieldLabel>Correo electrónico</FieldLabel>
+        <Input type="email" name="email" placeholder="Correo electrónico" required />
+      </Field>
+      <Field>
+        <FieldLabel>Mensaje</FieldLabel>
+        <Textarea name="message" placeholder="Mensaje" rows="5" required />
+        <FieldDescription>Respondemos en 1–2 días hábiles.</FieldDescription>
+      </Field>
+      <Button type="submit">Enviar</Button>
+    </form>
+  </Section>
+</SiteLayout>

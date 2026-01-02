@@ -1,0 +1,14 @@
+---
+import SiteLayout from '../../../layouts/SiteLayout.astro';
+import ArticlesBlock from '@/components/blocks/articles-1.astro';
+import placeholderImage from '@/assets/image-placeholder.Daj0eFyq_29eYCW.webp';
+---
+
+<SiteLayout lang="fr" title="Blog – Personal Shopper" description="Articles et conseils">
+  <ArticlesBlock
+    items={[{ title: 'Premier article', description: 'Lorem ipsum dolor sit amet.', href: '/fr/blog/post-1', image: { src: placeholderImage, alt: '', width: 600, height: 338 }, item: { title: 'Auteur', description: 'Éditeur', image: { src: placeholderImage, alt: '' } } }]}
+  >
+    <h1>Blog</h1>
+    <p>Articles et conseils.</p>
+  </ArticlesBlock>
+</SiteLayout>

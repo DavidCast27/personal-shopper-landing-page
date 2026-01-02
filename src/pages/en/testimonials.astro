@@ -1,0 +1,17 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import ReviewsBlock from '@/components/blocks/reviews-2.astro';
+import placeholderImage from '@/assets/image-placeholder.Daj0eFyq_29eYCW.webp';
+---
+
+<SiteLayout lang="en" title="Testimonials – Personal Shopper" description="Client testimonials">
+  <ReviewsBlock
+    items={[
+      { title: 'Amazing service', description: 'Lorem ipsum dolor sit amet.', rating: 5, item: { title: 'Alex', description: 'Client', image: { src: placeholderImage, alt: '' } } },
+      { title: 'Great experience', description: 'Consectetur adipiscing elit.', rating: 5, item: { title: 'Jamie', description: 'Client', image: { src: placeholderImage, alt: '' } } },
+    ]}
+  >
+    <h1>Testimonials</h1>
+    <p>What clients say about us.</p>
+  </ReviewsBlock>
+</SiteLayout>

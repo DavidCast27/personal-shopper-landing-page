@@ -1,0 +1,35 @@
+---
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+import ArticlesBlock from "@/components/blocks/articles-1.astro";
+import placeholderImage from "@/assets/image-placeholder.Daj0eFyq_29eYCW.webp";
+import { getBlogPosts } from "@/lib/content";
+
+const posts = await getBlogPosts("en");
+const items = posts.map((p) => ({
+  title: (p.frontmatter.title as string) ?? p.slug,
+  description: (p.frontmatter.description as string) ?? "",
+  href: `/en/blog/${p.slug}`,
+  image: {
+    src: (p.frontmatter.image as string) ?? placeholderImage,
+    alt: (p.frontmatter.title as string) ?? p.slug,
+    width: 600,
+    height: 338,
+  },
+  item: {
+    title: "Author",
+    description: "",
+    image: { src: placeholderImage, alt: "" },
+  },
+}));
+---
+
+<SiteLayout
+  lang="en"
+  title="Blog – Personal Shopper"
+  description="Articles and tips"
+>
+  <ArticlesBlock items={items}>
+    <h1>Blog</h1>
+    <p>Articles and tips.</p>
+  </ArticlesBlock>
+</SiteLayout>

@@ -1,0 +1,44 @@
+---
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+import ArticleBlock from "@/components/blocks/article-1.astro";
+import placeholderImage from "@/assets/image-placeholder.Daj0eFyq_29eYCW.webp";
+import { getBlogPosts, getPost } from "@/lib/content";
+
+export async function getStaticPaths() {
+  const posts = await getBlogPosts("en");
+  return posts.map((p) => ({ params: { slug: p.slug } }));
+}
+
+const { slug } = Astro.params;
+const post = await getPost("en", slug!);
+const fm = post.frontmatter as {
+  title?: string;
+  description?: string;
+  image?: string;
+};
+const title = fm.title ?? post.slug;
+---
+
+<SiteLayout
+  lang="en"
+  title={`${title} – Personal Shopper`}
+  description={fm.description ?? "Blog post"}
+>
+  <ArticleBlock
+    title={title}
+    description={fm.description ?? ""}
+    image={{
+      src: fm.image ?? placeholderImage,
+      alt: title,
+      width: 672,
+      height: 378,
+    }}
+    item={{
+      title: "Author",
+      description: "",
+      image: { src: placeholderImage, alt: "" },
+    }}
+  >
+    <p>{post.body}</p>
+  </ArticleBlock>
+</SiteLayout>

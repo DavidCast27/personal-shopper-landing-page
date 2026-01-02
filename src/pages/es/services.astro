@@ -1,0 +1,18 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import ServicesBlock from '@/components/blocks/services-3.astro';
+import placeholderImage from '@/assets/image-placeholder.Daj0eFyq_29eYCW.webp';
+---
+
+<SiteLayout lang="es" title="Servicios – Personal Shopper" description="Nuestros servicios">
+  <ServicesBlock
+    items={[
+      { title: 'Auditoría de guardarropa', description: 'Lorem ipsum dolor sit amet.', image: { src: placeholderImage, alt: '', width: 256, height: 256 }, links: [{ text: 'Contacto', href: '/es/contact' }] },
+      { title: 'Compra personal', description: 'Consectetur adipiscing elit.', image: { src: placeholderImage, alt: '', width: 256, height: 256 }, links: [{ text: 'Contacto', href: '/es/contact' }] },
+      { title: 'Estilismo para eventos', description: 'Sed do eiusmod tempor.', image: { src: placeholderImage, alt: '', width: 256, height: 256 }, links: [{ text: 'Contacto', href: '/es/contact' }] },
+    ]}
+  >
+    <h1>Servicios</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+  </ServicesBlock>
+</SiteLayout>

@@ -1,0 +1,31 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import { Section } from '@/components/ui/section';
+import { Field, FieldLabel, FieldDescription } from '@/components/ui/field';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
+---
+
+<SiteLayout lang="fr" title="Contact – Personal Shopper" description="Nous contacter">
+  <Section style="--section-width: 672px;">
+    <h1 class="text-2xl font-semibold">Contact</h1>
+    <form name="contact" method="POST" data-netlify="true" class="mt-6 grid gap-4">
+      <input type="hidden" name="form-name" value="contact" />
+      <Field>
+        <FieldLabel>Nom</FieldLabel>
+        <Input name="name" placeholder="Nom" required />
+      </Field>
+      <Field>
+        <FieldLabel>E-mail</FieldLabel>
+        <Input type="email" name="email" placeholder="E-mail" required />
+      </Field>
+      <Field>
+        <FieldLabel>Message</FieldLabel>
+        <Textarea name="message" placeholder="Message" rows="5" required />
+        <FieldDescription>Réponse sous 1–2 jours ouvrés.</FieldDescription>
+      </Field>
+      <Button type="submit">Envoyer</Button>
+    </form>
+  </Section>
+</SiteLayout>

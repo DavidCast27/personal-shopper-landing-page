@@ -1,0 +1,184 @@
+---
+import "../styles/tailwind.css";
+import HeaderBlock from "@/components/blocks/header-1.astro";
+import FooterBlock from "@/components/blocks/footer-1.astro";
+
+interface HeaderLink {
+  icon?: string;
+  text?: string;
+  href?: string;
+  target?: string;
+}
+interface MenuLink {
+  text?: string;
+  href?: string;
+}
+interface Menu {
+  text?: string;
+  href?: string;
+  links?: MenuLink[];
+}
+interface Logo {
+  src?: string;
+  alt?: string;
+  text?: string;
+  href?: string;
+}
+
+interface Props {
+  lang?: "en" | "es" | "fr";
+  title?: string;
+  description?: string;
+  showHeader?: boolean;
+  showFooter?: boolean;
+  header?: {
+    logo?: Logo;
+    menus?: Menu[];
+    links?: HeaderLink[];
+    socials?: string[];
+  };
+  footer?: {
+    logo?: Logo;
+    description?: string;
+    menus?: { text?: string; links?: MenuLink[] }[];
+    links?: HeaderLink[];
+    socials?: string[];
+  };
+}
+
+const {
+  lang = "en",
+  title = "Personal Shopper",
+  description = "Personal Shopper landing page",
+  showHeader = true,
+  showFooter = true,
+  header,
+  footer,
+} = Astro.props as Props;
+
+const defaultsByLang = {
+  en: {
+    header: {
+      logo: { text: "Personal Shopper", href: "/en" },
+      menus: [
+        { text: "About", href: "/en/about" },
+        { text: "Services", href: "/en/services" },
+        { text: "Blog", href: "/en/blog" },
+        { text: "Contact", href: "/en/contact" },
+        { text: "Testimonials", href: "/en/testimonials" },
+        { text: "FAQ", href: "/en/faq" },
+      ],
+      links: [{ text: "Contact", href: "/en/contact" }],
+    },
+    footer: {
+      logo: { text: "Personal Shopper", href: "/en" },
+      description: "Personal shopping and styling services in Canada.",
+      menus: [
+        {
+          text: "Company",
+          links: [
+            { text: "About", href: "/en/about" },
+            { text: "Contact", href: "/en/contact" },
+          ],
+        },
+        {
+          text: "Explore",
+          links: [
+            { text: "Services", href: "/en/services" },
+            { text: "Blog", href: "/en/blog" },
+          ],
+        },
+      ],
+    },
+  },
+  fr: {
+    header: {
+      logo: { text: "Personal Shopper", href: "/fr" },
+      menus: [
+        { text: "À propos", href: "/fr/about" },
+        { text: "Services", href: "/fr/services" },
+        { text: "Blog", href: "/fr/blog" },
+        { text: "Contact", href: "/fr/contact" },
+        { text: "Témoignages", href: "/fr/testimonials" },
+        { text: "FAQ", href: "/fr/faq" },
+      ],
+      links: [{ text: "Contact", href: "/fr/contact" }],
+    },
+    footer: {
+      logo: { text: "Personal Shopper", href: "/fr" },
+      description: "Services de personal shopper au Canada.",
+      menus: [
+        {
+          text: "Entreprise",
+          links: [
+            { text: "À propos", href: "/fr/about" },
+            { text: "Contact", href: "/fr/contact" },
+          ],
+        },
+        {
+          text: "Explorer",
+          links: [
+            { text: "Services", href: "/fr/services" },
+            { text: "Blog", href: "/fr/blog" },
+          ],
+        },
+      ],
+    },
+  },
+  es: {
+    header: {
+      logo: { text: "Personal Shopper", href: "/es" },
+      menus: [
+        { text: "Acerca", href: "/es/about" },
+        { text: "Servicios", href: "/es/services" },
+        { text: "Blog", href: "/es/blog" },
+        { text: "Contacto", href: "/es/contact" },
+        { text: "Testimonios", href: "/es/testimonials" },
+        { text: "FAQ", href: "/es/faq" },
+      ],
+      links: [{ text: "Contacto", href: "/es/contact" }],
+    },
+    footer: {
+      logo: { text: "Personal Shopper", href: "/es" },
+      description: "Servicios de personal shopper en Canadá.",
+      menus: [
+        {
+          text: "Empresa",
+          links: [
+            { text: "Acerca", href: "/es/about" },
+            { text: "Contacto", href: "/es/contact" },
+          ],
+        },
+        {
+          text: "Explorar",
+          links: [
+            { text: "Servicios", href: "/es/services" },
+            { text: "Blog", href: "/es/blog" },
+          ],
+        },
+      ],
+    },
+  },
+} as const;
+
+const defaultHeader = defaultsByLang[lang]?.header;
+const defaultFooter = defaultsByLang[lang]?.footer;
+const effectiveHeader = { ...(defaultHeader || {}), ...(header || {}) };
+const effectiveFooter = { ...(defaultFooter || {}), ...(footer || {}) };
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body class="min-h-screen bg-white text-gray-900 antialiased">
+    {showHeader && <HeaderBlock {...effectiveHeader} />}
+    <slot />
+    {showFooter && <FooterBlock {...effectiveFooter} />}
+  </body>
+</html>

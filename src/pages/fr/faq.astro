@@ -1,0 +1,16 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import FAQBlock from '@/components/blocks/faqs-2.astro';
+---
+
+<SiteLayout lang="fr" title="FAQ – Personal Shopper" description="Questions fréquentes">
+  <FAQBlock
+    items={[
+      { title: 'Comment fonctionnent les sessions ?', description: 'Lorem ipsum dolor sit amet.' },
+      { title: 'Proposez-vous du virtuel ?', description: 'Consectetur adipiscing elit.' },
+    ]}
+  >
+    <h1>FAQ</h1>
+    <p>Questions fréquentes.</p>
+  </FAQBlock>
+</SiteLayout>

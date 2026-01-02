@@ -1,0 +1,22 @@
+---
+import SiteLayout from '../../../layouts/SiteLayout.astro';
+import ArticleBlock from '@/components/blocks/article-1.astro';
+import placeholderImage from '@/assets/image-placeholder.Daj0eFyq_29eYCW.webp';
+
+export async function getStaticPaths() {
+  return [
+    { params: { slug: 'post-1' } },
+    { params: { slug: 'post-2' } },
+  ];
+}
+
+const { slug } = Astro.params;
+const title = slug === 'post-1' ? 'Premier article' : 'Article';
+const content = `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.</p>`;
+---
+
+<SiteLayout lang="fr" title={`${title} – Personal Shopper`} description="Article de blog">
+  <ArticleBlock title={title} description="Lorem ipsum dolor sit amet." image={{ src: placeholderImage, alt: '', width: 672, height: 378 }} item={{ title: 'Auteur', description: 'Éditeur', image: { src: placeholderImage, alt: '' } }}>
+    <p>{content}</p>
+  </ArticleBlock>
+</SiteLayout>

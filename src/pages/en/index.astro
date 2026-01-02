@@ -1,0 +1,89 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import HeroBlock from "@/components/blocks/hero-3.astro";
+import ServicesBlock from "@/components/blocks/services-3.astro";
+import FAQBlock from "@/components/blocks/faqs-2.astro";
+import CTABlock from "@/components/blocks/cta-8.astro";
+import placeholderImage from "@/assets/image-placeholder.Daj0eFyq_29eYCW.webp";
+import { getHome } from "@/lib/content";
+
+const home = await getHome("en");
+const fm = home.frontmatter as { title?: string; description?: string };
+---
+
+<SiteLayout
+  lang="en"
+  title={fm.title ?? "Personal Shopper – EN"}
+  description={fm.description ?? "Personal shopper services in Canada"}
+>
+  <HeroBlock
+    image={{
+      src: placeholderImage,
+      alt: "Personal Shopper",
+      width: 256,
+      height: 256,
+    }}
+    links={[
+      { text: "Book a consult", href: "/en/contact" },
+      { text: "Learn more", href: "/en/services" },
+    ]}
+  >
+    <h1>{fm.title ?? "Personal Shopper in Canada"}</h1>
+    <p>
+      {fm.description ?? "Personal shopping and styling services in Canada."}
+    </p>
+  </HeroBlock>
+  <ServicesBlock
+    items={[
+      {
+        title: "Wardrobe Audit",
+        description: "Lorem ipsum dolor sit amet.",
+        image: { src: placeholderImage, alt: "", width: 256, height: 256 },
+        links: [{ text: "Learn more", href: "/en/services" }],
+      },
+      {
+        title: "Personal Shopping",
+        description: "Consectetur adipiscing elit.",
+        image: { src: placeholderImage, alt: "", width: 256, height: 256 },
+        links: [{ text: "Learn more", href: "/en/services" }],
+      },
+      {
+        title: "Event Styling",
+        description: "Sed do eiusmod tempor.",
+        image: { src: placeholderImage, alt: "", width: 256, height: 256 },
+        links: [{ text: "Learn more", href: "/en/services" }],
+      },
+    ]}
+  >
+    <h2>Services</h2>
+    <p>Explore our offering tailored to your needs.</p>
+  </ServicesBlock>
+  <FAQBlock
+    items={[
+      {
+        title: "How do sessions work?",
+        description: "Lorem ipsum dolor sit amet.",
+      },
+      {
+        title: "Do you offer virtual?",
+        description: "Consectetur adipiscing elit.",
+      },
+    ]}
+  >
+    <h2>FAQ</h2>
+    <p>Answers to common questions.</p>
+  </FAQBlock>
+  <CTABlock
+    item={{
+      rating: 5,
+      description: "Trusted by happy clients",
+      images: [
+        { src: placeholderImage, alt: "" },
+        { src: placeholderImage, alt: "" },
+      ],
+    }}
+    links={[{ text: "Contact us", href: "/en/contact" }]}
+  >
+    <p>Ready to elevate your style?</p>
+  </CTABlock>
+</SiteLayout>

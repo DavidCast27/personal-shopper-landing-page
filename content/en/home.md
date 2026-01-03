@@ -1,5 +1,5 @@
 ---
-title: hola oscar
+title: hola oscar parcero
 description: Personal shopping and styling services in Canadaaaaa.
 ---
 

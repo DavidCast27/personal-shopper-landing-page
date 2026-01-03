@@ -1,5 +1,5 @@
 ---
-title: Home
+title: mi primer cambio
 description: Personal shopping and styling services in Canadaaaaa.
 ---
 

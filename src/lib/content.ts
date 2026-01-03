@@ -97,6 +97,21 @@ export async function getPost(locale: Locale, slug: string): Promise<BlogListIte
   return { locale, path, slug, frontmatter: frontmatter as Frontmatter, body }
 }
 
+export interface SiteSettings extends Frontmatter {
+  header_cta_text?: string
+  header_cta_href?: string
+  footer_description?: string
+}
+
+export async function getSiteSettings(locale: Locale): Promise<SiteSettings | undefined> {
+  ensureLocale(locale)
+  const path = `/content/${locale}/site.md`
+  const raw = getRaw(path)
+  if (!raw) return undefined
+  const { frontmatter } = parseFrontmatter(raw)
+  return frontmatter as SiteSettings
+}
+
 export interface ServiceItem extends PageContent {
   order?: number
   price?: string
@@ -173,6 +188,59 @@ export async function getTestimonials(locale: Locale): Promise<TestimonialItem[]
       order,
       rating,
     } as TestimonialItem
+  })
+  items.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+  return items
+}
+
+export interface NavItem extends PageContent {
+  order?: number
+}
+
+export async function getHeaderMenu(locale: Locale): Promise<NavItem[]> {
+  ensureLocale(locale)
+  const prefix = `/content/${locale}/nav/header/`
+  const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix) && p.endsWith('.md'))
+  const items = entries.map(([path, raw]) => {
+    const { frontmatter, body } = parseFrontmatter(raw)
+    const orderRaw = frontmatter.order as string | number | undefined
+    const order = typeof orderRaw === 'number' ? orderRaw : orderRaw ? parseInt(String(orderRaw), 10) : undefined
+    return {
+      locale,
+      path,
+      slug: path.replace(prefix, '').replace(/\.md$/, ''),
+      frontmatter: frontmatter as Frontmatter,
+      body,
+      order,
+    } as NavItem
+  })
+  items.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+  return items
+}
+
+export interface FooterLinkItem extends PageContent {
+  order?: number
+  section?: string
+}
+
+export async function getFooterLinks(locale: Locale): Promise<FooterLinkItem[]> {
+  ensureLocale(locale)
+  const prefix = `/content/${locale}/footer/links/`
+  const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix) && p.endsWith('.md'))
+  const items = entries.map(([path, raw]) => {
+    const { frontmatter, body } = parseFrontmatter(raw)
+    const orderRaw = frontmatter.order as string | number | undefined
+    const order = typeof orderRaw === 'number' ? orderRaw : orderRaw ? parseInt(String(orderRaw), 10) : undefined
+    const section = (frontmatter.section as string) || 'Links'
+    return {
+      locale,
+      path,
+      slug: path.replace(prefix, '').replace(/\.md$/, ''),
+      frontmatter: frontmatter as Frontmatter,
+      body,
+      order,
+      section,
+    } as FooterLinkItem
   })
   items.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
   return items

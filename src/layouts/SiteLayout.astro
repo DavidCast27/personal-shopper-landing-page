@@ -2,6 +2,7 @@
 import "../styles/tailwind.css";
 import HeaderBlock from "@/components/blocks/header-1.astro";
 import FooterBlock from "@/components/blocks/footer-1.astro";
+import { getSiteSettings, getHeaderMenu, getFooterLinks } from "@/lib/content";
 
 interface HeaderLink {
   icon?: string;
@@ -163,8 +164,41 @@ const defaultsByLang = {
 
 const defaultHeader = defaultsByLang[lang]?.header;
 const defaultFooter = defaultsByLang[lang]?.footer;
-const effectiveHeader = { ...(defaultHeader || {}), ...(header || {}) };
-const effectiveFooter = { ...(defaultFooter || {}), ...(footer || {}) };
+
+// Load CMS-driven navigation
+const site = await getSiteSettings(lang as any).catch(() => undefined);
+const headerMenu = await getHeaderMenu(lang as any).catch(() => []);
+const footerLinks = await getFooterLinks(lang as any).catch(() => []);
+
+// Map header menu
+const headerMenusFromCms = headerMenu.map((i) => ({
+  text: (i.frontmatter.text as string) ?? i.slug,
+  href: (i.frontmatter.href as string) ?? '#',
+}));
+
+// Map footer menus grouped by section
+const footerMenusFromCms = Object.values(
+  footerLinks.reduce((acc: Record<string, { text: string; links: { text?: string; href?: string }[] }>, i) => {
+    const section = (i.frontmatter.section as string) || i.section || 'Links';
+    if (!acc[section]) acc[section] = { text: section, links: [] };
+    acc[section].links.push({ text: (i.frontmatter.text as string) ?? i.slug, href: (i.frontmatter.href as string) ?? '#' });
+    return acc;
+  }, {})
+);
+
+const computedHeader = {
+  ...(defaultHeader || {}),
+  ...(header || {}),
+  menus: headerMenusFromCms.length > 0 ? headerMenusFromCms : (defaultHeader?.menus || []),
+  links: site?.header_cta_text && site?.header_cta_href ? [{ text: site.header_cta_text as string, href: site.header_cta_href as string }] : (header?.links || defaultHeader?.links || []),
+};
+
+const computedFooter = {
+  ...(defaultFooter || {}),
+  ...(footer || {}),
+  description: (site?.footer_description as string) || footer?.description || defaultFooter?.description,
+  menus: footerMenusFromCms.length > 0 ? footerMenusFromCms : (footer?.menus || defaultFooter?.menus || []),
+};
 ---
 
 <!doctype html>
@@ -177,8 +211,8 @@ const effectiveFooter = { ...(defaultFooter || {}), ...(footer || {}) };
     <title>{title}</title>
   </head>
   <body class="min-h-screen bg-white text-gray-900 antialiased">
-    {showHeader && <HeaderBlock {...effectiveHeader} />}
+    {showHeader && <HeaderBlock {...computedHeader} />}
     <slot />
-    {showFooter && <FooterBlock {...effectiveFooter} />}
+    {showFooter && <FooterBlock {...computedFooter} />}
   </body>
 </html>

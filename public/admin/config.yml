@@ -109,6 +109,38 @@ collections:
       - { label: Order, name: order, widget: number, required: false, value_type: int, min: 0 }
       - { label: Quote, name: body, widget: markdown }
 
+  - name: site_en
+    label: Site Settings (EN)
+    files:
+      - label: Settings
+        name: settings
+        file: content/en/site.md
+        fields:
+          - { label: Header CTA Text, name: header_cta_text, widget: string, required: false }
+          - { label: Header CTA Href, name: header_cta_href, widget: string, required: false }
+          - { label: Footer Description, name: footer_description, widget: text, required: false }
+
+  - name: header_menu_en
+    label: Header Menu (EN)
+    folder: content/en/nav/header
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Text, name: text, widget: string }
+      - { label: Href, name: href, widget: string }
+      - { label: Order, name: order, widget: number, value_type: int, min: 0 }
+
+  - name: footer_links_en
+    label: Footer Links (EN)
+    folder: content/en/footer/links
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Section, name: section, widget: string }
+      - { label: Text, name: text, widget: string }
+      - { label: Href, name: href, widget: string }
+      - { label: Order, name: order, widget: number, value_type: int, min: 0 }
+
   # Spanish (ES)
   - name: pages_es
     label: Páginas (ES)
@@ -203,6 +235,38 @@ collections:
       - { label: Avatar, name: avatar, widget: image, required: false }
       - { label: Orden, name: order, widget: number, required: false, value_type: int, min: 0 }
       - { label: Cita, name: body, widget: markdown }
+
+  - name: site_es
+    label: Configuración del sitio (ES)
+    files:
+      - label: Ajustes
+        name: ajustes
+        file: content/es/site.md
+        fields:
+          - { label: Header CTA Texto, name: header_cta_text, widget: string, required: false }
+          - { label: Header CTA Link, name: header_cta_href, widget: string, required: false }
+          - { label: Descripción del pie, name: footer_description, widget: text, required: false }
+
+  - name: header_menu_es
+    label: Menú Header (ES)
+    folder: content/es/nav/header
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Texto, name: text, widget: string }
+      - { label: Enlace, name: href, widget: string }
+      - { label: Orden, name: order, widget: number, value_type: int, min: 0 }
+
+  - name: footer_links_es
+    label: Enlaces Footer (ES)
+    folder: content/es/footer/links
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Sección, name: section, widget: string }
+      - { label: Texto, name: text, widget: string }
+      - { label: Enlace, name: href, widget: string }
+      - { label: Orden, name: order, widget: number, value_type: int, min: 0 }
 
   # French (FR)
   - name: pages_fr
@@ -299,3 +363,34 @@ collections:
       - { label: Ordre, name: order, widget: number, required: false, value_type: int, min: 0 }
       - { label: Citation, name: body, widget: markdown }
 
+  - name: site_fr
+    label: Paramètres du site (FR)
+    files:
+      - label: Paramètres
+        name: parametres
+        file: content/fr/site.md
+        fields:
+          - { label: Header CTA Texte, name: header_cta_text, widget: string, required: false }
+          - { label: Header CTA Lien, name: header_cta_href, widget: string, required: false }
+          - { label: Description du pied de page, name: footer_description, widget: text, required: false }
+
+  - name: header_menu_fr
+    label: Menu Header (FR)
+    folder: content/fr/nav/header
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Texte, name: text, widget: string }
+      - { label: Lien, name: href, widget: string }
+      - { label: Ordre, name: order, widget: number, value_type: int, min: 0 }
+
+  - name: footer_links_fr
+    label: Liens Footer (FR)
+    folder: content/fr/footer/links
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Section, name: section, widget: string }
+      - { label: Texte, name: text, widget: string }
+      - { label: Lien, name: href, widget: string }
+      - { label: Ordre, name: order, widget: number, value_type: int, min: 0 }

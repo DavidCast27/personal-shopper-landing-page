@@ -97,3 +97,83 @@ export async function getPost(locale: Locale, slug: string): Promise<BlogListIte
   return { locale, path, slug, frontmatter: frontmatter as Frontmatter, body }
 }
 
+export interface ServiceItem extends PageContent {
+  order?: number
+  price?: string
+}
+
+export async function getServices(locale: Locale): Promise<ServiceItem[]> {
+  ensureLocale(locale)
+  const prefix = `/content/${locale}/services/`
+  const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix) && p.endsWith('.md'))
+  const items = entries.map(([path, raw]) => {
+    const { frontmatter, body } = parseFrontmatter(raw)
+    const orderRaw = frontmatter.order as string | number | undefined
+    const order = typeof orderRaw === 'number' ? orderRaw : orderRaw ? parseInt(String(orderRaw), 10) : undefined
+    return {
+      locale,
+      path,
+      slug: path.replace(prefix, '').replace(/\.md$/, ''),
+      frontmatter: frontmatter as Frontmatter,
+      body,
+      order,
+      price: (frontmatter.price as string) || undefined,
+    } as ServiceItem
+  })
+  items.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+  return items
+}
+
+export interface FaqItem extends PageContent {
+  order?: number
+}
+
+export async function getFaq(locale: Locale): Promise<FaqItem[]> {
+  ensureLocale(locale)
+  const prefix = `/content/${locale}/faq/`
+  const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix) && p.endsWith('.md'))
+  const items = entries.map(([path, raw]) => {
+    const { frontmatter, body } = parseFrontmatter(raw)
+    const orderRaw = frontmatter.order as string | number | undefined
+    const order = typeof orderRaw === 'number' ? orderRaw : orderRaw ? parseInt(String(orderRaw), 10) : undefined
+    return {
+      locale,
+      path,
+      slug: path.replace(prefix, '').replace(/\.md$/, ''),
+      frontmatter: frontmatter as Frontmatter,
+      body,
+      order,
+    } as FaqItem
+  })
+  items.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+  return items
+}
+
+export interface TestimonialItem extends PageContent {
+  order?: number
+  rating?: number
+}
+
+export async function getTestimonials(locale: Locale): Promise<TestimonialItem[]> {
+  ensureLocale(locale)
+  const prefix = `/content/${locale}/testimonials/`
+  const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix) && p.endsWith('.md'))
+  const items = entries.map(([path, raw]) => {
+    const { frontmatter, body } = parseFrontmatter(raw)
+    const orderRaw = frontmatter.order as string | number | undefined
+    const order = typeof orderRaw === 'number' ? orderRaw : orderRaw ? parseInt(String(orderRaw), 10) : undefined
+    const ratingRaw = frontmatter.rating as string | number | undefined
+    const rating = typeof ratingRaw === 'number' ? ratingRaw : ratingRaw ? parseInt(String(ratingRaw), 10) : undefined
+    return {
+      locale,
+      path,
+      slug: path.replace(prefix, '').replace(/\.md$/, ''),
+      frontmatter: frontmatter as Frontmatter,
+      body,
+      order,
+      rating,
+    } as TestimonialItem
+  })
+  items.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+  return items
+}

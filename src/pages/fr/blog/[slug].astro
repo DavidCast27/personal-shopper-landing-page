@@ -2,21 +2,27 @@
 import SiteLayout from '../../../layouts/SiteLayout.astro';
 import ArticleBlock from '@/components/blocks/article-1.astro';
 import placeholderImage from '@/assets/image-placeholder.Daj0eFyq_29eYCW.webp';
+import { getBlogPosts, getPost } from '@/lib/content';
+import { renderMarkdown } from '@/lib/markdown';
 
 export async function getStaticPaths() {
-  return [
-    { params: { slug: 'post-1' } },
-    { params: { slug: 'post-2' } },
-  ];
+  const posts = await getBlogPosts('fr');
+  return posts.map((p) => ({ params: { slug: p.slug } }));
 }
 
 const { slug } = Astro.params;
-const title = slug === 'post-1' ? 'Premier article' : 'Article';
-const content = `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.</p>`;
+const post = await getPost('fr', slug!);
+const fm = post.frontmatter as { title?: string; description?: string; image?: string };
+const title = fm.title ?? post.slug;
 ---
 
-<SiteLayout lang="fr" title={`${title} – Personal Shopper`} description="Article de blog">
-  <ArticleBlock title={title} description="Lorem ipsum dolor sit amet." image={{ src: placeholderImage, alt: '', width: 672, height: 378 }} item={{ title: 'Auteur', description: 'Éditeur', image: { src: placeholderImage, alt: '' } }}>
-    <p>{content}</p>
+<SiteLayout lang="fr" title={`${title} – Personal Shopper`} description={fm.description ?? 'Article de blog'}>
+  <ArticleBlock
+    title={title}
+    description={fm.description ?? ''}
+    image={{ src: fm.image ?? placeholderImage, alt: title, width: 672, height: 378 }}
+    item={{ title: 'Auteur', description: '', image: { src: placeholderImage, alt: '' } }}
+  >
+    <div class="prose prose-neutral max-w-none" set:html={renderMarkdown(post.body)} />
   </ArticleBlock>
 </SiteLayout>

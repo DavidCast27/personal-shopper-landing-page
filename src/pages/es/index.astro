@@ -5,18 +5,22 @@ import ServicesBlock from '@/components/blocks/services-3.astro';
 import FAQBlock from '@/components/blocks/faqs-2.astro';
 import CTABlock from '@/components/blocks/cta-8.astro';
 import placeholderImage from '@/assets/image-placeholder.Daj0eFyq_29eYCW.webp';
+import { getHome } from '@/lib/content';
+
+const home = await getHome('es');
+const fm = home.frontmatter as { title?: string; description?: string; hero_title?: string; hero_subtitle?: string; hero_cta_text?: string; hero_cta_href?: string };
 ---
 
-<SiteLayout lang="es" title="Personal Shopper – ES" description="Servicios de personal shopper en Canadá">
+<SiteLayout lang="es" title={fm.title ?? 'Personal Shopper – ES'} description={fm.description ?? 'Servicios de personal shopper en Canadá'}>
   <HeroBlock
     image={{ src: placeholderImage, alt: 'Personal Shopper', width: 256, height: 256 }}
     links={[
-      { text: 'Reservar', href: '/es/contact' },
+      { text: fm.hero_cta_text ?? 'Reservar', href: fm.hero_cta_href ?? '/es/contact' },
       { text: 'Saber más', href: '/es/services' },
     ]}
   >
-    <h1>Personal Shopper en Canadá</h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+    <h1>{fm.hero_title ?? fm.title ?? 'Personal Shopper en Canadá'}</h1>
+    <p>{fm.hero_subtitle ?? fm.description ?? 'Servicios de personal shopper en Canadá.'}</p>
   </HeroBlock>
   <ServicesBlock
     items={[

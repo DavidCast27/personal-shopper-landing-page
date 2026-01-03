@@ -8,7 +8,7 @@ import placeholderImage from "@/assets/image-placeholder.Daj0eFyq_29eYCW.webp";
 import { getHome } from "@/lib/content";
 
 const home = await getHome("en");
-const fm = home.frontmatter as { title?: string; description?: string };
+const fm = home.frontmatter as { title?: string; description?: string; hero_title?: string; hero_subtitle?: string; hero_cta_text?: string; hero_cta_href?: string };
 ---
 
 <SiteLayout
@@ -24,14 +24,12 @@ const fm = home.frontmatter as { title?: string; description?: string };
       height: 256,
     }}
     links={[
-      { text: "Book a consult", href: "/en/contact" },
+      { text: fm.hero_cta_text ?? "Book a consult", href: fm.hero_cta_href ?? "/en/contact" },
       { text: "Learn more", href: "/en/services" },
     ]}
   >
-    <h1>{fm.title ?? "Personal Shopper in Canada"}</h1>
-    <p>
-      {fm.description ?? "Personal shopping and styling services in Canada."}
-    </p>
+    <h1>{fm.hero_title ?? fm.title ?? "Personal Shopper in Canada"}</h1>
+    <p>{fm.hero_subtitle ?? fm.description ?? "Personal shopping and styling services in Canada."}</p>
   </HeroBlock>
   <ServicesBlock
     items={[

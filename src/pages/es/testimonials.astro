@@ -2,15 +2,19 @@
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import ReviewsBlock from '@/components/blocks/reviews-2.astro';
 import placeholderImage from '@/assets/image-placeholder.Daj0eFyq_29eYCW.webp';
+import { getTestimonials } from '@/lib/content';
+
+const testimonials = await getTestimonials('es');
+const items = testimonials.map((t) => ({
+  title: (t.frontmatter.title as string) ?? 'Testimonio',
+  description: t.body || '',
+  rating: t.rating ?? 5,
+  item: { title: (t.frontmatter.author as string) ?? 'Cliente', description: (t.frontmatter.role as string) ?? '', image: { src: (t.frontmatter.avatar as string) ?? placeholderImage, alt: (t.frontmatter.author as string) ?? 'Cliente' } },
+}));
 ---
 
-<SiteLayout lang="es" title="Testimonios – Personal Shopper" description="Testimonios de clientes">
-  <ReviewsBlock
-    items={[
-      { title: 'Servicio increíble', description: 'Lorem ipsum dolor sit amet.', rating: 5, item: { title: 'Alex', description: 'Cliente', image: { src: placeholderImage, alt: '' } } },
-      { title: 'Gran experiencia', description: 'Consectetur adipiscing elit.', rating: 5, item: { title: 'Jamie', description: 'Cliente', image: { src: placeholderImage, alt: '' } } },
-    ]}
-  >
+<SiteLayout lang="es" title={`Testimonios – Personal Shopper`} description={'Testimonios de clientes'}>
+  <ReviewsBlock items={items}>
     <h1>Testimonios</h1>
     <p>Lo que dicen nuestros clientes.</p>
   </ReviewsBlock>

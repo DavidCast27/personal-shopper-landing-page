@@ -1,16 +1,18 @@
 ---
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import FAQBlock from '@/components/blocks/faqs-2.astro';
+import { getFaq } from '@/lib/content';
+import { stripMarkdown } from '@/lib/markdown';
+
+const items = (await getFaq('fr')).map((q) => ({
+  title: (q.frontmatter.question as string) ?? q.slug,
+  description: stripMarkdown(q.body || ''),
+}));
 ---
 
-<SiteLayout lang="fr" title="FAQ – Personal Shopper" description="Questions fréquentes">
-  <FAQBlock
-    items={[
-      { title: 'Comment fonctionnent les sessions ?', description: 'Lorem ipsum dolor sit amet.' },
-      { title: 'Proposez-vous du virtuel ?', description: 'Consectetur adipiscing elit.' },
-    ]}
-  >
+<SiteLayout lang="fr" title={`FAQ – Personal Shopper`} description={'Questions fréquentes'}>
+  <FAQBlock items={items}>
     <h1>FAQ</h1>
-    <p>Questions fréquentes.</p>
+    <p>Réponses aux questions fréquentes.</p>
   </FAQBlock>
 </SiteLayout>

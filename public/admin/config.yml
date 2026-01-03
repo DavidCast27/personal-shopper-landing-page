@@ -14,7 +14,7 @@ media_folder: public/uploads
 public_folder: /uploads
 
 collections:
-  # Pages - English
+  # English (EN)
   - name: pages_en
     label: Pages (EN)
     editor:
@@ -26,6 +26,10 @@ collections:
         fields:
           - { label: Title, name: title, widget: string }
           - { label: Description, name: description, widget: text, required: false }
+          - { label: Hero Title, name: hero_title, widget: string, required: false }
+          - { label: Hero Subtitle, name: hero_subtitle, widget: text, required: false }
+          - { label: Hero CTA Text, name: hero_cta_text, widget: string, required: false }
+          - { label: Hero CTA Href, name: hero_cta_href, widget: string, required: false }
           - { label: Body, name: body, widget: markdown, required: false }
       - label: About
         name: about
@@ -56,7 +60,6 @@ collections:
           - { label: Description, name: description, widget: text, required: false }
           - { label: Body, name: body, widget: markdown, required: false }
 
-  # Blog - English
   - name: blog_en
     label: Blog (EN)
     folder: content/en/blog
@@ -69,7 +72,44 @@ collections:
       - { label: Image, name: image, widget: image, required: false }
       - { label: Body, name: body, widget: markdown }
 
-  # Pages - Spanish
+  - name: services_en
+    label: Services (EN)
+    folder: content/en/services
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Description, name: description, widget: text, required: false }
+      - { label: Price, name: price, widget: string, required: false }
+      - { label: Image, name: image, widget: image, required: false }
+      - { label: Order, name: order, widget: number, required: false, value_type: int, min: 0 }
+      - { label: Body, name: body, widget: markdown, required: false }
+
+  - name: faq_items_en
+    label: FAQ Items (EN)
+    folder: content/en/faq
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Question, name: question, widget: string }
+      - { label: Order, name: order, widget: number, required: false, value_type: int, min: 0 }
+      - { label: Answer, name: body, widget: markdown }
+
+  - name: testimonials_en
+    label: Testimonials (EN)
+    folder: content/en/testimonials
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Author, name: author, widget: string }
+      - { label: Role, name: role, widget: string, required: false }
+      - { label: Rating, name: rating, widget: number, value_type: int, min: 1, max: 5, required: false }
+      - { label: Avatar, name: avatar, widget: image, required: false }
+      - { label: Order, name: order, widget: number, required: false, value_type: int, min: 0 }
+      - { label: Quote, name: body, widget: markdown }
+
+  # Spanish (ES)
   - name: pages_es
     label: Páginas (ES)
     editor:
@@ -81,6 +121,10 @@ collections:
         fields:
           - { label: Título, name: title, widget: string }
           - { label: Descripción, name: description, widget: text, required: false }
+          - { label: Hero Título, name: hero_title, widget: string, required: false }
+          - { label: Hero Subtítulo, name: hero_subtitle, widget: text, required: false }
+          - { label: Hero CTA Texto, name: hero_cta_text, widget: string, required: false }
+          - { label: Hero CTA Link, name: hero_cta_href, widget: string, required: false }
           - { label: Contenido, name: body, widget: markdown, required: false }
       - label: Acerca de
         name: about
@@ -111,7 +155,6 @@ collections:
           - { label: Descripción, name: description, widget: text, required: false }
           - { label: Contenido, name: body, widget: markdown, required: false }
 
-  # Blog - Spanish
   - name: blog_es
     label: Blog (ES)
     folder: content/es/blog
@@ -124,7 +167,44 @@ collections:
       - { label: Imagen, name: image, widget: image, required: false }
       - { label: Contenido, name: body, widget: markdown }
 
-  # Pages - French
+  - name: services_es
+    label: Servicios (ES)
+    folder: content/es/services
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Título, name: title, widget: string }
+      - { label: Descripción, name: description, widget: text, required: false }
+      - { label: Precio, name: price, widget: string, required: false }
+      - { label: Imagen, name: image, widget: image, required: false }
+      - { label: Orden, name: order, widget: number, required: false, value_type: int, min: 0 }
+      - { label: Contenido, name: body, widget: markdown, required: false }
+
+  - name: faq_items_es
+    label: FAQ (ES)
+    folder: content/es/faq
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Pregunta, name: question, widget: string }
+      - { label: Orden, name: order, widget: number, required: false, value_type: int, min: 0 }
+      - { label: Respuesta, name: body, widget: markdown }
+
+  - name: testimonials_es
+    label: Testimonios (ES)
+    folder: content/es/testimonials
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Título, name: title, widget: string }
+      - { label: Autor, name: author, widget: string }
+      - { label: Rol, name: role, widget: string, required: false }
+      - { label: Calificación, name: rating, widget: number, value_type: int, min: 1, max: 5, required: false }
+      - { label: Avatar, name: avatar, widget: image, required: false }
+      - { label: Orden, name: order, widget: number, required: false, value_type: int, min: 0 }
+      - { label: Cita, name: body, widget: markdown }
+
+  # French (FR)
   - name: pages_fr
     label: Pages (FR)
     editor:
@@ -136,6 +216,10 @@ collections:
         fields:
           - { label: Titre, name: title, widget: string }
           - { label: Description, name: description, widget: text, required: false }
+          - { label: Hero Titre, name: hero_title, widget: string, required: false }
+          - { label: Hero Sous-titre, name: hero_subtitle, widget: text, required: false }
+          - { label: Hero CTA Texte, name: hero_cta_text, widget: string, required: false }
+          - { label: Hero CTA Lien, name: hero_cta_href, widget: string, required: false }
           - { label: Contenu, name: body, widget: markdown, required: false }
       - label: À propos
         name: about
@@ -166,7 +250,6 @@ collections:
           - { label: Description, name: description, widget: text, required: false }
           - { label: Contenu, name: body, widget: markdown, required: false }
 
-  # Blog - French
   - name: blog_fr
     label: Blog (FR)
     folder: content/fr/blog
@@ -178,3 +261,41 @@ collections:
       - { label: Date, name: date, widget: datetime }
       - { label: Image, name: image, widget: image, required: false }
       - { label: Contenu, name: body, widget: markdown }
+
+  - name: services_fr
+    label: Services (FR)
+    folder: content/fr/services
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Titre, name: title, widget: string }
+      - { label: Description, name: description, widget: text, required: false }
+      - { label: Prix, name: price, widget: string, required: false }
+      - { label: Image, name: image, widget: image, required: false }
+      - { label: Ordre, name: order, widget: number, required: false, value_type: int, min: 0 }
+      - { label: Contenu, name: body, widget: markdown, required: false }
+
+  - name: faq_items_fr
+    label: FAQ (FR)
+    folder: content/fr/faq
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Question, name: question, widget: string }
+      - { label: Ordre, name: order, widget: number, required: false, value_type: int, min: 0 }
+      - { label: Réponse, name: body, widget: markdown }
+
+  - name: testimonials_fr
+    label: Témoignages (FR)
+    folder: content/fr/testimonials
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Titre, name: title, widget: string }
+      - { label: Auteur, name: author, widget: string }
+      - { label: Rôle, name: role, widget: string, required: false }
+      - { label: Note, name: rating, widget: number, value_type: int, min: 1, max: 5, required: false }
+      - { label: Avatar, name: avatar, widget: image, required: false }
+      - { label: Ordre, name: order, widget: number, required: false, value_type: int, min: 0 }
+      - { label: Citation, name: body, widget: markdown }
+

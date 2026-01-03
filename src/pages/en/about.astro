@@ -1,13 +1,18 @@
 ---
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import { Section, SectionProse } from '@/components/ui/section';
+import { renderMarkdown } from '@/lib/markdown';
+import { getPage } from '@/lib/content';
+
+const page = await getPage('en', 'about');
+const fm = page.frontmatter as { title?: string; description?: string };
 ---
 
-<SiteLayout lang="en" title="About – Personal Shopper" description="About our personal shopper services">
+<SiteLayout lang="en" title={`${fm.title ?? 'About'} – Personal Shopper`} description={fm.description ?? 'About our personal shopper services'}>
   <Section>
     <SectionProse>
-      <h1>About</h1>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel libero at metus pulvinar dictum.</p>
+      <h1>{fm.title ?? 'About'}</h1>
+      <div class="prose prose-neutral max-w-none" set:html={renderMarkdown(page.body || '')} />
     </SectionProse>
   </Section>
 </SiteLayout>

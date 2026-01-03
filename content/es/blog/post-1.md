@@ -1,9 +1,9 @@
 ---
 title: Primer artículo
-description: Publicación introductoria
-date: 2026-01-01
+description: Consejos para optimizar tu armario.
+date: 2025-01-01
 image: /uploads/placeholder.jpg
 ---
 
-Hola desde el primer post ES.
+Organiza por categorías y prioriza prendas versátiles.
 

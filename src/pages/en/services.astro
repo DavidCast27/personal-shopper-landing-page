@@ -2,36 +2,20 @@
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import ServicesBlock from "@/components/blocks/services-3.astro";
 import placeholderImage from "@/assets/image-placeholder.Daj0eFyq_29eYCW.webp";
+import { getServices } from '@/lib/content';
+
+const services = await getServices('en');
+const items = services.map((s) => ({
+  title: (s.frontmatter.title as string) ?? s.slug,
+  description: (s.frontmatter.description as string) ?? '',
+  image: { src: (s.frontmatter.image as string) ?? placeholderImage, alt: (s.frontmatter.title as string) ?? s.slug, width: 256, height: 256 },
+  links: [{ text: 'Contact', href: '/en/contact' }],
+}));
 ---
 
-<SiteLayout
-  lang="en"
-  title="Services – Personal Shopper"
-  description="Our services"
->
-  <ServicesBlock
-    items={[
-      {
-        title: "Wardrobe Audit",
-        description: "Lorem ipsum dolor sit amet.",
-        image: { src: placeholderImage, alt: "", width: 256, height: 256 },
-        links: [{ text: "Contact", href: "/en/contact" }],
-      },
-      {
-        title: "Personal Shopping",
-        description: "Consectetur adipiscing elit.",
-        image: { src: placeholderImage, alt: "", width: 256, height: 256 },
-        links: [{ text: "Contact", href: "/en/contact" }],
-      },
-      {
-        title: "Event Styling",
-        description: "Sed do eiusmod tempor.",
-        image: { src: placeholderImage, alt: "", width: 256, height: 256 },
-        links: [{ text: "Contact", href: "/en/contact" }],
-      },
-    ]}
-  >
+<SiteLayout lang="en" title={`Services – Personal Shopper`} description={'Our services'}>
+  <ServicesBlock items={items}>
     <h1>Services</h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+    <p>Explore our offering tailored to your needs.</p>
   </ServicesBlock>
 </SiteLayout>

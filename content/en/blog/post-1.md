@@ -1,9 +1,9 @@
 ---
-title: First Post
-description: Introductory post
-date: 2026-01-01
+title: First article
+description: Tips to optimize your wardrobe.
+date: 2025-01-03
 image: /uploads/placeholder.jpg
 ---
 
-Hello from the first EN blog post.
+Group by category and prioritize versatile pieces.
 

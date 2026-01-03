@@ -1,13 +1,14 @@
 backend:
   name: github
-  repo: your-github-username/personal-shopper-landing-page
+  repo: DavidCast27/personal-shopper-landing-page
   branch: main
-  base_url: /
-  auth_endpoint: /api/auth
+  site_domain: localhost:4321
+  base_url: http://localhost:4321
+  auth_endpoint: oauth
 
-local_backend: true
+# local_backend: false
 
-publish_mode: editorial_workflow
+# publish_mode: editorial_workflow
 
 media_folder: public/uploads
 public_folder: /uploads

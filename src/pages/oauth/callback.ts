@@ -1,17 +1,13 @@
 export const prerender = false;
+import { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } from '@/lib/env';
 import type { APIRoute } from 'astro';
-import { OAUTH_GITHUB_CLIENT_ID, OAUTH_GITHUB_CLIENT_SECRET } from 'astro:env/server';
+
 
 const tokenUrl = 'https://github.com/login/oauth/access_token';
 
-function envVar(name: string): string | undefined {
-  const im = (import.meta as any).env || {};
-  return im[name] || (process.env as any)[name];
-}
-
 export const GET: APIRoute = async ({ url, redirect }) => {
-  const client_id = OAUTH_GITHUB_CLIENT_ID || envVar('GITHUB_CLIENT_ID');
-  const client_secret = OAUTH_GITHUB_CLIENT_SECRET || envVar('GITHUB_CLIENT_SECRET');
+  const client_id = GITHUB_CLIENT_ID;
+  const client_secret = GITHUB_CLIENT_SECRET;
   const code = url.searchParams.get('code');
 
   if (!client_id || !client_secret || !code) {
@@ -53,4 +49,3 @@ export const GET: APIRoute = async ({ url, redirect }) => {
     return redirect('/?error=oauth_exception');
   }
 };
-

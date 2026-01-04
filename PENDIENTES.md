@@ -2,21 +2,20 @@
 
 Este documento centraliza tareas y decisiones abiertas. Estado actual: CMS y contenido estructurado funcionando (EN/ES/FR), OAuth Decap OK. Lo crítico inmediato es el formulario de contacto.
 
-## Crítico — Formulario de Contacto
-- Decisión de backend/hosting:
-  - Opción A: Netlify Forms (requiere adaptar a `@astrojs/netlify` y desplegar en Netlify).
-  - Opción B (recomendada ahora): Endpoint Node `/api/contact` con el adapter actual (`@astrojs/node`).
-- Proveedor de correo (para Opción B):
-  - Resend (sencillo), SendGrid, Mailgun, o SMTP propio.
-- Implementación propuesta (B):
-  - Crear `src/pages/api/contact.ts` (POST): valida campos, antispam (honeypot y/o Turnstile), rate‑limit básico.
-  - Enviar email (Resend/SendGrid/SMTP) con `OAUTH_*`/`EMAIL_*` en `.env`.
-  - Actualizar `src/pages/{en,es,fr}/contact.astro` para enviar a `/api/contact` y mostrar estados (éxito/error).
-  - i18n de mensajes de validación/éxito.
-- Validaciones mínimas:
-  - Nombre: 2–80 chars; Email: formato; Mensaje: 10–2.000 chars; Honeypot vacío.
+## Completado — Formulario de Contacto
+Estado: Finalizado — Astro Actions + Resend (Node adapter).
+
+- Flujo actual:
+  - `src/actions/index.ts` → `actions.contact` con rate‑limit, honeypot, i18n.
+  - Envío por Resend (`RESEND_API_KEY`, `EMAIL_FROM`, `EMAIL_TO`), reply‑to al usuario.
+  - Formularios EN/ES/FR usan `action={actions.contact}` + fetch (fallback sin JS con redirect a `/[lang]/contact/success`).
+- Validaciones:
+  - Nombre: 2–80; Email válido; Mensaje: 10–2000; Honeypot vacío.
 - Seguridad:
-  - Rate‑limit por IP, sanitizar contenido, evitar HTML en email, registrar errores.
+  - Rate‑limit por IP (in‑memory), same‑origin implícito, sanitización al enviar email.
+- Pendiente opcional:
+  - Integrar Turnstile/reCAPTCHA si sube el spam.
+  - Persistir logs/ratelimit en Redis si escalamos instancias.
 
 ## Importante (próximas iteraciones)
 - Header/Footer desde CMS: ya conectado; definir si mover logo e iconos sociales.

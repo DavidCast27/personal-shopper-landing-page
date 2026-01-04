@@ -84,7 +84,7 @@ Contact:
 - /en/contact
 - /fr/contact
 - /es/contact
-Estático (Netlify Forms)
+Servidor (Astro Actions + Resend)
 
 ESTRUCTURA DE CONTENIDO
 content/

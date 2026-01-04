@@ -1,37 +1,179 @@
 ---
-import SiteLayout from '../../layouts/SiteLayout.astro';
-import { Section } from '@/components/ui/section';
-import { Field, FieldLabel, FieldDescription } from '@/components/ui/field';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import { Section } from "@/components/ui/section";
+import { Field, FieldLabel, FieldDescription } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { actions } from "astro:actions";
 ---
 
 <SiteLayout
   lang="es"
   title="Contacto – Personal Shopper"
   description="Contáctanos"
-  header={{ logo: { text: 'Personal Shopper', href: '/es' } }}
-  footer={{ logo: { text: 'Personal Shopper', href: '/es' } }}
+  header={{ logo: { text: "Personal Shopper", href: "/es" } }}
+  footer={{ logo: { text: "Personal Shopper", href: "/es" } }}
 >
   <Section style="--section-width: 672px;">
     <h1 class="text-2xl font-semibold">Contacto</h1>
-    <form name="contact" method="POST" data-netlify="true" class="mt-6 grid gap-4">
-      <input type="hidden" name="form-name" value="contact" />
+    <form
+      id="contact-form"
+      method="POST"
+      action={actions.contact}
+      class="mt-6 grid gap-4"
+    >
+      <input type="hidden" name="lang" value="es" />
+      <input
+        type="text"
+        name="company"
+        class="hidden"
+        tabindex="-1"
+        autocomplete="off"
+      />
       <Field>
         <FieldLabel>Nombre</FieldLabel>
-        <Input name="name" placeholder="Nombre" required />
+        <Input
+          type="text"
+          name="name"
+          placeholder="Nombre"
+          required
+          aria-invalid="false"
+          aria-describedby="error-name"
+        />
       </Field>
       <Field>
         <FieldLabel>Correo electrónico</FieldLabel>
-        <Input type="email" name="email" placeholder="Correo electrónico" required />
+        <Input
+          type="email"
+          name="email"
+          placeholder="Correo electrónico"
+          required
+          aria-invalid="false"
+          aria-describedby="error-email"
+        />
       </Field>
       <Field>
         <FieldLabel>Mensaje</FieldLabel>
-        <Textarea name="message" placeholder="Mensaje" rows="5" required />
+        <Textarea
+          name="message"
+          placeholder="Mensaje"
+          rows="5"
+          required
+          aria-invalid="false"
+          aria-describedby="error-message"
+        />
         <FieldDescription>Respondemos en 1–2 días hábiles.</FieldDescription>
       </Field>
-      <Button type="submit">Enviar</Button>
+      <div class="flex items-center gap-3">
+        <Button id="submit-btn" type="submit">Enviar</Button>
+        <p
+          id="form-status"
+          role="status"
+          aria-live="polite"
+          class="text-sm text-muted-foreground"
+        >
+        </p>
+      </div>
     </form>
   </Section>
 </SiteLayout>
+
+<script type="module">
+  const form = document.getElementById("contact-form");
+  const btn = document.getElementById("submit-btn");
+  const statusEl = document.getElementById("form-status");
+  const $ = (id) => document.getElementById(id);
+
+  const messages = {
+    sending: "Enviando…",
+    success: "¡Gracias! Te contactaremos pronto.",
+    genericError: "Ha ocurrido un error. Intenta más tarde.",
+    networkError: "Error de red. Intenta más tarde.",
+    rateLimit: "Demasiadas solicitudes. Intenta más tarde.",
+    checkFields: "Por favor revisa los campos e inténtalo de nuevo.",
+    name_length: "El nombre debe tener entre 2 y 80 caracteres.",
+    email_invalid: "Ingresa un correo electrónico válido.",
+    message_length: "El mensaje debe tener entre 10 y 2000 caracteres.",
+  };
+
+  function setStatus(msg, kind = "info") {
+    statusEl.textContent = msg;
+    statusEl.className = `text-sm ${kind === "error" ? "text-red-600" : kind === "success" ? "text-green-600" : "text-muted-foreground"}`;
+  }
+
+  function clearErrors() {
+    ["name", "email", "message"].forEach((f) => {
+      const input = form?.querySelector(`[name="${f}"]`);
+      const err = $(`error-${f}`);
+      if (input) input.setAttribute("aria-invalid", "false");
+      if (err) err.textContent = "";
+    });
+  }
+
+  function validateLocal(data) {
+    const errs = {};
+    const name = String(data.name || "").trim();
+    const email = String(data.email || "").trim();
+    const message = String(data.message || "").trim();
+    if (name.length < 2 || name.length > 80) errs.name = "name_length";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email))
+      errs.email = "email_invalid";
+    if (message.length < 10 || message.length > 2000)
+      errs.message = "message_length";
+    return errs;
+  }
+
+  function applyErrors(errs) {
+    Object.entries(errs).forEach(([field, code]) => {
+      const input = form?.querySelector(`[name="${field}"]`);
+      const err = $(`error-${field}`);
+      if (input) input.setAttribute("aria-invalid", "true");
+      if (err) err.textContent = messages[code] || messages.genericError;
+    });
+  }
+
+  form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!form) return;
+    const data = Object.fromEntries(new FormData(form));
+    clearErrors();
+    const localErrs = validateLocal(data);
+    if (Object.keys(localErrs).length) {
+      applyErrors(localErrs);
+      setStatus(messages.checkFields, "error");
+      return;
+    }
+    setStatus(messages.sending);
+    btn?.setAttribute("disabled", "true");
+    try {
+      const res = await fetch(form.action, {
+        method: "POST",
+        headers: { "X-Requested-With": "fetch", Accept: "application/json" },
+        body: new FormData(form),
+      });
+      const json = await res.json().catch(() => ({}));
+      const error = json?.error;
+      const cause = json?.errors || json?.cause || error?.cause || {};
+      const message = json?.message || error?.message;
+      const success =
+        json?.ok === true || json?.data?.ok === true || (!error && res.ok);
+      if (success) {
+        setStatus(messages.success, "success");
+        form.reset();
+        statusEl?.focus?.();
+      } else if (res.status === 400 && cause && Object.keys(cause).length) {
+        applyErrors(cause);
+        setStatus(messages.checkFields, "error");
+      } else if (res.status === 429 || message === "rate_limited") {
+        setStatus(messages.rateLimit, "error");
+      } else {
+        setStatus(messages.genericError, "error");
+      }
+    } catch (err) {
+      setStatus(messages.networkError, "error");
+    } finally {
+      btn?.removeAttribute("disabled");
+    }
+  });
+</script>

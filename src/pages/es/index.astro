@@ -2,12 +2,14 @@
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import HeroBlock from '@/components/blocks/hero-3.astro';
 import ServicesBlock from '@/components/blocks/services-3.astro';
+import HowItWorks from '@/components/blocks/how-it-works-1.astro';
 import FAQBlock from '@/components/blocks/faqs-2.astro';
 import CTABlock from '@/components/blocks/cta-8.astro';
 import placeholderImage from '@/assets/image-placeholder.Daj0eFyq_29eYCW.webp';
-import { getHome } from '@/lib/content';
+import { getHome, getHowItWorks } from '@/lib/content';
 
 const home = await getHome('es');
+const steps = await getHowItWorks('es');
 const fm = home.frontmatter as { title?: string; description?: string; hero_title?: string; hero_subtitle?: string; hero_cta_text?: string; hero_cta_href?: string };
 ---
 
@@ -32,6 +34,7 @@ const fm = home.frontmatter as { title?: string; description?: string; hero_titl
     <h2>Servicios</h2>
     <p>Conoce nuestra oferta adaptada a ti.</p>
   </ServicesBlock>
+  <HowItWorks title="Cómo funciona" subtitle="Pasos simples para empezar" items={steps.map(s => ({ title: s.frontmatter.title as string, description: s.frontmatter.description as string, link_text: s.link_text, link_href: s.link_href }))} />
   <FAQBlock
     items={[
       { title: '¿Cómo funcionan las sesiones?', description: 'Lorem ipsum dolor sit amet.' },

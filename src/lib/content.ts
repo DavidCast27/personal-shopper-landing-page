@@ -245,3 +245,34 @@ export async function getFooterLinks(locale: Locale): Promise<FooterLinkItem[]> 
   items.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
   return items
 }
+
+export interface HowItWorksItem extends PageContent {
+  order?: number
+  icon?: string
+  link_text?: string
+  link_href?: string
+}
+
+export async function getHowItWorks(locale: Locale): Promise<HowItWorksItem[]> {
+  ensureLocale(locale)
+  const prefix = `/content/${locale}/howitworks/`
+  const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix) && p.endsWith('.md'))
+  const items = entries.map(([path, raw]) => {
+    const { frontmatter, body } = parseFrontmatter(raw)
+    const orderRaw = frontmatter.order as string | number | undefined
+    const order = typeof orderRaw === 'number' ? orderRaw : orderRaw ? parseInt(String(orderRaw), 10) : undefined
+    return {
+      locale,
+      path,
+      slug: path.replace(prefix, '').replace(/\.md$/, ''),
+      frontmatter: frontmatter as Frontmatter,
+      body,
+      order,
+      icon: (frontmatter.icon as string) || undefined,
+      link_text: (frontmatter.link_text as string) || undefined,
+      link_href: (frontmatter.link_href as string) || undefined,
+    } as HowItWorksItem
+  })
+  items.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+  return items
+}

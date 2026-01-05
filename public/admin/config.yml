@@ -387,6 +387,44 @@ collections:
   - name: footer_links_fr
     label: Liens Footer (FR)
     folder: content/fr/footer/links
+  - name: howitworks_fr
+    label: Comment ça marche (FR)
+    folder: content/fr/howitworks
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Titre, name: title, widget: string }
+  - name: howitworks_en
+    label: How It Works (EN)
+    folder: content/en/howitworks
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Description, name: description, widget: text }
+      - { label: Icon (optional), name: icon, widget: string, required: false }
+      - { label: Order, name: order, widget: number, value_type: int, min: 0 }
+      - { label: Link Text, name: link_text, widget: string, required: false }
+      - { label: Link Href, name: link_href, widget: string, required: false }
+
+  - name: howitworks_es
+    label: Cómo funciona (ES)
+    folder: content/es/howitworks
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Título, name: title, widget: string }
+      - { label: Descripción, name: description, widget: text }
+      - { label: Ícono (opcional), name: icon, widget: string, required: false }
+      - { label: Orden, name: order, widget: number, value_type: int, min: 0 }
+      - { label: Texto del enlace, name: link_text, widget: string, required: false }
+      - { label: Enlace, name: link_href, widget: string, required: false }
+
+      - { label: Description, name: description, widget: text }
+      - { label: Icône (optionnel), name: icon, widget: string, required: false }
+      - { label: Ordre, name: order, widget: number, value_type: int, min: 0 }
+      - { label: Texte du lien, name: link_text, widget: string, required: false }
+      - { label: Lien, name: link_href, widget: string, required: false }
     create: true
     slug: "{{slug}}"
     fields:

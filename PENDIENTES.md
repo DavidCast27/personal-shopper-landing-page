@@ -17,6 +17,15 @@ Estado: Finalizado — Astro Actions + Resend (Node adapter).
   - Integrar Turnstile/reCAPTCHA si sube el spam.
   - Persistir logs/ratelimit en Redis si escalamos instancias.
 
+## Completado — SEO inicial
+Estado: Finalizado — base técnica y metadatos esenciales.
+
+- Layout: bloque SEO con canonical absoluto y `hreflang` EN/ES/FR + `x-default`.
+- Open Graph/Twitter: metadatos base y fallback de imagen OG por defecto.
+- Sitemap: integrado con `@astrojs/sitemap` y `site` configurado en `astro.config.mjs`.
+- Robots: `src/pages/robots.txt.ts` dinámico con enlaces a sitemap.
+- JSON‑LD base: `WebSite` y `Person` inyectados desde el layout.
+
 ## Importante (próximas iteraciones)
 - Header/Footer desde CMS: ya conectado; definir si mover logo e iconos sociales.
 - Imágenes: reemplazar placeholders por imágenes reales desde el CMS.
@@ -29,13 +38,10 @@ Estado: Finalizado — Astro Actions + Resend (Node adapter).
 ## Del landing.md (alineación pendiente)
 - Block HowItWorks: crear bloque (3–4 pasos) y colecciones por idioma `content/{locale}/howitworks/*.md`.
 - Block ContentSection: extraer bloque genérico (envolver `Section/SectionProse`) para contenido estático simple.
-- hreflang: añadir `link rel="alternate" hreflang` por página en EN/ES/FR.
-- Metadatos sociales: Open Graph/Twitter por página y posts.
-- sitemap/robots: generar `/sitemap.xml` y `/robots.txt` básicos.
 - Hosting/SSG: decidir Netlify (adapter Netlify + flujo OAuth compatible) vs Node SSR actual; ajustar `base_url`/OAuth según decisión.
 
 ## Mejoras futuras
-- SEO/i18n: `<link rel="alternate" hreflang>` por idioma, Open Graph/Twitter, sitemap y robots.
+- SEO/i18n: base lista; refinar OG por página/post, JSON‑LD avanzado, 404/500, y enlazado interno.
 - Accesibilidad: revisión semántica, focus visible, labels/aria en formularios.
 - Parser Markdown: si se requiere soporte completo (tablas/código), integrar remark/markdown‑it.
 - Tests básicos: utils de contenido, endpoint `/api/contact` y rutas críticas.

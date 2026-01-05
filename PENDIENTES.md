@@ -24,21 +24,30 @@ Estado: Finalizado — base técnica y metadatos esenciales.
 - Open Graph/Twitter: metadatos base y fallback de imagen OG por defecto.
 - Sitemap: integrado con `@astrojs/sitemap` y `site` configurado en `astro.config.mjs`.
 - Robots: `src/pages/robots.txt.ts` dinámico con enlaces a sitemap.
-- JSON‑LD base: `WebSite` y `Person` inyectados desde el layout.
+  - JSON‑LD base: `WebSite` y `Person` inyectados desde el layout.
+
+## Completado — How It Works
+Estado: Finalizado — bloque + contenido CMS + integración.
+
+- CMS: colecciones `howitworks_en/es/fr` con `title`, `description`, `order`, `icon?`, `link_*?`.
+- Data loader: `getHowItWorks(locale)` en `src/lib/content.ts`.
+- UI: `src/components/blocks/how-it-works-1.astro` como timeline horizontal, tarjetas de igual alto y CTA opcional.
+- Integrado en Home de EN/ES/FR debajo de Services.
+
+## Completado — ContentSection (no requerido)
+Estado: Cerrado — ya cubierto con `src/components/ui/section/*`.
+
+- Decisión: no se crea un bloque aparte; se reutilizan `Section`, `SectionProse`, `SectionContent`, etc., para contenido estático.
+
+## Completado — Producción (desestimado por ahora)
+Estado: Cerrado — despliegue fuera de alcance en esta fase.
+
+- Decisión: posponer elección de hosting (Netlify vs Node), configuración de `SITE_URL`, `public/admin/config.yml` (`base_url`) y OAuth GitHub en el host. Se retomará cuando planifiquemos producción.
 
 ## Importante (próximas iteraciones)
-- Header/Footer desde CMS: ya conectado; definir si mover logo e iconos sociales.
 - Imágenes: reemplazar placeholders por imágenes reales desde el CMS.
-- Producción:
-  - `public/admin/config.yml` → `base_url` de producción.
-  - GitHub OAuth App → callback `https://tu-dominio/oauth/callback` y `OAUTH_GITHUB_CLIENT_*` en el host.
-  - Revisar logging/monitorización.
-  - SEO: definir `SITE_URL` en el entorno (usado por sitemap/robots y canonicals).
 
-## Del landing.md (alineación pendiente)
-- Block HowItWorks: crear bloque (3–4 pasos) y colecciones por idioma `content/{locale}/howitworks/*.md`.
-- Block ContentSection: extraer bloque genérico (envolver `Section/SectionProse`) para contenido estático simple.
-- Hosting/SSG: decidir Netlify (adapter Netlify + flujo OAuth compatible) vs Node SSR actual; ajustar `base_url`/OAuth según decisión.
+ 
 
 ## Mejoras futuras
 - SEO/i18n: base lista; refinar OG por página/post, JSON‑LD avanzado, 404/500, y enlazado interno.

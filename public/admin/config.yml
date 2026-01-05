@@ -387,6 +387,14 @@ collections:
   - name: footer_links_fr
     label: Liens Footer (FR)
     folder: content/fr/footer/links
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Section, name: section, widget: string }
+      - { label: Texte, name: text, widget: string }
+      - { label: Lien, name: href, widget: string }
+      - { label: Ordre, name: order, widget: number, value_type: int, min: 0 }
+
   - name: howitworks_fr
     label: Comment ça marche (FR)
     folder: content/fr/howitworks
@@ -394,6 +402,12 @@ collections:
     slug: "{{slug}}"
     fields:
       - { label: Titre, name: title, widget: string }
+      - { label: Description, name: description, widget: text }
+      - { label: Icône (optionnel), name: icon, widget: string, required: false }
+      - { label: Ordre, name: order, widget: number, value_type: int, min: 0 }
+      - { label: Texte du lien, name: link_text, widget: string, required: false }
+      - { label: Lien, name: link_href, widget: string, required: false }
+
   - name: howitworks_en
     label: How It Works (EN)
     folder: content/en/howitworks
@@ -419,16 +433,3 @@ collections:
       - { label: Orden, name: order, widget: number, value_type: int, min: 0 }
       - { label: Texto del enlace, name: link_text, widget: string, required: false }
       - { label: Enlace, name: link_href, widget: string, required: false }
-
-      - { label: Description, name: description, widget: text }
-      - { label: Icône (optionnel), name: icon, widget: string, required: false }
-      - { label: Ordre, name: order, widget: number, value_type: int, min: 0 }
-      - { label: Texte du lien, name: link_text, widget: string, required: false }
-      - { label: Lien, name: link_href, widget: string, required: false }
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: Section, name: section, widget: string }
-      - { label: Texte, name: text, widget: string }
-      - { label: Lien, name: href, widget: string }
-      - { label: Ordre, name: order, widget: number, value_type: int, min: 0 }

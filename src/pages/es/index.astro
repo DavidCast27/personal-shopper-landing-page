@@ -1,44 +1,98 @@
 ---
-import SiteLayout from '../../layouts/SiteLayout.astro';
-import HeroBlock from '@/components/blocks/hero-3.astro';
-import ServicesBlock from '@/components/blocks/services-3.astro';
-import HowItWorks from '@/components/blocks/how-it-works-1.astro';
-import FAQBlock from '@/components/blocks/faqs-2.astro';
-import CTABlock from '@/components/blocks/cta-8.astro';
-import placeholderImage from '@/assets/image-placeholder.Daj0eFyq_29eYCW.webp';
-import { getHome, getHowItWorks } from '@/lib/content';
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import HeroBlock from "@/components/blocks/hero-3.astro";
+import ServicesBlock from "@/components/blocks/services-3.astro";
+import HowItWorks from "@/components/blocks/how-it-works-1.astro";
+import FAQBlock from "@/components/blocks/faqs-2.astro";
+import CTABlock from "@/components/blocks/cta-8.astro";
+import placeholderImage from "@/assets/image-placeholder.Daj0eFyq_29eYCW.webp";
+import { getHome, getHowItWorks } from "@/lib/content";
 
-const home = await getHome('es');
-const steps = await getHowItWorks('es');
-const fm = home.frontmatter as { title?: string; description?: string; hero_title?: string; hero_subtitle?: string; hero_cta_text?: string; hero_cta_href?: string };
+const home = await getHome("es");
+const steps = await getHowItWorks("es");
+const fm = home.frontmatter as {
+  title?: string;
+  description?: string;
+  hero_title?: string;
+  hero_subtitle?: string;
+  hero_cta_text?: string;
+  hero_cta_href?: string;
+};
 ---
 
-<SiteLayout lang="es" title={fm.title ?? 'Personal Shopper – ES'} description={fm.description ?? 'Servicios de personal shopper en Canadá'}>
+<SiteLayout
+  lang="es"
+  title={fm.title ?? "Personal Shopper – ES"}
+  description={fm.description ?? "Servicios de personal shopper en Canadá"}
+>
   <HeroBlock
-    image={{ src: placeholderImage, alt: 'Personal Shopper', width: 256, height: 256 }}
+    image={{
+      src: placeholderImage,
+      alt: "Personal Shopper",
+      width: 256,
+      height: 256,
+    }}
     links={[
-      { text: fm.hero_cta_text ?? 'Reservar', href: fm.hero_cta_href ?? '/es/contact' },
-      { text: 'Saber más', href: '/es/services' },
+      {
+        text: fm.hero_cta_text ?? "Reservar",
+        href: fm.hero_cta_href ?? "/es/contact",
+      },
+      { text: "Saber más", href: "/es/services" },
     ]}
   >
-    <h1>{fm.hero_title ?? fm.title ?? 'Personal Shopper en Canadá'}</h1>
-    <p>{fm.hero_subtitle ?? fm.description ?? 'Servicios de personal shopper en Canadá.'}</p>
+    <h1>{fm.hero_title ?? fm.title ?? "Personal Shopper en Canadá"}</h1>
+    <p>
+      {
+        fm.hero_subtitle ??
+          fm.description ??
+          "Servicios de personal shopper en Canadá."
+      }
+    </p>
   </HeroBlock>
   <ServicesBlock
     items={[
-      { title: 'Auditoría de guardarropa', description: 'Lorem ipsum dolor sit amet.', image: { src: placeholderImage, alt: '', width: 256, height: 256 }, links: [{ text: 'Saber más', href: '/es/services' }] },
-      { title: 'Compra personal', description: 'Consectetur adipiscing elit.', image: { src: placeholderImage, alt: '', width: 256, height: 256 }, links: [{ text: 'Saber más', href: '/es/services' }] },
-      { title: 'Estilismo para eventos', description: 'Sed do eiusmod tempor.', image: { src: placeholderImage, alt: '', width: 256, height: 256 }, links: [{ text: 'Saber más', href: '/es/services' }] },
+      {
+        title: "Auditoría de guardarropa",
+        description: "Lorem ipsum dolor sit amet.",
+        image: { src: placeholderImage, alt: "", width: 256, height: 256 },
+        links: [{ text: "Saber más", href: "/es/services" }],
+      },
+      {
+        title: "Compra personal",
+        description: "Consectetur adipiscing elit.",
+        image: { src: placeholderImage, alt: "", width: 256, height: 256 },
+        links: [{ text: "Saber más", href: "/es/services" }],
+      },
+      {
+        title: "Estilismo para eventos",
+        description: "Sed do eiusmod tempor.",
+        image: { src: placeholderImage, alt: "", width: 256, height: 256 },
+        links: [{ text: "Saber más", href: "/es/services" }],
+      },
     ]}
   >
     <h2>Servicios</h2>
     <p>Conoce nuestra oferta adaptada a ti.</p>
   </ServicesBlock>
-  <HowItWorks title="Cómo funciona" subtitle="Pasos simples para empezar" items={steps.map(s => ({ title: s.frontmatter.title as string, description: s.frontmatter.description as string, link_text: s.link_text, link_href: s.link_href }))} />
+  <HowItWorks
+    title="Pasos simples para empezar"
+    items={steps.map((s) => ({
+      title: s.frontmatter.title as string,
+      description: s.frontmatter.description as string,
+      link_text: s.link_text,
+      link_href: s.link_href,
+    }))}
+  />
   <FAQBlock
     items={[
-      { title: '¿Cómo funcionan las sesiones?', description: 'Lorem ipsum dolor sit amet.' },
-      { title: '¿Ofrecen servicio virtual?', description: 'Consectetur adipiscing elit.' },
+      {
+        title: "¿Cómo funcionan las sesiones?",
+        description: "Lorem ipsum dolor sit amet.",
+      },
+      {
+        title: "¿Ofrecen servicio virtual?",
+        description: "Consectetur adipiscing elit.",
+      },
     ]}
   >
     <h2>FAQ</h2>
@@ -47,13 +101,13 @@ const fm = home.frontmatter as { title?: string; description?: string; hero_titl
   <CTABlock
     item={{
       rating: 5,
-      description: 'Clientes satisfechos nos recomiendan',
+      description: "Clientes satisfechos nos recomiendan",
       images: [
-        { src: placeholderImage, alt: '' },
-        { src: placeholderImage, alt: '' },
+        { src: placeholderImage, alt: "" },
+        { src: placeholderImage, alt: "" },
       ],
     }}
-    links={[{ text: 'Contáctanos', href: '/es/contact' }]}
+    links={[{ text: "Contáctanos", href: "/es/contact" }]}
   >
     <p>¿Listo para elevar tu estilo?</p>
   </CTABlock>

@@ -10,7 +10,14 @@ import { getHome, getHowItWorks } from "@/lib/content";
 
 const home = await getHome("en");
 const steps = await getHowItWorks("en");
-const fm = home.frontmatter as { title?: string; description?: string; hero_title?: string; hero_subtitle?: string; hero_cta_text?: string; hero_cta_href?: string };
+const fm = home.frontmatter as {
+  title?: string;
+  description?: string;
+  hero_title?: string;
+  hero_subtitle?: string;
+  hero_cta_text?: string;
+  hero_cta_href?: string;
+};
 ---
 
 <SiteLayout
@@ -26,12 +33,21 @@ const fm = home.frontmatter as { title?: string; description?: string; hero_titl
       height: 256,
     }}
     links={[
-      { text: fm.hero_cta_text ?? "Book a consult", href: fm.hero_cta_href ?? "/en/contact" },
+      {
+        text: fm.hero_cta_text ?? "Book a consult",
+        href: fm.hero_cta_href ?? "/en/contact",
+      },
       { text: "Learn more", href: "/en/services" },
     ]}
   >
     <h1>{fm.hero_title ?? fm.title ?? "Personal Shopper in Canada"}</h1>
-    <p>{fm.hero_subtitle ?? fm.description ?? "Personal shopping and styling services in Canada."}</p>
+    <p>
+      {
+        fm.hero_subtitle ??
+          fm.description ??
+          "Personal shopping and styling services in Canada."
+      }
+    </p>
   </HeroBlock>
   <ServicesBlock
     items={[
@@ -58,7 +74,15 @@ const fm = home.frontmatter as { title?: string; description?: string; hero_titl
     <h2>Services</h2>
     <p>Explore our offering tailored to your needs.</p>
   </ServicesBlock>
-  <HowItWorks title="How it works" subtitle="Simple steps to get started" items={steps.map(s => ({ title: s.frontmatter.title as string, description: s.frontmatter.description as string, link_text: s.link_text, link_href: s.link_href }))} />
+  <HowItWorks
+    title="Simple steps to get started"
+    items={steps.map((s) => ({
+      title: s.frontmatter.title as string,
+      description: s.frontmatter.description as string,
+      link_text: s.link_text,
+      link_href: s.link_href,
+    }))}
+  />
   <FAQBlock
     items={[
       {

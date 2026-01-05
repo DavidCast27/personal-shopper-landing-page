@@ -12,7 +12,7 @@ const fm = page.frontmatter as { title?: string; description?: string };
   <Section>
     <SectionProse>
       <h1>{fm.title ?? 'Acerca'}</h1>
-      <div class="prose prose-neutral max-w-none" set:html={renderMarkdown(page.body || '')} />
+      <div class="contents" set:html={renderMarkdown(page.body || '')} />
     </SectionProse>
   </Section>
 </SiteLayout>

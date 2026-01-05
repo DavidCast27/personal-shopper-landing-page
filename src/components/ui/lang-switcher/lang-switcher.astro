@@ -1,0 +1,51 @@
+---
+import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select"
+
+interface Props {
+  lang: "en" | "es" | "fr"
+  pathname: string
+}
+
+const { lang, pathname } = Astro.props as Props
+
+function computeUrl(target: "en" | "es" | "fr") {
+  // Expect paths like /en/..., /es/..., /fr/...
+  const parts = pathname.split("/")
+  const current = parts[1]
+  const supported = ["en", "es", "fr"]
+  if (supported.includes(current)) {
+    parts[1] = target
+    const next = parts.join("/")
+    return next.endsWith("/") && next.length > 1 ? next.slice(0, -1) : next
+  }
+  // Fallback to root for target
+  return `/${target}`
+}
+
+const items = [
+  { code: "en", label: "EN" },
+  { code: "es", label: "ES" },
+  { code: "fr", label: "FR" },
+] as const
+---
+
+<div class="flex items-center gap-2" aria-label="Language">
+  <NativeSelect
+    
+    aria-label="Language selector"
+    onchange="document.cookie='lang='+this.options[this.selectedIndex].dataset.code+'; Path=/; Max-Age=31536000; SameSite=Lax'; location.href=this.value"
+  >
+    {
+      items.map((i) => (
+        <NativeSelectOption
+          value={computeUrl(i.code)}
+          selected={i.code === lang}
+          data-code={i.code}
+        >
+          {i.label}
+        </NativeSelectOption>
+      ))
+    }
+  </NativeSelect>
+  <span class="sr-only">Current language: {lang}</span>
+</div>

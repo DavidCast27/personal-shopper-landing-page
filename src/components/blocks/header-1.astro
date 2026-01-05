@@ -31,6 +31,7 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
+import { LangSwitcher } from "@/components/ui/lang-switcher"
 
 interface Props {
   logo?: {
@@ -54,9 +55,11 @@ interface Props {
       href?: string
     }[]
   }[]
+  lang?: "en" | "es" | "fr"
+  path?: string
 }
 
-const { logo, menus, links, socials } = Astro.props
+const { logo, menus, links, socials, lang, path } = Astro.props
 ---
 
 <Header>
@@ -104,6 +107,7 @@ const { logo, menus, links, socials } = Astro.props
     </NavigationMenuList>
   </NavigationMenu>
   <HeaderActions class="@max-5xl:hidden">
+    {lang && path && <LangSwitcher lang={lang} pathname={path} />}
     {
       socials?.map((social) => (
         <>
@@ -187,6 +191,7 @@ const { logo, menus, links, socials } = Astro.props
         }
       </HeaderActions>
       <HeaderActions>
+        {lang && path && <LangSwitcher lang={lang} pathname={path} />}
         {
           socials?.map((social) => (
             <Button variant="ghost" size="icon" href={social}>

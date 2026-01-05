@@ -211,7 +211,7 @@ const computedFooter = {
     <title>{title}</title>
   </head>
   <body class="min-h-screen bg-white text-gray-900 antialiased">
-    {showHeader && <HeaderBlock {...computedHeader} />}
+    {showHeader && <HeaderBlock {...computedHeader} lang={lang} path={Astro.url.pathname} />}
     <slot />
     {showFooter && <FooterBlock {...computedFooter} />}
   </body>

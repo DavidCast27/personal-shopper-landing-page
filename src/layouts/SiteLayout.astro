@@ -2,6 +2,7 @@
 import "../styles/tailwind.css";
 import HeaderBlock from "@/components/blocks/header-1.astro";
 import FooterBlock from "@/components/blocks/footer-1.astro";
+import { SEO } from "@/components/blocks/seo";
 import { getSiteSettings, getHeaderMenu, getFooterLinks } from "@/lib/content";
 
 interface HeaderLink {
@@ -206,9 +207,27 @@ const computedFooter = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
+    <SEO
+      title={title}
+      description={description}
+      lang={lang}
+      jsonLd={[
+        {
+          '@context': 'https://schema.org',
+          '@type': 'WebSite',
+          url: Astro.url.origin,
+          name: (computedHeader?.logo?.text ?? title ?? 'Personal Shopper'),
+          inLanguage: lang,
+        },
+        {
+          '@context': 'https://schema.org',
+          '@type': 'Person',
+          name: (computedHeader?.logo?.text ?? 'Personal Shopper'),
+          url: Astro.url.origin,
+        },
+      ]}
+    />
   </head>
   <body class="min-h-screen bg-white text-gray-900 antialiased">
     {showHeader && <HeaderBlock {...computedHeader} lang={lang} path={Astro.url.pathname} />}

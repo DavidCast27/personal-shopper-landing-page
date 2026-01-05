@@ -24,6 +24,7 @@ Estado: Finalizado — Astro Actions + Resend (Node adapter).
   - `public/admin/config.yml` → `base_url` de producción.
   - GitHub OAuth App → callback `https://tu-dominio/oauth/callback` y `OAUTH_GITHUB_CLIENT_*` en el host.
   - Revisar logging/monitorización.
+  - SEO: definir `SITE_URL` en el entorno (usado por sitemap/robots y canonicals).
 
 ## Del landing.md (alineación pendiente)
 - Block HowItWorks: crear bloque (3–4 pasos) y colecciones por idioma `content/{locale}/howitworks/*.md`.
@@ -40,6 +41,9 @@ Estado: Finalizado — Astro Actions + Resend (Node adapter).
 - Tests básicos: utils de contenido, endpoint `/api/contact` y rutas críticas.
 - Seguridad OAuth: agregar verificación de `state` (CSRF) en `/oauth`.
 - Documentación: README con guías de CMS, OAuth (local/prod), despliegue y variables.
+
+## TODOs pendientes menores
+- Reemplazar imagen OG por defecto por una imagen de marca 1200×630 por idioma (actualmente usa placeholder). 
 
 ## Datos/decisiones que necesitamos
 - Proveedor para emails (Resend/SendGrid/SMTP) y direcciones `from`/`to`.

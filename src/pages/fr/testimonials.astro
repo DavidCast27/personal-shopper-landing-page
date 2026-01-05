@@ -1,8 +1,10 @@
 ---
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import ReviewsBlock from '@/components/blocks/reviews-2.astro';
-import placeholderImage from '@/assets/image-placeholder.Daj0eFyq_29eYCW.webp';
 import { getTestimonials } from '@/lib/content';
+
+const placeholderImage = '/uploads/image-placeholder.daj0efyq_29eycw.webp';
+
 
 const testimonials = await getTestimonials('fr');
 const items = testimonials.map((t) => ({

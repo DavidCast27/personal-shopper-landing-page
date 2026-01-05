@@ -1,9 +1,10 @@
 ---
 import SiteLayout from '../../../layouts/SiteLayout.astro';
 import ArticleBlock from '@/components/blocks/article-1.astro';
-import placeholderImage from '@/assets/image-placeholder.Daj0eFyq_29eYCW.webp';
 import { getBlogPosts, getPost } from '@/lib/content';
 import { renderMarkdown } from '@/lib/markdown';
+
+const placeholderImage = '/uploads/image-placeholder.daj0efyq_29eycw.webp';
 
 export async function getStaticPaths() {
   const posts = await getBlogPosts('fr');

@@ -30,6 +30,8 @@ collections:
           - { label: Hero Subtitle, name: hero_subtitle, widget: text, required: false }
           - { label: Hero CTA Text, name: hero_cta_text, widget: string, required: false }
           - { label: Hero CTA Href, name: hero_cta_href, widget: string, required: false }
+          - { label: Hero Image, name: hero_image, widget: image, required: false }
+          - { label: Hero Image Alt, name: hero_image_alt, widget: string, required: false }
           - { label: Body, name: body, widget: markdown, required: false }
       - label: About
         name: about
@@ -119,6 +121,7 @@ collections:
           - { label: Header CTA Text, name: header_cta_text, widget: string, required: false }
           - { label: Header CTA Href, name: header_cta_href, widget: string, required: false }
           - { label: Footer Description, name: footer_description, widget: text, required: false }
+          - { label: OG Image (default), name: og_image, widget: image, required: false }
 
   - name: header_menu_en
     label: Header Menu (EN)
@@ -157,6 +160,8 @@ collections:
           - { label: Hero Subtítulo, name: hero_subtitle, widget: text, required: false }
           - { label: Hero CTA Texto, name: hero_cta_text, widget: string, required: false }
           - { label: Hero CTA Link, name: hero_cta_href, widget: string, required: false }
+          - { label: Hero Imagen, name: hero_image, widget: image, required: false }
+          - { label: Hero Alt, name: hero_image_alt, widget: string, required: false }
           - { label: Contenido, name: body, widget: markdown, required: false }
       - label: Acerca de
         name: about
@@ -246,6 +251,7 @@ collections:
           - { label: Header CTA Texto, name: header_cta_text, widget: string, required: false }
           - { label: Header CTA Link, name: header_cta_href, widget: string, required: false }
           - { label: Descripción del pie, name: footer_description, widget: text, required: false }
+          - { label: Imagen OG (predeterminada), name: og_image, widget: image, required: false }
 
   - name: header_menu_es
     label: Menú Header (ES)
@@ -284,6 +290,8 @@ collections:
           - { label: Hero Sous-titre, name: hero_subtitle, widget: text, required: false }
           - { label: Hero CTA Texte, name: hero_cta_text, widget: string, required: false }
           - { label: Hero CTA Lien, name: hero_cta_href, widget: string, required: false }
+          - { label: Hero Image, name: hero_image, widget: image, required: false }
+          - { label: Hero Image Alt, name: hero_image_alt, widget: string, required: false }
           - { label: Contenu, name: body, widget: markdown, required: false }
       - label: À propos
         name: about
@@ -373,6 +381,7 @@ collections:
           - { label: Header CTA Texte, name: header_cta_text, widget: string, required: false }
           - { label: Header CTA Lien, name: header_cta_href, widget: string, required: false }
           - { label: Description du pied de page, name: footer_description, widget: text, required: false }
+          - { label: Image OG (défaut), name: og_image, widget: image, required: false }
 
   - name: header_menu_fr
     label: Menu Header (FR)

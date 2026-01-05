@@ -101,6 +101,7 @@ export interface SiteSettings extends Frontmatter {
   header_cta_text?: string
   header_cta_href?: string
   footer_description?: string
+  og_image?: string
 }
 
 export async function getSiteSettings(locale: Locale): Promise<SiteSettings | undefined> {

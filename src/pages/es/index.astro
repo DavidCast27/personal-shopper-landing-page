@@ -5,8 +5,9 @@ import ServicesBlock from "@/components/blocks/services-3.astro";
 import HowItWorks from "@/components/blocks/how-it-works-1.astro";
 import FAQBlock from "@/components/blocks/faqs-2.astro";
 import CTABlock from "@/components/blocks/cta-8.astro";
-import placeholderImage from "@/assets/image-placeholder.Daj0eFyq_29eYCW.webp";
 import { getHome, getHowItWorks } from "@/lib/content";
+
+const placeholderImage = "/uploads/image-placeholder.daj0efyq_29eycw.webp";
 
 const home = await getHome("es");
 const steps = await getHowItWorks("es");
@@ -17,6 +18,8 @@ const fm = home.frontmatter as {
   hero_subtitle?: string;
   hero_cta_text?: string;
   hero_cta_href?: string;
+  hero_image?: string;
+  hero_image_alt?: string;
 };
 ---
 
@@ -27,8 +30,8 @@ const fm = home.frontmatter as {
 >
   <HeroBlock
     image={{
-      src: placeholderImage,
-      alt: "Personal Shopper",
+      src: fm.hero_image ?? placeholderImage,
+      alt: fm.hero_image_alt ?? "Personal Shopper",
       width: 256,
       height: 256,
     }}

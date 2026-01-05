@@ -45,7 +45,7 @@ Estado: Cerrado — despliegue fuera de alcance en esta fase.
 - Decisión: posponer elección de hosting (Netlify vs Node), configuración de `SITE_URL`, `public/admin/config.yml` (`base_url`) y OAuth GitHub en el host. Se retomará cuando planifiquemos producción.
 
 ## Importante (próximas iteraciones)
-- Imágenes: reemplazar placeholders por imágenes reales desde el CMS.
+- Imágenes: base conectada; seguir subiendo assets reales desde el CMS.
 
  
 

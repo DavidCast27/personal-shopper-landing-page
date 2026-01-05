@@ -1,8 +1,9 @@
 ---
 import SiteLayout from '../../../layouts/SiteLayout.astro';
 import ArticlesBlock from '@/components/blocks/articles-1.astro';
-import placeholderImage from '@/assets/image-placeholder.Daj0eFyq_29eYCW.webp';
 import { getBlogPosts } from '@/lib/content';
+
+const placeholderImage = '/uploads/image-placeholder.daj0efyq_29eycw.webp';
 
 const posts = await getBlogPosts('fr');
 const items = posts.map((p) => ({

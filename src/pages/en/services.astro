@@ -1,8 +1,9 @@
 ---
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import ServicesBlock from "@/components/blocks/services-3.astro";
-import placeholderImage from "@/assets/image-placeholder.Daj0eFyq_29eYCW.webp";
 import { getServices } from '@/lib/content';
+
+const placeholderImage = "/uploads/image-placeholder.daj0efyq_29eycw.webp";
 
 const services = await getServices('en');
 const items = services.map((s) => ({

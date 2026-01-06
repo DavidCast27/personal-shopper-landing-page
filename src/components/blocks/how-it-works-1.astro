@@ -6,6 +6,7 @@ import {
   SectionContent,
   SectionProse,
   SectionSplit,
+  SectionSpread,
 } from "@/components/ui/section";
 
 interface Item {
@@ -36,7 +37,7 @@ const {
 ---
 
 <Section class={className} id={id}>
-  <SectionSplit>
+  <SectionSpread class="lg:items-end">
     <SectionContent>
       <SectionProse>
         {title && <h2>{title}</h2>}
@@ -53,30 +54,36 @@ const {
         }
       </SectionActions>
     </SectionContent>
-    <div class="relative">
-      <div class="bg-border absolute left-0 right-0 top-6 h-px" aria-hidden="true"></div>
-      <ol class="relative flex items-stretch gap-6 overflow-x-auto pb-6 pr-2 snap-x snap-mandatory">
-        {
-          items.map((it, idx) => (
-            <li class="relative pt-10 min-w-[18rem] lg:min-w-0 lg:flex-1 lg:basis-0 snap-start flex">
-              <div class="absolute left-1/2 top-0 -translate-x-1/2 size-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-semibold ring-4 ring-background shadow-xs">
-                {idx + 1}
-              </div>
-              <div class="border-border bg-card text-card-foreground rounded-xl border p-5 text-center shadow-xs h-full flex flex-col">
-                <h3 class="text-lg font-semibold leading-tight">{it.title}</h3>
-                <p class="text-muted-foreground mt-2 text-sm">{it.description}</p>
-                {it.link_text && it.link_href && (
-                  <div class="mt-auto pt-3">
-                    <Button variant="outline" size="sm" href={it.link_href}>
-                      {it.link_text}
-                    </Button>
-                  </div>
-                )}
-              </div>
-            </li>
-          ))
-        }
-      </ol>
+  </SectionSpread>
+  <div class="relative">
+    <div
+      class="bg-border absolute left-0 right-0 top-6 h-px"
+      aria-hidden="true"
+    >
     </div>
-  </SectionSplit>
+    <ol
+      class="relative flex items-stretch gap-6 overflow-x-auto pb-6 pr-2 snap-x snap-mandatory"
+    >
+      {
+        items.map((it, idx) => (
+          <li class="relative pt-10 min-w-2xs lg:min-w-0 lg:flex-1 lg:basis-0 snap-start flex">
+            <div class="absolute left-1/2 top-0 -translate-x-1/2 size-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-semibold ring-4 ring-background shadow-xs">
+              {idx + 1}
+            </div>
+            <div class="border-border bg-card text-card-foreground rounded-xl border p-5 text-center shadow-xs h-full flex flex-col">
+              <h3 class="text-lg font-semibold leading-tight">{it.title}</h3>
+              <p class="text-muted-foreground mt-2 text-sm">{it.description}</p>
+              {it.link_text && it.link_href && (
+                <div class="mt-auto pt-3">
+                  <Button variant="outline" size="sm" href={it.link_href}>
+                    {it.link_text}
+                  </Button>
+                </div>
+              )}
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
 </Section>

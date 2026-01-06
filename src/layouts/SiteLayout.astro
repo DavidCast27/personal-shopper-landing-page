@@ -2,7 +2,7 @@
 import "../styles/tailwind.css";
 import HeaderBlock from "@/components/blocks/header-1.astro";
 import FooterBlock from "@/components/blocks/footer-1.astro";
-import { SEO } from "@/components/blocks/seo";
+import SEOBlock from "@/components/blocks/SEO.astro";
 import { getSiteSettings, getHeaderMenu, getFooterLinks } from "@/lib/content";
 
 interface HeaderLink {
@@ -174,31 +174,60 @@ const footerLinks = await getFooterLinks(lang as any).catch(() => []);
 // Map header menu
 const headerMenusFromCms = headerMenu.map((i) => ({
   text: (i.frontmatter.text as string) ?? i.slug,
-  href: (i.frontmatter.href as string) ?? '#',
+  href: (i.frontmatter.href as string) ?? "#",
 }));
 
 // Map footer menus grouped by section
 const footerMenusFromCms = Object.values(
-  footerLinks.reduce((acc: Record<string, { text: string; links: { text?: string; href?: string }[] }>, i) => {
-    const section = (i.frontmatter.section as string) || i.section || 'Links';
-    if (!acc[section]) acc[section] = { text: section, links: [] };
-    acc[section].links.push({ text: (i.frontmatter.text as string) ?? i.slug, href: (i.frontmatter.href as string) ?? '#' });
-    return acc;
-  }, {})
+  footerLinks.reduce(
+    (
+      acc: Record<
+        string,
+        { text: string; links: { text?: string; href?: string }[] }
+      >,
+      i
+    ) => {
+      const section = (i.frontmatter.section as string) || i.section || "Links";
+      if (!acc[section]) acc[section] = { text: section, links: [] };
+      acc[section].links.push({
+        text: (i.frontmatter.text as string) ?? i.slug,
+        href: (i.frontmatter.href as string) ?? "#",
+      });
+      return acc;
+    },
+    {}
+  )
 );
 
 const computedHeader = {
   ...(defaultHeader || {}),
   ...(header || {}),
-  menus: headerMenusFromCms.length > 0 ? headerMenusFromCms : (defaultHeader?.menus || []),
-  links: site?.header_cta_text && site?.header_cta_href ? [{ text: site.header_cta_text as string, href: site.header_cta_href as string }] : (header?.links || defaultHeader?.links || []),
+  menus:
+    headerMenusFromCms.length > 0
+      ? headerMenusFromCms
+      : defaultHeader?.menus || [],
+  links:
+    site?.header_cta_text && site?.header_cta_href
+      ? [
+          {
+            text: site.header_cta_text as string,
+            href: site.header_cta_href as string,
+          },
+        ]
+      : header?.links || defaultHeader?.links || [],
 };
 
 const computedFooter = {
   ...(defaultFooter || {}),
   ...(footer || {}),
-  description: (site?.footer_description as string) || footer?.description || defaultFooter?.description,
-  menus: footerMenusFromCms.length > 0 ? footerMenusFromCms : (footer?.menus || defaultFooter?.menus || []),
+  description:
+    (site?.footer_description as string) ||
+    footer?.description ||
+    defaultFooter?.description,
+  menus:
+    footerMenusFromCms.length > 0
+      ? footerMenusFromCms
+      : footer?.menus || defaultFooter?.menus || [],
 };
 ---
 
@@ -211,39 +240,55 @@ const computedFooter = {
     <meta name="color-scheme" content="light dark" />
     <script is:inline>
       try {
-        const storageKey = 'theme';
+        const storageKey = "theme";
         const stored = localStorage.getItem(storageKey);
-        const systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const theme = stored === 'light' || stored === 'dark' ? stored : (systemPrefersDark ? 'dark' : 'light');
+        const systemPrefersDark =
+          window.matchMedia &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const theme =
+          stored === "light" || stored === "dark"
+            ? stored
+            : systemPrefersDark
+              ? "dark"
+              : "light";
         const root = document.documentElement;
-        if (theme === 'dark') root.classList.add('dark'); else root.classList.remove('dark');
+        if (theme === "dark") root.classList.add("dark");
+        else root.classList.remove("dark");
         root.style.colorScheme = theme;
       } catch (e) {}
     </script>
-    <SEO
+    <SEOBlock
       title={title}
       description={description}
       lang={lang}
       ogImage={site?.og_image as string}
       jsonLd={[
         {
-          '@context': 'https://schema.org',
-          '@type': 'WebSite',
+          "@context": "https://schema.org",
+          "@type": "WebSite",
           url: Astro.url.origin,
-          name: (computedHeader?.logo?.text ?? title ?? 'Personal Shopper'),
+          name: computedHeader?.logo?.text ?? title ?? "Personal Shopper",
           inLanguage: lang,
         },
         {
-          '@context': 'https://schema.org',
-          '@type': 'Person',
-          name: (computedHeader?.logo?.text ?? 'Personal Shopper'),
+          "@context": "https://schema.org",
+          "@type": "Person",
+          name: computedHeader?.logo?.text ?? "Personal Shopper",
           url: Astro.url.origin,
         },
       ]}
     />
   </head>
   <body class="min-h-screen antialiased">
-    {showHeader && <HeaderBlock {...computedHeader} lang={lang} path={Astro.url.pathname} />}
+    {
+      showHeader && (
+        <HeaderBlock
+          {...computedHeader}
+          lang={lang}
+          path={Astro.url.pathname}
+        />
+      )
+    }
     <slot />
     {showFooter && <FooterBlock {...computedFooter} />}
   </body>

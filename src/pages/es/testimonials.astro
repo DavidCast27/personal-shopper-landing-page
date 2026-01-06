@@ -1,21 +1,31 @@
 ---
-import SiteLayout from '../../layouts/SiteLayout.astro';
-import ReviewsBlock from '@/components/blocks/reviews-2.astro';
-import { getTestimonials } from '@/lib/content';
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import ReviewsBlock from "@/components/blocks/reviews-1.astro";
+import { getTestimonials } from "@/lib/content";
 
-const placeholderImage = '/uploads/image-placeholder.daj0efyq_29eycw.webp';
+const placeholderImage = "/uploads/image-placeholder.daj0efyq_29eycw.webp";
 
-
-const testimonials = await getTestimonials('es');
+const testimonials = await getTestimonials("es");
 const items = testimonials.map((t) => ({
-  title: (t.frontmatter.title as string) ?? 'Testimonio',
-  description: t.body || '',
+  title: (t.frontmatter.title as string) ?? "Testimonio",
+  description: t.body || "",
   rating: t.rating ?? 5,
-  item: { title: (t.frontmatter.author as string) ?? 'Cliente', description: (t.frontmatter.role as string) ?? '', image: { src: (t.frontmatter.avatar as string) ?? placeholderImage, alt: (t.frontmatter.author as string) ?? 'Cliente' } },
+  item: {
+    title: (t.frontmatter.author as string) ?? "Cliente",
+    description: (t.frontmatter.role as string) ?? "",
+    image: {
+      src: (t.frontmatter.avatar as string) ?? placeholderImage,
+      alt: (t.frontmatter.author as string) ?? "Cliente",
+    },
+  },
 }));
 ---
 
-<SiteLayout lang="es" title={`Testimonios – Personal Shopper`} description={'Testimonios de clientes'}>
+<SiteLayout
+  lang="es"
+  title={`Testimonios – Personal Shopper`}
+  description={"Testimonios de clientes"}
+>
   <ReviewsBlock items={items}>
     <h1>Testimonios</h1>
     <p>Lo que dicen nuestros clientes.</p>

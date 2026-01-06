@@ -1,14 +1,14 @@
 ---
-import SiteLayout from '../../../layouts/SiteLayout.astro';
-import ArticlesBlock from '@/components/blocks/articles-1.astro';
-import { getBlogPosts } from '@/lib/content';
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+import ArticlesBlock from "@/components/blocks/articles-4.astro";
+import { getBlogPosts } from "@/lib/content";
 
-const placeholderImage = '/uploads/image-placeholder.daj0efyq_29eycw.webp';
+const placeholderImage = "/uploads/image-placeholder.daj0efyq_29eycw.webp";
 
-const posts = await getBlogPosts('fr');
+const posts = await getBlogPosts("fr");
 const items = posts.map((p) => ({
   title: (p.frontmatter.title as string) ?? p.slug,
-  description: (p.frontmatter.description as string) ?? '',
+  description: (p.frontmatter.description as string) ?? "",
   href: `/fr/blog/${p.slug}`,
   image: {
     src: (p.frontmatter.image as string) ?? placeholderImage,
@@ -16,16 +16,26 @@ const items = posts.map((p) => ({
     width: 600,
     height: 338,
   },
-  item: { title: 'Auteur', description: '', image: { src: placeholderImage, alt: '' } },
+  item: {
+    title: "Auteur",
+    description: "",
+    image: { src: placeholderImage, alt: "" },
+  },
 }));
 ---
 
-<SiteLayout lang="fr" title="Blog – Personal Shopper" description="Articles et conseils">
+<SiteLayout
+  lang="fr"
+  title="Blog – Personal Shopper"
+  description="Articles et conseils"
+>
   <ArticlesBlock items={items}>
     <h1>Blog</h1>
     <p>Articles et conseils.</p>
   </ArticlesBlock>
-  {items.length === 0 && (
-    <p class="px-6 py-10 text-sm text-gray-500">Pas encore d’articles.</p>
-  )}
+  {
+    items.length === 0 && (
+      <p class="px-6 py-10 text-sm text-gray-500">Pas encore d’articles.</p>
+    )
+  }
 </SiteLayout>

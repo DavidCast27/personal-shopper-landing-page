@@ -1,6 +1,6 @@
 ---
 import SiteLayout from "../../../layouts/SiteLayout.astro";
-import ArticlesBlock from "@/components/blocks/articles-1.astro";
+import ArticlesBlock from "@/components/blocks/articles-4.astro";
 import { getBlogPosts } from "@/lib/content";
 
 const placeholderImage = "/uploads/image-placeholder.daj0efyq_29eycw.webp";
@@ -33,7 +33,9 @@ const items = posts.map((p) => ({
     <h1>Blog</h1>
     <p>Articles and tips.</p>
   </ArticlesBlock>
-  {items.length === 0 && (
-    <p class="px-6 py-10 text-sm text-gray-500">No posts yet.</p>
-  )}
+  {
+    items.length === 0 && (
+      <p class="px-6 py-10 text-sm text-gray-500">No posts yet.</p>
+    )
+  }
 </SiteLayout>

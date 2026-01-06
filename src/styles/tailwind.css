@@ -28,6 +28,14 @@
   ---break---
 */
 @theme inline {
+  /* spacing & layout tokens */
+  --spacing: 4px;
+  --gutter: 24px;
+
+  /* custom breakpoints used across components */
+  --breakpoint-xs: 480px;
+  --breakpoint-5xl: 1600px;
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -66,6 +74,12 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  /* component-specific sizing tokens */
+  --grid-item-min-xs: 200px;
+  --grid-item-min-sm: 260px;
+  --grid-item-min-lg: 400px;
+  --cta-glow-height: 200%;
 }
 /*
   ---break---
@@ -151,4 +165,3 @@
     @apply bg-background text-foreground;
   }
 }
-

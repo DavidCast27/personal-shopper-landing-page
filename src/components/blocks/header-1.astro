@@ -67,7 +67,7 @@ const { logo, menus, links, socials, lang, path } = Astro.props
     <LogoImage src={logo?.src} alt={logo?.alt} />
     <LogoText>{logo?.text}</LogoText>
   </Logo>
-  <NavigationMenu class="mr-auto @max-5xl:hidden">
+  <NavigationMenu class="mr-auto hidden lg:flex">
     <NavigationMenuList>
       {
         menus?.map((menu) => (
@@ -106,7 +106,7 @@ const { logo, menus, links, socials, lang, path } = Astro.props
       }
     </NavigationMenuList>
   </NavigationMenu>
-  <HeaderActions class="@max-5xl:hidden">
+  <HeaderActions class="hidden lg:flex">
     {lang && path && <LangSwitcher lang={lang} pathname={path} />}
     {
       socials?.map((social) => (
@@ -133,7 +133,7 @@ const { logo, menus, links, socials, lang, path } = Astro.props
   </HeaderActions>
   <Sheet class="first:ml-auto">
     <SheetTrigger
-      class="@5xl:hidden"
+      class="lg:hidden"
       variant="ghost"
       size="icon"
       name="open-menu-button"

@@ -1,42 +1,42 @@
 ---
-import { cn } from "@/lib/utils"
-import { Avatar, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import { Icon } from "@/components/ui/icon"
+import { cn } from "@/lib/utils";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import {
   Item,
   ItemContent,
   ItemDescription,
   ItemMedia,
-} from "@/components/ui/item"
-import { Rating } from "@/components/ui/rating"
+} from "@/components/ui/item";
+import { Rating } from "@/components/ui/rating";
 import {
   Section,
   SectionActions,
   SectionContent,
   SectionProse,
-} from "@/components/ui/section"
+} from "@/components/ui/section";
 
 interface Props {
-  class?: string
-  id?: string
+  class?: string;
+  id?: string;
   links?: {
-    icon?: string
-    text?: string
-    href?: string
-    target?: string
-  }[]
+    icon?: string;
+    text?: string;
+    href?: string;
+    target?: string;
+  }[];
   item?: {
     images?: {
-      src: string
-      alt: string
-    }[]
-    rating?: number
-    description?: string
-  }
+      src: string;
+      alt: string;
+    }[];
+    rating?: number;
+    description?: string;
+  };
 }
 
-const { class: className, id, links, item } = Astro.props
+const { class: className, id, links, item } = Astro.props;
 ---
 
 <Section
@@ -50,7 +50,7 @@ const { class: className, id, links, item } = Astro.props
 >
   <SectionContent
     class={cn(
-      "before:from-primary/20 relative items-center before:absolute before:top-full before:left-0 before:-z-10 before:h-[200%] before:w-full before:animate-pulse before:rounded-full before:bg-gradient-to-b before:to-transparent before:blur-3xl"
+      "before:from-primary/20 relative items-center before:absolute before:top-full before:left-0 before:-z-10 before:h-(--cta-glow-height) before:w-full before:animate-pulse before:rounded-full before:bg-linear-to-b before:to-transparent before:blur-3xl"
     )}
   >
     <Item class="p-0">
@@ -76,11 +76,7 @@ const { class: className, id, links, item } = Astro.props
     <SectionActions class="justify-center">
       {
         links?.map(({ icon, text, ...link }, i) => (
-          <Button
-            variant={i === 0 ? "default" : "outline"}
-            size="lg"
-            {...link}
-          >
+          <Button variant={i === 0 ? "default" : "outline"} size="lg" {...link}>
             {icon && <Icon name={icon} />}
             {text}
           </Button>

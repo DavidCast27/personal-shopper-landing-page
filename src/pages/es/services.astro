@@ -1,21 +1,29 @@
 ---
-import SiteLayout from '../../layouts/SiteLayout.astro';
-import ServicesBlock from '@/components/blocks/services-3.astro';
-import { getServices } from '@/lib/content';
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import ServicesBlock from "@/components/blocks/services-7.astro";
+import { getServices } from "@/lib/content";
 
-const placeholderImage = '/uploads/image-placeholder.daj0efyq_29eycw.webp';
+const placeholderImage = "/uploads/image-placeholder.daj0efyq_29eycw.webp";
 
-
-const services = await getServices('es');
+const services = await getServices("es");
 const items = services.map((s) => ({
   title: (s.frontmatter.title as string) ?? s.slug,
-  description: (s.frontmatter.description as string) ?? '',
-  image: { src: (s.frontmatter.image as string) ?? placeholderImage, alt: (s.frontmatter.title as string) ?? s.slug, width: 256, height: 256 },
-  links: [{ text: 'Contacto', href: '/es/contact' }],
+  description: (s.frontmatter.description as string) ?? "",
+  image: {
+    src: (s.frontmatter.image as string) ?? placeholderImage,
+    alt: (s.frontmatter.title as string) ?? s.slug,
+    width: 256,
+    height: 256,
+  },
+  links: [{ text: "Contacto", href: "/es/contact" }],
 }));
 ---
 
-<SiteLayout lang="es" title={`Servicios – Personal Shopper`} description={'Nuestros servicios'}>
+<SiteLayout
+  lang="es"
+  title={`Servicios – Personal Shopper`}
+  description={"Nuestros servicios"}
+>
   <ServicesBlock items={items}>
     <h1>Servicios</h1>
     <p>Conoce nuestra oferta adaptada a ti.</p>

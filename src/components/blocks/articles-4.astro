@@ -75,8 +75,8 @@ const { class: className, id, links, items } = Astro.props
   <SectionGrid>
     {
       items?.map(({ title, description, image, href, item }) => (
-        <Tile href={href}>
-          <TileMedia class="aspect-video">
+        <Tile href={href} variant="floating">
+          <TileMedia class="-mx-6 -mt-6 aspect-video">
             <Image sizes="600px" {...image} />
           </TileMedia>
           <TileContent>

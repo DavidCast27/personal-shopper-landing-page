@@ -13,7 +13,10 @@ const slot = await Astro.slots.render("default")
 {
   slot?.trim().length > 0 && (
     <div
-      class={cn("grid size-full grid-cols-[2fr_3fr] gap-6 *:w-full", className)}
+      class={cn(
+        "grid size-full grid-cols-1 gap-6 *:w-full md:grid-cols-[2fr_3fr]",
+        className
+      )}
       data-slot="tile-split"
       {...props}
     >

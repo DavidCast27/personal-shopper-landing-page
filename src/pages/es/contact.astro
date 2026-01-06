@@ -16,8 +16,6 @@ const fm = page.frontmatter as { title?: string; description?: string };
   lang="es"
   title={fm.title}
   description={fm.description}
-  header={{ logo: { text: "Personal Shopper", href: "/es" } }}
-  footer={{ logo: { text: "Personal Shopper", href: "/es" } }}
 >
   <Section style="--section-width: 672px;">
     {fm.title && <h1 class="text-2xl font-semibold">{fm.title}</h1>}
@@ -36,41 +34,41 @@ const fm = page.frontmatter as { title?: string; description?: string };
         autocomplete="off"
       />
       <Field>
-        <FieldLabel>Nombre</FieldLabel>
+        {fm.name_label && <FieldLabel>{fm.name_label}</FieldLabel>}
         <Input
           type="text"
           name="name"
-          placeholder="Nombre"
+          placeholder={fm.name_placeholder}
           required
           aria-invalid="false"
           aria-describedby="error-name"
         />
       </Field>
       <Field>
-        <FieldLabel>Correo electrónico</FieldLabel>
+        {fm.email_label && <FieldLabel>{fm.email_label}</FieldLabel>}
         <Input
           type="email"
           name="email"
-          placeholder="Correo electrónico"
+          placeholder={fm.email_placeholder}
           required
           aria-invalid="false"
           aria-describedby="error-email"
         />
       </Field>
       <Field>
-        <FieldLabel>Mensaje</FieldLabel>
+        {fm.message_label && <FieldLabel>{fm.message_label}</FieldLabel>}
         <Textarea
           name="message"
-          placeholder="Mensaje"
+          placeholder={fm.message_placeholder}
           rows="5"
           required
           aria-invalid="false"
           aria-describedby="error-message"
         />
-        <FieldDescription>Respondemos en 1–2 días hábiles.</FieldDescription>
+        {fm.form_helper && <FieldDescription>{fm.form_helper}</FieldDescription>}
       </Field>
       <div class="flex items-center gap-3">
-        <Button id="submit-btn" type="submit">Enviar</Button>
+        <Button id="submit-btn" type="submit">{fm.submit_text}</Button>
         <p
           id="form-status"
           role="status"
@@ -89,17 +87,7 @@ const fm = page.frontmatter as { title?: string; description?: string };
   const statusEl = document.getElementById("form-status");
   const $ = (id) => document.getElementById(id);
 
-  const messages = {
-    sending: "Enviando…",
-    success: "¡Gracias! Te contactaremos pronto.",
-    genericError: "Ha ocurrido un error. Intenta más tarde.",
-    networkError: "Error de red. Intenta más tarde.",
-    rateLimit: "Demasiadas solicitudes. Intenta más tarde.",
-    checkFields: "Por favor revisa los campos e inténtalo de nuevo.",
-    name_length: "El nombre debe tener entre 2 y 80 caracteres.",
-    email_invalid: "Ingresa un correo electrónico válido.",
-    message_length: "El mensaje debe tener entre 10 y 2000 caracteres.",
-  };
+  const messages = JSON.parse('{"sending":'+JSON.stringify(fm.messages_sending||"")+',"success":'+JSON.stringify(fm.messages_success||"")+',"genericError":'+JSON.stringify(fm.messages_generic_error||"")+',"networkError":'+JSON.stringify(fm.messages_network_error||"")+',"rateLimit":'+JSON.stringify(fm.messages_rate_limit||"")+',"checkFields":'+JSON.stringify(fm.messages_check_fields||"")+',"name_length":'+JSON.stringify(fm.messages_name_length||"")+',"email_invalid":'+JSON.stringify(fm.messages_email_invalid||"")+',"message_length":'+JSON.stringify(fm.messages_message_length||"")+'}');
 
   function setStatus(msg, kind = "info") {
     statusEl.textContent = msg;

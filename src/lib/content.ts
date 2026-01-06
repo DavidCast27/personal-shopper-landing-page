@@ -101,8 +101,19 @@ export interface HomeFrontmatter extends Frontmatter {
   hero_subtitle?: string
   hero_cta_text?: string
   hero_cta_href?: string
+  hero_secondary_cta_text?: string
+  hero_secondary_cta_href?: string
   hero_image?: string
   hero_image_alt?: string
+  services_title?: string
+  services_description?: string
+  services_cta_text?: string
+  services_cta_href?: string
+  steps_title?: string
+  cta_text?: string
+  cta_description?: string
+  cta_link_text?: string
+  cta_link_href?: string
 }
 
 export interface HomePage extends PageContent<HomeFrontmatter> {
@@ -113,8 +124,19 @@ export interface HomePage extends PageContent<HomeFrontmatter> {
   hero_subtitle: string
   hero_cta_text: string
   hero_cta_href: string
+  hero_secondary_cta_text?: string
+  hero_secondary_cta_href?: string
   hero_image?: string
   hero_image_alt: string
+  services_title?: string
+  services_description?: string
+  services_cta_text?: string
+  services_cta_href?: string
+  steps_title?: string
+  cta_text?: string
+  cta_description?: string
+  cta_link_text?: string
+  cta_link_href?: string
 }
 
 const HOME_DEFAULTS: Record<Locale, {
@@ -167,8 +189,19 @@ export async function getHome(locale: Locale): Promise<HomePage> {
     hero_subtitle: fm.hero_subtitle || fm.description || d.hero_subtitle,
     hero_cta_text: fm.hero_cta_text || d.hero_cta_text,
     hero_cta_href: fm.hero_cta_href || d.hero_cta_href,
+    hero_secondary_cta_text: fm.hero_secondary_cta_text || undefined,
+    hero_secondary_cta_href: fm.hero_secondary_cta_href || undefined,
     hero_image: fm.hero_image || undefined,
     hero_image_alt: fm.hero_image_alt || d.hero_image_alt,
+    services_title: fm.services_title || undefined,
+    services_description: fm.services_description || undefined,
+    services_cta_text: fm.services_cta_text || undefined,
+    services_cta_href: fm.services_cta_href || undefined,
+    steps_title: fm.steps_title || undefined,
+    cta_text: fm.cta_text || undefined,
+    cta_description: fm.cta_description || undefined,
+    cta_link_text: fm.cta_link_text || undefined,
+    cta_link_href: fm.cta_link_href || undefined,
   }
 }
 

@@ -34,41 +34,41 @@ const fm = page.frontmatter as { title?: string; description?: string };
         autocomplete="off"
       />
       <Field>
-        <FieldLabel>Name</FieldLabel>
+        {fm.name_label && <FieldLabel>{fm.name_label}</FieldLabel>}
         <Input
           type="text"
           name="name"
-          placeholder="Name"
+          placeholder={fm.name_placeholder}
           required
           aria-invalid="false"
           aria-describedby="error-name"
         />
       </Field>
       <Field>
-        <FieldLabel>Email</FieldLabel>
+        {fm.email_label && <FieldLabel>{fm.email_label}</FieldLabel>}
         <Input
           type="email"
           name="email"
-          placeholder="Email"
+          placeholder={fm.email_placeholder}
           required
           aria-invalid="false"
           aria-describedby="error-email"
         />
       </Field>
       <Field>
-        <FieldLabel>Message</FieldLabel>
+        {fm.message_label && <FieldLabel>{fm.message_label}</FieldLabel>}
         <Textarea
           name="message"
-          placeholder="Message"
+          placeholder={fm.message_placeholder}
           rows="5"
           required
           aria-invalid="false"
           aria-describedby="error-message"
         />
-        <FieldDescription>We reply within 1–2 business days.</FieldDescription>
+        {fm.form_helper && <FieldDescription>{fm.form_helper}</FieldDescription>}
       </Field>
       <div class="flex items-center gap-3">
-        <Button id="submit-btn" type="submit">Send</Button>
+        <Button id="submit-btn" type="submit">{fm.submit_text}</Button>
         <p
           id="form-status"
           role="status"
@@ -87,17 +87,7 @@ const fm = page.frontmatter as { title?: string; description?: string };
   const statusEl = document.getElementById("form-status");
   const $ = (id) => document.getElementById(id);
 
-  const messages = {
-    sending: "Sending…",
-    success: "Thanks! We will get back to you soon.",
-    genericError: "Something went wrong. Please try again later.",
-    networkError: "Network error. Please try again later.",
-    rateLimit: "Too many requests. Please try again later.",
-    checkFields: "Please check the fields and try again.",
-    name_length: "Name must be between 2 and 80 characters.",
-    email_invalid: "Please enter a valid email address.",
-    message_length: "Message must be between 10 and 2000 characters.",
-  };
+  const messages = JSON.parse('{"sending":'+JSON.stringify(fm.messages_sending||"")+',"success":'+JSON.stringify(fm.messages_success||"")+',"genericError":'+JSON.stringify(fm.messages_generic_error||"")+',"networkError":'+JSON.stringify(fm.messages_network_error||"")+',"rateLimit":'+JSON.stringify(fm.messages_rate_limit||"")+',"checkFields":'+JSON.stringify(fm.messages_check_fields||"")+',"name_length":'+JSON.stringify(fm.messages_name_length||"")+',"email_invalid":'+JSON.stringify(fm.messages_email_invalid||"")+',"message_length":'+JSON.stringify(fm.messages_message_length||"")+'}');
 
   function setStatus(msg, kind = "info") {
     statusEl.textContent = msg;

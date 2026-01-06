@@ -30,8 +30,50 @@ collections:
           - { label: Hero Subtitle, name: hero_subtitle, widget: text, required: false }
           - { label: Hero CTA Text, name: hero_cta_text, widget: string, required: false }
           - { label: Hero CTA Href, name: hero_cta_href, widget: string, required: false }
+          - { label: Hero Secondary CTA Text, name: hero_secondary_cta_text, widget: string, required: false }
+          - { label: Hero Secondary CTA Href, name: hero_secondary_cta_href, widget: string, required: false }
           - { label: Hero Image, name: hero_image, widget: image, required: false }
           - { label: Hero Image Alt, name: hero_image_alt, widget: string, required: false }
+          - { label: Services Title, name: services_title, widget: string, required: false }
+          - { label: Services Description, name: services_description, widget: text, required: false }
+          - { label: Services CTA Text, name: services_cta_text, widget: string, required: false }
+          - { label: Services CTA Href, name: services_cta_href, widget: string, required: false }
+          - { label: Steps Title, name: steps_title, widget: string, required: false }
+          - { label: CTA Text, name: cta_text, widget: string, required: false }
+          - { label: CTA Description, name: cta_description, widget: text, required: false }
+          - { label: CTA Link Text, name: cta_link_text, widget: string, required: false }
+          - { label: CTA Link Href, name: cta_link_href, widget: string, required: false }
+          - { label: Body, name: body, widget: markdown, required: false }
+      - label: Blog
+        name: blog
+        file: content/en/blog.md
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Description, name: description, widget: text, required: false }
+          - { label: Body, name: body, widget: markdown, required: false }
+      - label: Contact
+        name: contact
+        file: content/en/contact.md
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Description, name: description, widget: text, required: false }
+          - { label: Name Label, name: name_label, widget: string, required: false }
+          - { label: Name Placeholder, name: name_placeholder, widget: string, required: false }
+          - { label: Email Label, name: email_label, widget: string, required: false }
+          - { label: Email Placeholder, name: email_placeholder, widget: string, required: false }
+          - { label: Message Label, name: message_label, widget: string, required: false }
+          - { label: Message Placeholder, name: message_placeholder, widget: string, required: false }
+          - { label: Form Helper, name: form_helper, widget: string, required: false }
+          - { label: Submit Text, name: submit_text, widget: string, required: false }
+          - { label: Status: Sending, name: messages_sending, widget: string, required: false }
+          - { label: Status: Success, name: messages_success, widget: string, required: false }
+          - { label: Status: Generic Error, name: messages_generic_error, widget: string, required: false }
+          - { label: Status: Network Error, name: messages_network_error, widget: string, required: false }
+          - { label: Status: Rate Limit, name: messages_rate_limit, widget: string, required: false }
+          - { label: Status: Check Fields, name: messages_check_fields, widget: string, required: false }
+          - { label: Error: Name Length, name: messages_name_length, widget: string, required: false }
+          - { label: Error: Email Invalid, name: messages_email_invalid, widget: string, required: false }
+          - { label: Error: Message Length, name: messages_message_length, widget: string, required: false }
           - { label: Body, name: body, widget: markdown, required: false }
       - label: About
         name: about
@@ -132,6 +174,7 @@ collections:
       - { label: Text, name: text, widget: string }
       - { label: Href, name: href, widget: string }
       - { label: Order, name: order, widget: number, value_type: int, min: 0 }
+      - { label: Parent (optional), name: parent, widget: string, required: false }
 
   - name: footer_links_en
     label: Footer Links (EN)
@@ -160,8 +203,50 @@ collections:
           - { label: Hero Subtítulo, name: hero_subtitle, widget: text, required: false }
           - { label: Hero CTA Texto, name: hero_cta_text, widget: string, required: false }
           - { label: Hero CTA Link, name: hero_cta_href, widget: string, required: false }
+          - { label: Hero CTA secundaria (texto), name: hero_secondary_cta_text, widget: string, required: false }
+          - { label: Hero CTA secundaria (enlace), name: hero_secondary_cta_href, widget: string, required: false }
           - { label: Hero Imagen, name: hero_image, widget: image, required: false }
           - { label: Hero Alt, name: hero_image_alt, widget: string, required: false }
+          - { label: Servicios Título, name: services_title, widget: string, required: false }
+          - { label: Servicios Descripción, name: services_description, widget: text, required: false }
+          - { label: Servicios CTA Texto, name: services_cta_text, widget: string, required: false }
+          - { label: Servicios CTA Link, name: services_cta_href, widget: string, required: false }
+          - { label: Pasos Título, name: steps_title, widget: string, required: false }
+          - { label: CTA Texto, name: cta_text, widget: string, required: false }
+          - { label: CTA Descripción, name: cta_description, widget: text, required: false }
+          - { label: CTA Link Texto, name: cta_link_text, widget: string, required: false }
+          - { label: CTA Link, name: cta_link_href, widget: string, required: false }
+          - { label: Contenido, name: body, widget: markdown, required: false }
+      - label: Blog
+        name: blog
+        file: content/es/blog.md
+        fields:
+          - { label: Título, name: title, widget: string }
+          - { label: Descripción, name: description, widget: text, required: false }
+          - { label: Contenido, name: body, widget: markdown, required: false }
+      - label: Contacto
+        name: contact
+        file: content/es/contact.md
+        fields:
+          - { label: Título, name: title, widget: string }
+          - { label: Descripción, name: description, widget: text, required: false }
+          - { label: Etiqueta Nombre, name: name_label, widget: string, required: false }
+          - { label: Placeholder Nombre, name: name_placeholder, widget: string, required: false }
+          - { label: Etiqueta Correo, name: email_label, widget: string, required: false }
+          - { label: Placeholder Correo, name: email_placeholder, widget: string, required: false }
+          - { label: Etiqueta Mensaje, name: message_label, widget: string, required: false }
+          - { label: Placeholder Mensaje, name: message_placeholder, widget: string, required: false }
+          - { label: Ayuda del formulario, name: form_helper, widget: string, required: false }
+          - { label: Texto del botón, name: submit_text, widget: string, required: false }
+          - { label: Estado: Enviando, name: messages_sending, widget: string, required: false }
+          - { label: Estado: Éxito, name: messages_success, widget: string, required: false }
+          - { label: Estado: Error genérico, name: messages_generic_error, widget: string, required: false }
+          - { label: Estado: Error de red, name: messages_network_error, widget: string, required: false }
+          - { label: Estado: Límite de peticiones, name: messages_rate_limit, widget: string, required: false }
+          - { label: Estado: Revisar campos, name: messages_check_fields, widget: string, required: false }
+          - { label: Error: Longitud del nombre, name: messages_name_length, widget: string, required: false }
+          - { label: Error: Correo inválido, name: messages_email_invalid, widget: string, required: false }
+          - { label: Error: Longitud del mensaje, name: messages_message_length, widget: string, required: false }
           - { label: Contenido, name: body, widget: markdown, required: false }
       - label: Acerca de
         name: about
@@ -262,6 +347,7 @@ collections:
       - { label: Texto, name: text, widget: string }
       - { label: Enlace, name: href, widget: string }
       - { label: Orden, name: order, widget: number, value_type: int, min: 0 }
+      - { label: Padre (opcional), name: parent, widget: string, required: false }
 
   - name: footer_links_es
     label: Enlaces Footer (ES)
@@ -290,8 +376,50 @@ collections:
           - { label: Hero Sous-titre, name: hero_subtitle, widget: text, required: false }
           - { label: Hero CTA Texte, name: hero_cta_text, widget: string, required: false }
           - { label: Hero CTA Lien, name: hero_cta_href, widget: string, required: false }
+          - { label: Hero CTA secondaire (texte), name: hero_secondary_cta_text, widget: string, required: false }
+          - { label: Hero CTA secondaire (lien), name: hero_secondary_cta_href, widget: string, required: false }
           - { label: Hero Image, name: hero_image, widget: image, required: false }
           - { label: Hero Image Alt, name: hero_image_alt, widget: string, required: false }
+          - { label: Services Titre, name: services_title, widget: string, required: false }
+          - { label: Services Description, name: services_description, widget: text, required: false }
+          - { label: Services CTA Texte, name: services_cta_text, widget: string, required: false }
+          - { label: Services CTA Lien, name: services_cta_href, widget: string, required: false }
+          - { label: Étapes Titre, name: steps_title, widget: string, required: false }
+          - { label: CTA Texte, name: cta_text, widget: string, required: false }
+          - { label: CTA Description, name: cta_description, widget: text, required: false }
+          - { label: CTA Lien Texte, name: cta_link_text, widget: string, required: false }
+          - { label: CTA Lien, name: cta_link_href, widget: string, required: false }
+          - { label: Contenu, name: body, widget: markdown, required: false }
+      - label: Blog
+        name: blog
+        file: content/fr/blog.md
+        fields:
+          - { label: Titre, name: title, widget: string }
+          - { label: Description, name: description, widget: text, required: false }
+          - { label: Contenu, name: body, widget: markdown, required: false }
+      - label: Contact
+        name: contact
+        file: content/fr/contact.md
+        fields:
+          - { label: Titre, name: title, widget: string }
+          - { label: Description, name: description, widget: text, required: false }
+          - { label: Label Nom, name: name_label, widget: string, required: false }
+          - { label: Placeholder Nom, name: name_placeholder, widget: string, required: false }
+          - { label: Label E-mail, name: email_label, widget: string, required: false }
+          - { label: Placeholder E-mail, name: email_placeholder, widget: string, required: false }
+          - { label: Label Message, name: message_label, widget: string, required: false }
+          - { label: Placeholder Message, name: message_placeholder, widget: string, required: false }
+          - { label: Aide du formulaire, name: form_helper, widget: string, required: false }
+          - { label: Texte du bouton, name: submit_text, widget: string, required: false }
+          - { label: Statut: Envoi, name: messages_sending, widget: string, required: false }
+          - { label: Statut: Succès, name: messages_success, widget: string, required: false }
+          - { label: Statut: Erreur générique, name: messages_generic_error, widget: string, required: false }
+          - { label: Statut: Erreur réseau, name: messages_network_error, widget: string, required: false }
+          - { label: Statut: Limite atteinte, name: messages_rate_limit, widget: string, required: false }
+          - { label: Statut: Vérifier champs, name: messages_check_fields, widget: string, required: false }
+          - { label: Erreur: Longueur du nom, name: messages_name_length, widget: string, required: false }
+          - { label: Erreur: E-mail invalide, name: messages_email_invalid, widget: string, required: false }
+          - { label: Erreur: Longueur du message, name: messages_message_length, widget: string, required: false }
           - { label: Contenu, name: body, widget: markdown, required: false }
       - label: À propos
         name: about
@@ -392,6 +520,7 @@ collections:
       - { label: Texte, name: text, widget: string }
       - { label: Lien, name: href, widget: string }
       - { label: Ordre, name: order, widget: number, value_type: int, min: 0 }
+      - { label: Parent (optionnel), name: parent, widget: string, required: false }
 
   - name: footer_links_fr
     label: Liens Footer (FR)

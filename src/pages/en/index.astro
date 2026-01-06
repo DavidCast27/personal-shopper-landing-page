@@ -27,11 +27,10 @@ const services = await getServices("en");
       height: 256,
     }}
     links={[
-      {
-        text: home.hero_cta_text,
-        href: home.hero_cta_href,
-      },
-      { text: "Learn more", href: "/en/services" },
+      { text: home.hero_cta_text, href: home.hero_cta_href },
+      ...(home.hero_secondary_cta_text && home.hero_secondary_cta_href
+        ? [{ text: home.hero_secondary_cta_text, href: home.hero_secondary_cta_href }]
+        : []),
     ]}
   >
     <h1>{home.hero_title}</h1>
@@ -52,14 +51,16 @@ const services = await getServices("en");
         width: 256,
         height: 256,
       },
-      links: [{ text: "Learn more", href: `/en/services` }],
+      links: home.services_cta_text && home.services_cta_href
+        ? [{ text: home.services_cta_text, href: home.services_cta_href }]
+        : undefined,
     }))}
   >
-    <h2>Services</h2>
-    <p>Explore our offering tailored to your needs.</p>
+    {home.services_title && <h2>{home.services_title}</h2>}
+    {home.services_description && <p>{home.services_description}</p>}
   </ServicesBlock>
   <HowItWorks
-    title="Simple steps to get started"
+    title={home.steps_title}
     items={steps.map((s) => ({
       title: s.title,
       description: s.description,
@@ -70,14 +71,14 @@ const services = await getServices("en");
   <CTABlock
     item={{
       rating: 5,
-      description: "Trusted by happy clients",
+      description: home.cta_description,
       images: [
         { src: placeholderImage, alt: "" },
         { src: placeholderImage, alt: "" },
       ],
     }}
-    links={[{ text: "Contact us", href: "/en/contact" }]}
+    links={home.cta_link_text && home.cta_link_href ? [{ text: home.cta_link_text, href: home.cta_link_href }] : undefined}
   >
-    <p>Ready to elevate your style?</p>
+    {home.cta_text && <p>{home.cta_text}</p>}
   </CTABlock>
 </SiteLayout>

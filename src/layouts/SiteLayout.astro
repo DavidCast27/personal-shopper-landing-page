@@ -58,113 +58,7 @@ const {
   footer,
 } = Astro.props as Props;
 
-const defaultsByLang = {
-  en: {
-    header: {
-      logo: { text: "Personal Shopper", href: "/en" },
-      menus: [
-        { text: "About", href: "/en/about" },
-        { text: "Services", href: "/en/services" },
-        { text: "Blog", href: "/en/blog" },
-        { text: "Contact", href: "/en/contact" },
-        { text: "Testimonials", href: "/en/testimonials" },
-        { text: "FAQ", href: "/en/faq" },
-      ],
-      links: [{ text: "Contact", href: "/en/contact" }],
-    },
-    footer: {
-      logo: { text: "Personal Shopper", href: "/en" },
-      description: "Personal shopping and styling services in Canada.",
-      menus: [
-        {
-          text: "Company",
-          links: [
-            { text: "About", href: "/en/about" },
-            { text: "Contact", href: "/en/contact" },
-          ],
-        },
-        {
-          text: "Explore",
-          links: [
-            { text: "Services", href: "/en/services" },
-            { text: "Blog", href: "/en/blog" },
-          ],
-        },
-      ],
-    },
-  },
-  fr: {
-    header: {
-      logo: { text: "Personal Shopper", href: "/fr" },
-      menus: [
-        { text: "À propos", href: "/fr/about" },
-        { text: "Services", href: "/fr/services" },
-        { text: "Blog", href: "/fr/blog" },
-        { text: "Contact", href: "/fr/contact" },
-        { text: "Témoignages", href: "/fr/testimonials" },
-        { text: "FAQ", href: "/fr/faq" },
-      ],
-      links: [{ text: "Contact", href: "/fr/contact" }],
-    },
-    footer: {
-      logo: { text: "Personal Shopper", href: "/fr" },
-      description: "Services de personal shopper au Canada.",
-      menus: [
-        {
-          text: "Entreprise",
-          links: [
-            { text: "À propos", href: "/fr/about" },
-            { text: "Contact", href: "/fr/contact" },
-          ],
-        },
-        {
-          text: "Explorer",
-          links: [
-            { text: "Services", href: "/fr/services" },
-            { text: "Blog", href: "/fr/blog" },
-          ],
-        },
-      ],
-    },
-  },
-  es: {
-    header: {
-      logo: { text: "Personal Shopper", href: "/es" },
-      menus: [
-        { text: "Acerca", href: "/es/about" },
-        { text: "Servicios", href: "/es/services" },
-        { text: "Blog", href: "/es/blog" },
-        { text: "Contacto", href: "/es/contact" },
-        { text: "Testimonios", href: "/es/testimonials" },
-        { text: "FAQ", href: "/es/faq" },
-      ],
-      links: [{ text: "Contacto", href: "/es/contact" }],
-    },
-    footer: {
-      logo: { text: "Personal Shopper", href: "/es" },
-      description: "Servicios de personal shopper en Canadá.",
-      menus: [
-        {
-          text: "Empresa",
-          links: [
-            { text: "Acerca", href: "/es/about" },
-            { text: "Contacto", href: "/es/contact" },
-          ],
-        },
-        {
-          text: "Explorar",
-          links: [
-            { text: "Servicios", href: "/es/services" },
-            { text: "Blog", href: "/es/blog" },
-          ],
-        },
-      ],
-    },
-  },
-} as const;
-
-const defaultHeader = defaultsByLang[lang]?.header;
-const defaultFooter = defaultsByLang[lang]?.footer;
+// Remove hardcoded defaults; rely on CMS + optional props
 
 // Load CMS-driven navigation
 const site = await getSiteSettings(lang as any).catch(() => undefined);
@@ -218,34 +112,18 @@ const footerMenusFromCms = Object.values(
 );
 
 const computedHeader = {
-  ...(defaultHeader || {}),
   ...(header || {}),
-  menus:
-    headerMenusFromCms.length > 0
-      ? headerMenusFromCms
-      : defaultHeader?.menus || [],
+  menus: headerMenusFromCms.length > 0 ? headerMenusFromCms : header?.menus || [],
   links:
     site?.header_cta_text && site?.header_cta_href
-      ? [
-          {
-            text: site.header_cta_text as string,
-            href: site.header_cta_href as string,
-          },
-        ]
-      : header?.links || defaultHeader?.links || [],
+      ? [{ text: site.header_cta_text as string, href: site.header_cta_href as string }]
+      : header?.links || [],
 };
 
 const computedFooter = {
-  ...(defaultFooter || {}),
   ...(footer || {}),
-  description:
-    (site?.footer_description as string) ||
-    footer?.description ||
-    defaultFooter?.description,
-  menus:
-    footerMenusFromCms.length > 0
-      ? footerMenusFromCms
-      : footer?.menus || defaultFooter?.menus || [],
+  description: (site?.footer_description as string) || footer?.description,
+  menus: footerMenusFromCms.length > 0 ? footerMenusFromCms : footer?.menus || [],
 };
 ---
 

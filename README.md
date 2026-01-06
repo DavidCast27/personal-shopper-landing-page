@@ -25,8 +25,20 @@ Multilingual landing site (EN/ES/FR) for a Landing Page. Static-first Astro proj
    - Copy `.env.example` (if present) to `.env.local` and set variables below.
 3) Run dev server
    - `npm run dev` → http://localhost:4321
-4) Open CMS
-   - http://localhost:4321/admin (ensure GitHub OAuth is configured if using OAuth)
+4) Run Decap CMS Local Backend (for local content editing)
+   - First, ensure your `public/admin/config.yml` is configured for local backend. It should contain a `local_backend` section similar to this:
+     ```yaml
+     local_backend:
+       url: http://localhost:8081/api/v1
+     ```
+   - In a *separate terminal*, start the local Decap CMS server:
+     ```bash
+     npx decap-server
+     ```
+   - *Note:* When `npx decap-server` is running, the CMS will automatically use the local backend. Otherwise, it will attempt GitHub OAuth.
+
+5) Open CMS
+   - Access the CMS at `http://localhost:4321/admin`.
 
 ## Environment Variables
 - `RESEND_API_KEY`: API key for Resend

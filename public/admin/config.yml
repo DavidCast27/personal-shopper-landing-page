@@ -4,11 +4,10 @@ backend:
   branch: main
   site_domain: https://landing-page-ten-indol-38.vercel.app/
   base_url: https://landing-page-ten-indol-38.vercel.app/
-  # site_domain: localhost:4321
-  # base_url: http://localhost:4321
   auth_endpoint: oauth
 
-# local_backend: false
+local_backend:
+  url: http://localhost:8081/api/v1
 
 # publish_mode: editorial_workflow
 

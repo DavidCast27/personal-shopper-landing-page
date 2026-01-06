@@ -1,6 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types"
-import XIcon from "lucide-static/icons/x.svg"
+import { Icon } from "@/components/ui/icon"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -33,7 +33,7 @@ const slot = await Astro.slots.render("default")
           size="icon-sm"
           aria-label="Close"
         >
-          <XIcon class="size-4 text-inherit" />
+          <Icon name="x" class="size-4 text-inherit" />
         </Button>
       )}
     </div>

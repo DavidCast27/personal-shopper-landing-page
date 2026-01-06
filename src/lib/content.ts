@@ -45,7 +45,19 @@ export interface PageContent<T extends Frontmatter = Frontmatter> {
   body: string
 }
 
-const rawFiles = import.meta.glob('/content/**/*.md', { as: 'raw', eager: true }) as Record<string, string>
+const rawAbs = import.meta.glob('/content/**/*.md', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>
+const rawRel = import.meta.glob('content/**/*.md', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>
+const rawFiles: Record<string, string> = {
+  ...rawAbs,
+  // normalize relative keys to start with '/'
+  ...Object.fromEntries(Object.entries(rawRel).map(([k, v]) => [k.startsWith('/') ? k : `/${k}`, v])),
+}
+
+function normalizeKey(p: string): string {
+  return p.replace(/\?raw$/, '')
+}
+
+let __printedDebug = false
 
 function parseFrontmatter(raw: string): { frontmatter: Frontmatter; body: string } {
   if (!raw.startsWith('---')) return { frontmatter: {}, body: raw }
@@ -77,7 +89,14 @@ function parseFrontmatter(raw: string): { frontmatter: Frontmatter; body: string
 }
 
 function getRaw(path: string): string | undefined {
-  return rawFiles[path]
+  // Use suffix matching as primary strategy across environments
+  const rel = path.startsWith('/') ? path.slice(1) : path
+  const suffixes = [path, `/${rel}`, rel]
+  for (const [k, v] of Object.entries(rawFiles)) {
+    const nk = normalizeKey(k)
+    if (suffixes.some((s) => nk.endsWith(s))) return v
+  }
+  return undefined
 }
 
 function ensureLocale(locale: string): asserts locale is Locale {
@@ -88,7 +107,13 @@ export async function getPage<T extends Frontmatter = Frontmatter>(locale: Local
   ensureLocale(locale)
   const path = `/content/${locale}/${key}.md`
   const raw = getRaw(path)
-  if (!raw) throw new Error(`Content not found: ${path}`)
+  if (!raw) {
+    if (import.meta.env?.DEV && !__printedDebug) {
+      console.warn('[content] keys sample:', Object.keys(rawFiles).slice(0, 10))
+      __printedDebug = true
+    }
+    throw new Error(`Content not found: ${path}`)
+  }
   const { frontmatter, body } = parseFrontmatter(raw)
   return { locale, path, frontmatter: frontmatter as T, body }
 }
@@ -216,8 +241,9 @@ export interface BlogListItem extends PageContent<BlogFrontmatter> {
 export async function getBlogPosts(locale: Locale): Promise<BlogListItem[]> {
   ensureLocale(locale)
   const prefix = `/content/${locale}/blog/`
-  const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix) && p.endsWith('.md'))
-  const items = entries.map(([path, raw]) => {
+  const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix))
+  const items = entries.map(([pathRaw, raw]) => {
+    const path = normalizeKey(pathRaw)
     const { frontmatter, body } = parseFrontmatter(raw)
     const slug = path.replace(prefix, '').replace(/\.md$/, '')
     const fm = frontmatter as BlogFrontmatter
@@ -264,6 +290,10 @@ export interface SiteSettings extends Frontmatter {
   header_cta_href?: string
   footer_description?: string
   og_image?: string
+  logo_text?: string
+  logo_href?: string
+  logo_src?: string
+  logo_alt?: string
 }
 
 export async function getSiteSettings(locale: Locale): Promise<SiteSettings | undefined> {
@@ -288,8 +318,9 @@ export interface ServiceItem extends PageContent<ServiceFrontmatter> {
 export async function getServices(locale: Locale): Promise<ServiceItem[]> {
   ensureLocale(locale)
   const prefix = `/content/${locale}/services/`
-  const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix) && p.endsWith('.md'))
-  const items = entries.map(([path, raw]) => {
+  const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix))
+  const items = entries.map(([pathRaw, raw]) => {
+    const path = normalizeKey(pathRaw)
     const { frontmatter, body } = parseFrontmatter(raw)
     const orderRaw = frontmatter.order as string | number | undefined
     const order = typeof orderRaw === 'number' ? orderRaw : orderRaw ? parseInt(String(orderRaw), 10) : undefined
@@ -322,8 +353,9 @@ export interface FaqItem extends PageContent<FaqFrontmatter> {
 export async function getFaq(locale: Locale): Promise<FaqItem[]> {
   ensureLocale(locale)
   const prefix = `/content/${locale}/faq/`
-  const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix) && p.endsWith('.md'))
-  const items = entries.map(([path, raw]) => {
+  const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix))
+  const items = entries.map(([pathRaw, raw]) => {
+    const path = normalizeKey(pathRaw)
     const { frontmatter, body } = parseFrontmatter(raw)
     const orderRaw = frontmatter.order as string | number | undefined
     const order = typeof orderRaw === 'number' ? orderRaw : orderRaw ? parseInt(String(orderRaw), 10) : undefined
@@ -357,8 +389,9 @@ export interface TestimonialItem extends PageContent<TestimonialFrontmatter> {
 export async function getTestimonials(locale: Locale): Promise<TestimonialItem[]> {
   ensureLocale(locale)
   const prefix = `/content/${locale}/testimonials/`
-  const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix) && p.endsWith('.md'))
-  const items = entries.map(([path, raw]) => {
+  const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix))
+  const items = entries.map(([pathRaw, raw]) => {
+    const path = normalizeKey(pathRaw)
     const { frontmatter, body } = parseFrontmatter(raw)
     const orderRaw = frontmatter.order as string | number | undefined
     const order = typeof orderRaw === 'number' ? orderRaw : orderRaw ? parseInt(String(orderRaw), 10) : undefined
@@ -403,8 +436,9 @@ export interface HeaderMenuItem extends PageContent<HeaderNavFrontmatter> {
 export async function getHeaderMenu(locale: Locale): Promise<HeaderMenuItem[]> {
   ensureLocale(locale)
   const prefix = `/content/${locale}/nav/header/`
-  const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix) && p.endsWith('.md'))
-  const items = entries.map(([path, raw]) => {
+  const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix))
+  const items = entries.map(([pathRaw, raw]) => {
+    const path = normalizeKey(pathRaw)
     const { frontmatter, body } = parseFrontmatter(raw)
     const orderRaw = frontmatter.order as string | number | undefined
     const order = typeof orderRaw === 'number' ? orderRaw : orderRaw ? parseInt(String(orderRaw), 10) : undefined
@@ -445,8 +479,9 @@ export interface FooterLinkItem extends PageContent<FooterLinkFrontmatter> {
 export async function getFooterLinks(locale: Locale): Promise<FooterLinkItem[]> {
   ensureLocale(locale)
   const prefix = `/content/${locale}/footer/links/`
-  const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix) && p.endsWith('.md'))
-  const items = entries.map(([path, raw]) => {
+  const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix))
+  const items = entries.map(([pathRaw, raw]) => {
+    const path = normalizeKey(pathRaw)
     const { frontmatter, body } = parseFrontmatter(raw)
     const orderRaw = frontmatter.order as string | number | undefined
     const order = typeof orderRaw === 'number' ? orderRaw : orderRaw ? parseInt(String(orderRaw), 10) : undefined
@@ -500,8 +535,9 @@ export interface HowItWorksItem extends PageContent<HowItWorksFrontmatter> {
 export async function getHowItWorks(locale: Locale): Promise<HowItWorksItem[]> {
   ensureLocale(locale)
   const prefix = `/content/${locale}/howitworks/`
-  const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix) && p.endsWith('.md'))
-  const items = entries.map(([path, raw]) => {
+  const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix))
+  const items = entries.map(([pathRaw, raw]) => {
+    const path = normalizeKey(pathRaw)
     const { frontmatter, body } = parseFrontmatter(raw)
     const orderRaw = frontmatter.order as string | number | undefined
     const order = typeof orderRaw === 'number' ? orderRaw : orderRaw ? parseInt(String(orderRaw), 10) : undefined

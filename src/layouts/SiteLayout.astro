@@ -113,6 +113,9 @@ const footerMenusFromCms = Object.values(
 
 const computedHeader = {
   ...(header || {}),
+  logo: header?.logo || (site?.logo_text || site?.logo_src
+    ? { text: site?.logo_text as string, href: site?.logo_href as string, src: site?.logo_src as string, alt: site?.logo_alt as string }
+    : undefined),
   menus: headerMenusFromCms.length > 0 ? headerMenusFromCms : header?.menus || [],
   links:
     site?.header_cta_text && site?.header_cta_href
@@ -122,6 +125,9 @@ const computedHeader = {
 
 const computedFooter = {
   ...(footer || {}),
+  logo: footer?.logo || (site?.logo_text || site?.logo_src
+    ? { text: site?.logo_text as string, href: site?.logo_href as string, src: site?.logo_src as string, alt: site?.logo_alt as string }
+    : undefined),
   description: (site?.footer_description as string) || footer?.description,
   menus: footerMenusFromCms.length > 0 ? footerMenusFromCms : footer?.menus || [],
 };

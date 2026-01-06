@@ -160,6 +160,10 @@ collections:
         name: settings
         file: content/en/site.md
         fields:
+          - { label: Logo Text, name: logo_text, widget: string, required: false }
+          - { label: Logo Href, name: logo_href, widget: string, required: false }
+          - { label: Logo Image, name: logo_src, widget: image, required: false }
+          - { label: Logo Alt, name: logo_alt, widget: string, required: false }
           - { label: Header CTA Text, name: header_cta_text, widget: string, required: false }
           - { label: Header CTA Href, name: header_cta_href, widget: string, required: false }
           - { label: Footer Description, name: footer_description, widget: text, required: false }
@@ -333,6 +337,10 @@ collections:
         name: ajustes
         file: content/es/site.md
         fields:
+          - { label: Logo Texto, name: logo_text, widget: string, required: false }
+          - { label: Logo Link, name: logo_href, widget: string, required: false }
+          - { label: Logo Imagen, name: logo_src, widget: image, required: false }
+          - { label: Logo Alt, name: logo_alt, widget: string, required: false }
           - { label: Header CTA Texto, name: header_cta_text, widget: string, required: false }
           - { label: Header CTA Link, name: header_cta_href, widget: string, required: false }
           - { label: Descripción del pie, name: footer_description, widget: text, required: false }
@@ -506,6 +514,10 @@ collections:
         name: parametres
         file: content/fr/site.md
         fields:
+          - { label: Logo Texte, name: logo_text, widget: string, required: false }
+          - { label: Logo Lien, name: logo_href, widget: string, required: false }
+          - { label: Logo Image, name: logo_src, widget: image, required: false }
+          - { label: Logo Alt, name: logo_alt, widget: string, required: false }
           - { label: Header CTA Texte, name: header_cta_text, widget: string, required: false }
           - { label: Header CTA Lien, name: header_cta_href, widget: string, required: false }
           - { label: Description du pied de page, name: footer_description, widget: text, required: false }

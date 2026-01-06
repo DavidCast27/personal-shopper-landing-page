@@ -1,15 +1,14 @@
 ---
-import MenuIcon from "lucide-static/icons/menu.svg"
+import { Icon } from "@/components/ui/icon";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible"
-import { Header, HeaderActions } from "@/components/ui/header"
-import { Icon } from "@/components/ui/icon"
-import { Logo, LogoImage, LogoText } from "@/components/ui/logo"
+} from "@/components/ui/collapsible";
+import { Header, HeaderActions } from "@/components/ui/header";
+import { Logo, LogoImage, LogoText } from "@/components/ui/logo";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -20,8 +19,8 @@ import {
   NavigationMenuSubItem,
   NavigationMenuSubLink,
   NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+} from "@/components/ui/navigation-menu";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
   SidebarMenu,
   SidebarMenuButton,
@@ -29,37 +28,37 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from "@/components/ui/sidebar"
-import { ThemeToggle } from "@/components/ui/theme-toggle"
-import { LangSwitcher } from "@/components/ui/lang-switcher"
+} from "@/components/ui/sidebar";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { LangSwitcher } from "@/components/ui/lang-switcher";
 
 interface Props {
   logo?: {
-    src?: string
-    alt?: string
-    text?: string
-    href?: string
-  }
+    src?: string;
+    alt?: string;
+    text?: string;
+    href?: string;
+  };
   links?: {
-    icon?: string
-    text?: string
-    href?: string
-    target?: string
-  }[]
-  socials?: string[]
+    icon?: string;
+    text?: string;
+    href?: string;
+    target?: string;
+  }[];
+  socials?: string[];
   menus?: {
-    text?: string
-    href?: string
+    text?: string;
+    href?: string;
     links?: {
-      text?: string
-      href?: string
-    }[]
-  }[]
-  lang?: "en" | "es" | "fr"
-  path?: string
+      text?: string;
+      href?: string;
+    }[];
+  }[];
+  lang?: "en" | "es" | "fr";
+  path?: string;
 }
 
-const { logo, menus, links, socials, lang, path } = Astro.props
+const { logo, menus, links, socials, lang, path } = Astro.props;
 ---
 
 <Header>
@@ -138,7 +137,7 @@ const { logo, menus, links, socials, lang, path } = Astro.props
       size="icon"
       name="open-menu-button"
     >
-      <MenuIcon class="size-5" />
+      <Icon name="menu" class="size-5" />
     </SheetTrigger>
     <SheetContent class="overflow-y-auto px-4 py-12">
       <SidebarMenu>

@@ -3,5 +3,4 @@ title: Services
 description: Our services and packages.
 ---
 
-Services page (EN).
-
+Explore our offering tailored to your needs.

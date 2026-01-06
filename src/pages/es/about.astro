@@ -8,10 +8,10 @@ const page = await getPage('es', 'about');
 const fm = page.frontmatter as { title?: string; description?: string };
 ---
 
-<SiteLayout lang="es" title={`${fm.title ?? 'Acerca'} – Personal Shopper`} description={fm.description ?? 'Sobre nuestros servicios'}>
+<SiteLayout lang="es" title={fm.title} description={fm.description}>
   <Section>
     <SectionProse>
-      <h1>{fm.title ?? 'Acerca'}</h1>
+      {fm.title && <h1>{fm.title}</h1>}
       <div class="contents" set:html={renderMarkdown(page.body || '')} />
     </SectionProse>
   </Section>

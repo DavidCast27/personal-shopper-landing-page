@@ -84,7 +84,7 @@ function ensureLocale(locale: string): asserts locale is Locale {
   if (!['en', 'es', 'fr'].includes(locale)) throw new Error(`Unsupported locale: ${locale}`)
 }
 
-export async function getPage<T extends Frontmatter = Frontmatter>(locale: Locale, key: 'home' | 'about' | 'services' | 'testimonials' | 'faq'): Promise<PageContent<T>> {
+export async function getPage<T extends Frontmatter = Frontmatter>(locale: Locale, key: 'home' | 'about' | 'services' | 'testimonials' | 'faq' | 'blog' | 'contact'): Promise<PageContent<T>> {
   ensureLocale(locale)
   const path = `/content/${locale}/${key}.md`
   const raw = getRaw(path)

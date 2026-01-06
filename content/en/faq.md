@@ -3,5 +3,4 @@ title: FAQ
 description: Frequently asked questions.
 ---
 
-FAQ page (EN).
-
+Answers to common questions.

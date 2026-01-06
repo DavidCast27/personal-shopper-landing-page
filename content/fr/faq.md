@@ -3,5 +3,4 @@ title: FAQ
 description: Réponses aux questions fréquentes.
 ---
 
-Page FAQ (FR).
-
+Réponses aux questions fréquentes.

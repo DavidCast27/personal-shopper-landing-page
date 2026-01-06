@@ -1,11 +1,16 @@
 ---
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import ServicesBlock from "@/components/blocks/services-7.astro";
-import { getServices } from "@/lib/content";
+import { getPage, getServices, getSiteSettings } from "@/lib/content";
+import { renderMarkdown } from "@/lib/markdown";
 
 const placeholderImage = "/uploads/image-placeholder.daj0efyq_29eycw.webp";
 
 const services = await getServices("es");
+const page = await getPage('es', 'services');
+const fm = page.frontmatter as { title?: string; description?: string };
+const site = await getSiteSettings('es');
+const cta = site?.header_cta_text && site?.header_cta_href ? [{ text: site.header_cta_text, href: site.header_cta_href }] : undefined;
 const items = services.map((s) => ({
   id: s.slug,
   href: `#${s.slug}`,
@@ -17,17 +22,17 @@ const items = services.map((s) => ({
     width: 256,
     height: 256,
   },
-  links: [{ text: "Contacto", href: "/es/contact" }],
+  links: cta,
 }));
 ---
 
 <SiteLayout
   lang="es"
-  title={`Servicios – Personal Shopper`}
-  description={"Nuestros servicios"}
+  title={fm.title}
+  description={fm.description}
 >
   <ServicesBlock items={items}>
-    <h1>Servicios</h1>
-    <p>Conoce nuestra oferta adaptada a ti.</p>
+    {fm.title && <h1>{fm.title}</h1>}
+    {page.body && <div class="contents" set:html={renderMarkdown(page.body)} />}
   </ServicesBlock>
 </SiteLayout>

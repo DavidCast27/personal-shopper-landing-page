@@ -1,11 +1,14 @@
 ---
 import SiteLayout from "../../../layouts/SiteLayout.astro";
 import ArticlesBlock from "@/components/blocks/articles-4.astro";
-import { getBlogPosts } from "@/lib/content";
+import { getBlogPosts, getPage } from "@/lib/content";
+import { renderMarkdown } from "@/lib/markdown";
 
 const placeholderImage = "/uploads/image-placeholder.daj0efyq_29eycw.webp";
 
 const posts = await getBlogPosts("es");
+const page = await getPage('es', 'blog');
+const fm = page.frontmatter as { title?: string; description?: string };
 const items = posts.map((p) => ({
   title: p.title,
   description: p.description,
@@ -16,26 +19,20 @@ const items = posts.map((p) => ({
     width: 600,
     height: 338,
   },
-  item: {
-    title: "Autor",
-    description: "",
-    image: { src: placeholderImage, alt: "" },
-  },
+  item: {},
 }));
 ---
 
 <SiteLayout
   lang="es"
-  title="Blog – Personal Shopper"
-  description="Artículos y consejos"
+  title={fm.title}
+  description={fm.description}
 >
   <ArticlesBlock items={items}>
-    <h1>Blog</h1>
-    <p>Artículos y consejos.</p>
+    {fm.title && <h1>{fm.title}</h1>}
+    {page.body && (
+      <div class="contents" set:html={renderMarkdown(page.body)} />
+    )}
   </ArticlesBlock>
-  {
-    items.length === 0 && (
-      <p class="px-6 py-10 text-sm text-gray-500">Aún no hay artículos.</p>
-    )
-  }
+  {items.length === 0 && null}
 </SiteLayout>

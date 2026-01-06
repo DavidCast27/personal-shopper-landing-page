@@ -3,5 +3,4 @@ title: Testimonials
 description: What our clients say.
 ---
 
-Testimonials page (EN).
-
+What clients say about us.

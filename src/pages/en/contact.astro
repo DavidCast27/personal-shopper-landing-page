@@ -1,20 +1,24 @@
 ---
 import SiteLayout from "../../layouts/SiteLayout.astro";
+import { getPage } from "@/lib/content";
 import { Section } from "@/components/ui/section";
 import { Field, FieldLabel, FieldDescription } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { actions } from "astro:actions";
+ 
+const page = await getPage('en', 'contact');
+const fm = page.frontmatter as { title?: string; description?: string };
 ---
 
 <SiteLayout
   lang="en"
-  title="Contact – Personal Shopper"
-  description="Contact us"
+  title={fm.title}
+  description={fm.description}
 >
   <Section style="--section-width: 672px;">
-    <h1 class="text-2xl font-semibold">Contact</h1>
+    {fm.title && <h1 class="text-2xl font-semibold">{fm.title}</h1>}
     <form
       id="contact-form"
       method="POST"

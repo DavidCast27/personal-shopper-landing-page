@@ -1,22 +1,25 @@
 ---
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import FAQBlock from "@/components/blocks/faqs-3.astro";
-import { getFaq } from "@/lib/content";
+import { getFaq, getPage } from "@/lib/content";
 import { stripMarkdown } from "@/lib/markdown";
+import { renderMarkdown } from "@/lib/markdown";
 
 const items = (await getFaq("en")).map((q) => ({
   title: q.question,
   description: stripMarkdown(q.body || ""),
 }));
+const page = await getPage('en', 'faq');
+const fm = page.frontmatter as { title?: string; description?: string };
 ---
 
 <SiteLayout
   lang="en"
-  title={`FAQ – Personal Shopper`}
-  description={"Frequently asked questions"}
+  title={fm.title}
+  description={fm.description}
 >
   <FAQBlock items={items}>
-    <h1>FAQ</h1>
-    <p>Answers to common questions.</p>
+    {fm.title && <h1>{fm.title}</h1>}
+    {page.body && <div class="contents" set:html={renderMarkdown(page.body)} />}
   </FAQBlock>
 </SiteLayout>

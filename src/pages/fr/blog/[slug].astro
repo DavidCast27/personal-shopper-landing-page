@@ -16,7 +16,7 @@ const post = await getPost('fr', slug!);
 const title = post.title;
 ---
 
-<SiteLayout lang="fr" title={`${title} – Personal Shopper`} description={post.description || 'Article de blog'}>
+<SiteLayout lang="fr" title={`${title} – Personal Shopper`} description={post.description || ''}>
   <ArticleBlock
     title={title}
     description={post.description || ''}

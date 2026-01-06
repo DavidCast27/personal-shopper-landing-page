@@ -3,5 +3,4 @@ title: Services
 description: Nos services et forfaits.
 ---
 
-Page Services (FR).
-
+Découvrez notre offre adaptée à vos besoins.

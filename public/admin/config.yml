@@ -2,8 +2,10 @@ backend:
   name: github
   repo: DavidCast27/landing-page
   branch: main
-  site_domain: localhost:4321
-  base_url: http://localhost:4321
+  site_domain: https://landing-page-ten-indol-38.vercel.app/
+  base_url: https://landing-page-ten-indol-38.vercel.app/
+  # site_domain: localhost:4321
+  # base_url: http://localhost:4321
   auth_endpoint: oauth
 
 # local_backend: false

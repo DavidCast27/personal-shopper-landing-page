@@ -7,5 +7,5 @@
 7. [complete] desplegar en vercel
 8. agregar documentacion como arquitectura buenas practicas todo lo necesario para ia
 9. [complete] unificar imports de íconos (lucide) para eliminar warnings de Vite (adoptar una única estrategia: estáticos o dinámicos)
-10. crear componente de empty state reutilizable (listas vacías, blog sin posts, etc.)
+10. [complete] crear componente de empty state reutilizable (listas vacías, blog sin posts, etc.)
 11. [complete]  agregar página 404 con SiteLayout, mensajes y enlaces por idioma

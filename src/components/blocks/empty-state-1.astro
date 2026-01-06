@@ -1,0 +1,38 @@
+---
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty";
+import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
+
+interface Props {
+  class?: string;
+  icon?: string;
+  title?: string;
+  description?: string;
+  action?: {
+    text: string;
+    href: string;
+    target?: string;
+  };
+}
+
+const { class: className, icon, title, description, action } = Astro.props as Props;
+---
+
+<Empty class={className}>
+  <EmptyContent>
+    {icon && (
+      <EmptyMedia variant="icon">
+        <Icon name={icon} />
+      </EmptyMedia>
+    )}
+    <EmptyHeader>
+      {title && <EmptyTitle>{title}</EmptyTitle>}
+      {description && <EmptyDescription>{description}</EmptyDescription>}
+    </EmptyHeader>
+    {action && (
+      <Button href={action.href} target={action.target}>{action.text}</Button>
+    )}
+  </EmptyContent>
+  <slot />
+ </Empty>
+

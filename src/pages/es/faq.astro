@@ -1,6 +1,7 @@
 ---
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import FAQBlock from "@/components/blocks/faqs-3.astro";
+import EmptyState from "@/components/blocks/empty-state-1.astro";
 import { getFaq, getPage } from "@/lib/content";
 import { stripMarkdown } from "@/lib/markdown";
 import { renderMarkdown } from "@/lib/markdown";
@@ -22,4 +23,11 @@ const fm = page.frontmatter as { title?: string; description?: string };
     {fm.title && <h1>{fm.title}</h1>}
     {page.body && <div class="contents" set:html={renderMarkdown(page.body)} />}
   </FAQBlock>
+  {items.length === 0 && (
+    <EmptyState
+      icon="help-circle"
+      title="Aún no hay preguntas frecuentes"
+      description="Estamos recopilando preguntas comunes. Vuelve pronto."
+    />
+  )}
 </SiteLayout>

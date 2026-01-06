@@ -1,6 +1,7 @@
 ---
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import ServicesBlock from "@/components/blocks/services-7.astro";
+import EmptyState from "@/components/blocks/empty-state-1.astro";
 import { getPage, getServices, getSiteSettings } from "@/lib/content";
 import { renderMarkdown } from "@/lib/markdown";
 
@@ -35,4 +36,11 @@ const items = services.map((s) => ({
     {fm.title && <h1>{fm.title}</h1>}
     {page.body && <div class="contents" set:html={renderMarkdown(page.body)} />}
   </ServicesBlock>
+  {items.length === 0 && (
+    <EmptyState
+      icon="package-open"
+      title="No services available yet"
+      description="We’re getting our services ready. Please check back soon."
+    />
+  )}
 </SiteLayout>

@@ -1,6 +1,7 @@
 ---
 import SiteLayout from "../../../layouts/SiteLayout.astro";
 import ArticlesBlock from "@/components/blocks/articles-4.astro";
+import EmptyState from "@/components/blocks/empty-state-1.astro";
 import { getBlogPosts, getPage } from "@/lib/content";
 import { renderMarkdown } from "@/lib/markdown";
 
@@ -34,5 +35,11 @@ const items = posts.map((p) => ({
       <div class="contents" set:html={renderMarkdown(page.body)} />
     )}
   </ArticlesBlock>
-  {items.length === 0 && null}
+  {items.length === 0 && (
+    <EmptyState
+      icon="file-plus-2"
+      title="Aún no hay artículos"
+      description="Estamos preparando contenido para el blog. Vuelve pronto."
+    />
+  )}
 </SiteLayout>

@@ -1,6 +1,7 @@
 ---
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import ReviewsBlock from "@/components/blocks/reviews-1.astro";
+import EmptyState from "@/components/blocks/empty-state-1.astro";
 import { getPage, getTestimonials } from "@/lib/content";
 import { renderMarkdown } from "@/lib/markdown";
 
@@ -30,4 +31,11 @@ const items = testimonials.map((t) => ({
     {fm.title && <h1>{fm.title}</h1>}
     {page.body && <div class="contents" set:html={renderMarkdown(page.body)} />}
   </ReviewsBlock>
+  {items.length === 0 && (
+    <EmptyState
+      icon="messages-square"
+      title="Aucun témoignage pour le moment"
+      description="Nous recueillons des avis. Revenez bientôt."
+    />
+  )}
 </SiteLayout>

@@ -1,6 +1,16 @@
 ---
 import SiteLayout from "@/layouts/SiteLayout.astro";
 import { getNotFound } from "@/lib/content";
+import { Button } from "@/components/ui/button";
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
+import { Icon } from "@/components/ui/icon";
 
 const SUPPORTED = ["en", "es", "fr"] as const;
 type Supported = (typeof SUPPORTED)[number];
@@ -18,21 +28,22 @@ const description = notFound.description;
 ---
 
 <SiteLayout title={title} description={description} lang={lang}>
-  <main class="mx-auto flex min-h-[60vh] max-w-3xl flex-col items-center justify-center px-6 text-center">
-    <p class="mb-3 text-sm font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400">
-      404
-    </p>
-    <h1 class="mb-4 text-4xl font-bold tracking-tight sm:text-5xl">
-      {notFound.title}
-    </h1>
-    <p class="mb-8 text-balance text-gray-600 dark:text-gray-300">
-      {notFound.description}
-    </p>
-
-    <div class="flex flex-wrap items-center justify-center gap-3">
-      <a href={notFound.cta_href} class="inline-flex items-center rounded-md bg-black px-4 py-2 text-white shadow hover:opacity-90 dark:bg-white dark:text-black">
-        {notFound.cta_text}
-      </a>
-    </div>
+  <main class="mx-auto flex min-h-[60vh] max-w-3xl items-center justify-center px-6">
+    <Empty class="w-full">
+      <EmptyHeader>
+        <EmptyMedia variant="icon">
+          <Icon name="file-question" />
+        </EmptyMedia>
+        <EmptyTitle>{notFound.title}</EmptyTitle>
+        <EmptyDescription>
+          {notFound.description}
+        </EmptyDescription>
+      </EmptyHeader>
+      <EmptyContent>
+        <Button size="sm" href={notFound.cta_href}>
+          {notFound.cta_text}
+        </Button>
+      </EmptyContent>
+    </Empty>
   </main>
 </SiteLayout>

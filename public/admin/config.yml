@@ -65,15 +65,15 @@ collections:
           - { label: Message Placeholder, name: message_placeholder, widget: string, required: false }
           - { label: Form Helper, name: form_helper, widget: string, required: false }
           - { label: Submit Text, name: submit_text, widget: string, required: false }
-          - { label: Status: Sending, name: messages_sending, widget: string, required: false }
-          - { label: Status: Success, name: messages_success, widget: string, required: false }
-          - { label: Status: Generic Error, name: messages_generic_error, widget: string, required: false }
-          - { label: Status: Network Error, name: messages_network_error, widget: string, required: false }
-          - { label: Status: Rate Limit, name: messages_rate_limit, widget: string, required: false }
-          - { label: Status: Check Fields, name: messages_check_fields, widget: string, required: false }
-          - { label: Error: Name Length, name: messages_name_length, widget: string, required: false }
-          - { label: Error: Email Invalid, name: messages_email_invalid, widget: string, required: false }
-          - { label: Error: Message Length, name: messages_message_length, widget: string, required: false }
+          - { label: "Status: Sending", name: messages_sending, widget: string, required: false }
+          - { label: "Status: Success", name: messages_success, widget: string, required: false }
+          - { label: "Status: Generic Error", name: messages_generic_error, widget: string, required: false }
+          - { label: "Status: Network Error", name: messages_network_error, widget: string, required: false }
+          - { label: "Status: Rate Limit", name: messages_rate_limit, widget: string, required: false }
+          - { label: "Status: Check Fields", name: messages_check_fields, widget: string, required: false }
+          - { label: "Error: Name Length", name: messages_name_length, widget: string, required: false }
+          - { label: "Error: Email Invalid", name: messages_email_invalid, widget: string, required: false }
+          - { label: "Error: Message Length", name: messages_message_length, widget: string, required: false }
           - { label: Body, name: body, widget: markdown, required: false }
       - label: About
         name: about
@@ -242,15 +242,15 @@ collections:
           - { label: Placeholder Mensaje, name: message_placeholder, widget: string, required: false }
           - { label: Ayuda del formulario, name: form_helper, widget: string, required: false }
           - { label: Texto del botón, name: submit_text, widget: string, required: false }
-          - { label: Estado: Enviando, name: messages_sending, widget: string, required: false }
-          - { label: Estado: Éxito, name: messages_success, widget: string, required: false }
-          - { label: Estado: Error genérico, name: messages_generic_error, widget: string, required: false }
-          - { label: Estado: Error de red, name: messages_network_error, widget: string, required: false }
-          - { label: Estado: Límite de peticiones, name: messages_rate_limit, widget: string, required: false }
-          - { label: Estado: Revisar campos, name: messages_check_fields, widget: string, required: false }
-          - { label: Error: Longitud del nombre, name: messages_name_length, widget: string, required: false }
-          - { label: Error: Correo inválido, name: messages_email_invalid, widget: string, required: false }
-          - { label: Error: Longitud del mensaje, name: messages_message_length, widget: string, required: false }
+          - { label: "Estado: Enviando", name: messages_sending, widget: string, required: false }
+          - { label: "Estado: Éxito", name: messages_success, widget: string, required: false }
+          - { label: "Estado: Error genérico", name: messages_generic_error, widget: string, required: false }
+          - { label: "Estado: Error de red", name: messages_network_error, widget: string, required: false }
+          - { label: "Estado: Límite de peticiones", name: messages_rate_limit, widget: string, required: false }
+          - { label: "Estado: Revisar campos", name: messages_check_fields, widget: string, required: false }
+          - { label: "Error: Longitud del nombre", name: messages_name_length, widget: string, required: false }
+          - { label: "Error: Correo inválido", name: messages_email_invalid, widget: string, required: false }
+          - { label: "Error: Longitud del mensaje", name: messages_message_length, widget: string, required: false }
           - { label: Contenido, name: body, widget: markdown, required: false }
       - label: Acerca de
         name: about
@@ -419,15 +419,15 @@ collections:
           - { label: Placeholder Message, name: message_placeholder, widget: string, required: false }
           - { label: Aide du formulaire, name: form_helper, widget: string, required: false }
           - { label: Texte du bouton, name: submit_text, widget: string, required: false }
-          - { label: Statut: Envoi, name: messages_sending, widget: string, required: false }
-          - { label: Statut: Succès, name: messages_success, widget: string, required: false }
-          - { label: Statut: Erreur générique, name: messages_generic_error, widget: string, required: false }
-          - { label: Statut: Erreur réseau, name: messages_network_error, widget: string, required: false }
-          - { label: Statut: Limite atteinte, name: messages_rate_limit, widget: string, required: false }
-          - { label: Statut: Vérifier champs, name: messages_check_fields, widget: string, required: false }
-          - { label: Erreur: Longueur du nom, name: messages_name_length, widget: string, required: false }
-          - { label: Erreur: E-mail invalide, name: messages_email_invalid, widget: string, required: false }
-          - { label: Erreur: Longueur du message, name: messages_message_length, widget: string, required: false }
+          - { label: "Statut: Envoi", name: messages_sending, widget: string, required: false }
+          - { label: "Statut: Succès", name: messages_success, widget: string, required: false }
+          - { label: "Statut: Erreur générique", name: messages_generic_error, widget: string, required: false }
+          - { label: "Statut: Erreur réseau", name: messages_network_error, widget: string, required: false }
+          - { label: "Statut: Limite atteinte", name: messages_rate_limit, widget: string, required: false }
+          - { label: "Statut: Vérifier champs", name: messages_check_fields, widget: string, required: false }
+          - { label: "Erreur: Longueur du nom", name: messages_name_length, widget: string, required: false }
+          - { label: "Erreur: E-mail invalide", name: messages_email_invalid, widget: string, required: false }
+          - { label: "Erreur: Longueur du message", name: messages_message_length, widget: string, required: false }
           - { label: Contenu, name: body, widget: markdown, required: false }
       - label: À propos
         name: about

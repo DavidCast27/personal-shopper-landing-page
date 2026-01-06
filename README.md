@@ -1,6 +1,6 @@
-# Personal Shopper Landing (Astro + Decap CMS)
+# Landing Page (Astro + Decap CMS)
 
-Multilingual landing site (EN/ES/FR) for a Personal Shopper. Static-first Astro project with Tailwind and Decap CMS editing, plus a Resend-powered contact form. Focused on simplicity, maintainability, and good i18n UX/SEO.
+Multilingual landing site (EN/ES/FR) for a Landing Page. Static-first Astro project with Tailwind and Decap CMS editing, plus a Resend-powered contact form. Focused on simplicity, maintainability, and good i18n UX/SEO.
 
 ## Overview
 - Astro (SSG) with Tailwind utilities only, no React/Vue/Svelte.

@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: DavidCast27/personal-shopper-landing-page
+  repo: DavidCast27/landing-page
   branch: main
   site_domain: localhost:4321
   base_url: http://localhost:4321

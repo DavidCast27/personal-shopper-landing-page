@@ -7,15 +7,15 @@ const placeholderImage = "/uploads/image-placeholder.daj0efyq_29eycw.webp";
 
 const testimonials = await getTestimonials("es");
 const items = testimonials.map((t) => ({
-  title: (t.frontmatter.title as string) ?? "Testimonio",
+  title: t.title,
   description: t.body || "",
   rating: t.rating ?? 5,
   item: {
-    title: (t.frontmatter.author as string) ?? "Cliente",
-    description: (t.frontmatter.role as string) ?? "",
+    title: t.author || "Cliente",
+    description: t.role || "",
     image: {
-      src: (t.frontmatter.avatar as string) ?? placeholderImage,
-      alt: (t.frontmatter.author as string) ?? "Cliente",
+      src: t.avatar || placeholderImage,
+      alt: t.author || "Cliente",
     },
   },
 }));

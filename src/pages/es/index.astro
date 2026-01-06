@@ -3,76 +3,57 @@ import SiteLayout from "../../layouts/SiteLayout.astro";
 import HeroBlock from "@/components/blocks/hero-3.astro";
 import ServicesBlock from "@/components/blocks/services-7.astro";
 import HowItWorks from "@/components/blocks/how-it-works-1.astro";
-import FAQBlock from "@/components/blocks/faqs-3.astro";
 import CTABlock from "@/components/blocks/cta-8.astro";
-import { getHome, getHowItWorks } from "@/lib/content";
+import { getHome, getHowItWorks, getServices } from "@/lib/content";
 
 const placeholderImage = "/uploads/image-placeholder.daj0efyq_29eycw.webp";
 
 const home = await getHome("es");
 const steps = await getHowItWorks("es");
-const fm = home.frontmatter as {
-  title?: string;
-  description?: string;
-  hero_title?: string;
-  hero_subtitle?: string;
-  hero_cta_text?: string;
-  hero_cta_href?: string;
-  hero_image?: string;
-  hero_image_alt?: string;
-};
+const services = await getServices("es");
+// Home content is normalized in lib/content.ts
 ---
 
 <SiteLayout
   lang="es"
-  title={fm.title ?? "Personal Shopper – ES"}
-  description={fm.description ?? "Servicios de personal shopper en Canadá"}
+  title={home.title}
+  description={home.description}
 >
   <HeroBlock
     image={{
-      src: fm.hero_image ?? placeholderImage,
-      alt: fm.hero_image_alt ?? "Personal Shopper",
+      src: home.hero_image || placeholderImage,
+      alt: home.hero_image_alt,
       width: 256,
       height: 256,
     }}
     links={[
       {
-        text: fm.hero_cta_text ?? "Reservar",
-        href: fm.hero_cta_href ?? "/es/contact",
+        text: home.hero_cta_text,
+        href: home.hero_cta_href,
       },
       { text: "Saber más", href: "/es/services" },
     ]}
   >
-    <h1>{fm.hero_title ?? fm.title ?? "Personal Shopper en Canadá"}</h1>
+    <h1>{home.hero_title}</h1>
     <p>
       {
-        fm.hero_subtitle ??
-          fm.description ??
-          "Servicios de personal shopper en Canadá."
+        home.hero_subtitle
       }
     </p>
   </HeroBlock>
   <ServicesBlock
-    items={[
-      {
-        title: "Auditoría de guardarropa",
-        description: "Lorem ipsum dolor sit amet.",
-        image: { src: placeholderImage, alt: "", width: 256, height: 256 },
-        links: [{ text: "Saber más", href: "/es/services" }],
+    items={services.map((service) => ({
+      href: `/es/services#${service.slug}`,
+      title: service.title,
+      description: service.description,
+      image: {
+        src: service.image || placeholderImage,
+        alt: service.title,
+        width: 256,
+        height: 256,
       },
-      {
-        title: "Compra personal",
-        description: "Consectetur adipiscing elit.",
-        image: { src: placeholderImage, alt: "", width: 256, height: 256 },
-        links: [{ text: "Saber más", href: "/es/services" }],
-      },
-      {
-        title: "Estilismo para eventos",
-        description: "Sed do eiusmod tempor.",
-        image: { src: placeholderImage, alt: "", width: 256, height: 256 },
-        links: [{ text: "Saber más", href: "/es/services" }],
-      },
-    ]}
+      links: [{ text: "Saber más", href: `/es/services` }],
+    }))}
   >
     <h2>Servicios</h2>
     <p>Conoce nuestra oferta adaptada a ti.</p>
@@ -80,27 +61,13 @@ const fm = home.frontmatter as {
   <HowItWorks
     title="Pasos simples para empezar"
     items={steps.map((s) => ({
-      title: s.frontmatter.title as string,
-      description: s.frontmatter.description as string,
+      title: s.title,
+      description: s.description,
       link_text: s.link_text,
       link_href: s.link_href,
     }))}
   />
-  <FAQBlock
-    items={[
-      {
-        title: "¿Cómo funcionan las sesiones?",
-        description: "Lorem ipsum dolor sit amet.",
-      },
-      {
-        title: "¿Ofrecen servicio virtual?",
-        description: "Consectetur adipiscing elit.",
-      },
-    ]}
-  >
-    <h2>FAQ</h2>
-    <p>Respuestas a preguntas frecuentes.</p>
-  </FAQBlock>
+
   <CTABlock
     item={{
       rating: 5,

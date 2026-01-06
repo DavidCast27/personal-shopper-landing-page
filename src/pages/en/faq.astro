@@ -5,7 +5,7 @@ import { getFaq } from "@/lib/content";
 import { stripMarkdown } from "@/lib/markdown";
 
 const items = (await getFaq("en")).map((q) => ({
-  title: (q.frontmatter.question as string) ?? q.slug,
+  title: q.question,
   description: stripMarkdown(q.body || ""),
 }));
 ---

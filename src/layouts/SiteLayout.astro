@@ -171,10 +171,28 @@ const site = await getSiteSettings(lang as any).catch(() => undefined);
 const headerMenu = await getHeaderMenu(lang as any).catch(() => []);
 const footerLinks = await getFooterLinks(lang as any).catch(() => []);
 
-// Map header menu
-const headerMenusFromCms = headerMenu.map((i) => ({
-  text: (i.frontmatter.text as string) ?? i.slug,
-  href: (i.frontmatter.href as string) ?? "#",
+// Map header menu with optional submenus via `parent` linking to parent's slug
+const headerChildren = headerMenu
+  .filter((i) => i.parent)
+  .reduce((acc: Record<string, typeof headerMenu>, item) => {
+    const key = item.parent as string
+    if (!acc[key]) acc[key] = [] as unknown as typeof headerMenu
+    acc[key].push(item)
+    return acc
+  }, {})
+
+const sortByOrder = <T extends { order?: number }>(arr: T[]) =>
+  [...arr].sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+
+const headerMenusFromCms = sortByOrder(
+  headerMenu.filter((i) => !i.parent)
+).map((i) => ({
+  text: i.text,
+  href: i.href,
+  links: sortByOrder(headerChildren[i.slug] || []).map((c) => ({
+    text: c.text,
+    href: c.href,
+  })),
 }));
 
 // Map footer menus grouped by section
@@ -187,11 +205,11 @@ const footerMenusFromCms = Object.values(
       >,
       i
     ) => {
-      const section = (i.frontmatter.section as string) || i.section || "Links";
+      const section = i.section || "Links";
       if (!acc[section]) acc[section] = { text: section, links: [] };
       acc[section].links.push({
-        text: (i.frontmatter.text as string) ?? i.slug,
-        href: (i.frontmatter.href as string) ?? "#",
+        text: i.text,
+        href: i.href,
       });
       return acc;
     },

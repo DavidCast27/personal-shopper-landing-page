@@ -3,76 +3,57 @@ import SiteLayout from "../../layouts/SiteLayout.astro";
 import HeroBlock from "@/components/blocks/hero-3.astro";
 import ServicesBlock from "@/components/blocks/services-7.astro";
 import HowItWorks from "@/components/blocks/how-it-works-1.astro";
-import FAQBlock from "@/components/blocks/faqs-3.astro";
 import CTABlock from "@/components/blocks/cta-8.astro";
-import { getHome, getHowItWorks } from "@/lib/content";
+import { getHome, getHowItWorks, getServices } from "@/lib/content";
 
 const placeholderImage = "/uploads/image-placeholder.daj0efyq_29eycw.webp";
 
 const home = await getHome("en");
 const steps = await getHowItWorks("en");
-const fm = home.frontmatter as {
-  title?: string;
-  description?: string;
-  hero_title?: string;
-  hero_subtitle?: string;
-  hero_cta_text?: string;
-  hero_cta_href?: string;
-  hero_image?: string;
-  hero_image_alt?: string;
-};
+const services = await getServices("en");
+// Home content is normalized in lib/content.ts
 ---
 
 <SiteLayout
   lang="en"
-  title={fm.title ?? "Personal Shopper – EN"}
-  description={fm.description ?? "Personal shopper services in Canada"}
+  title={home.title}
+  description={home.description}
 >
   <HeroBlock
     image={{
-      src: fm.hero_image ?? placeholderImage,
-      alt: fm.hero_image_alt ?? "Personal Shopper",
+      src: home.hero_image || placeholderImage,
+      alt: home.hero_image_alt,
       width: 256,
       height: 256,
     }}
     links={[
       {
-        text: fm.hero_cta_text ?? "Book a consult",
-        href: fm.hero_cta_href ?? "/en/contact",
+        text: home.hero_cta_text,
+        href: home.hero_cta_href,
       },
       { text: "Learn more", href: "/en/services" },
     ]}
   >
-    <h1>{fm.hero_title ?? fm.title ?? "Personal Shopper in Canada"}</h1>
+    <h1>{home.hero_title}</h1>
     <p>
       {
-        fm.hero_subtitle ??
-          fm.description ??
-          "Personal shopping and styling services in Canada."
+        home.hero_subtitle
       }
     </p>
   </HeroBlock>
   <ServicesBlock
-    items={[
-      {
-        title: "Wardrobe Audit",
-        description: "Lorem ipsum dolor sit amet.",
-        image: { src: placeholderImage, alt: "", width: 256, height: 256 },
-        links: [{ text: "Learn more", href: "/en/services" }],
+    items={services.map((service) => ({
+      href: `/en/services#${service.slug}`,
+      title: service.title,
+      description: service.description,
+      image: {
+        src: service.image || placeholderImage,
+        alt: service.title,
+        width: 256,
+        height: 256,
       },
-      {
-        title: "Personal Shopping",
-        description: "Consectetur adipiscing elit.",
-        image: { src: placeholderImage, alt: "", width: 256, height: 256 },
-        links: [{ text: "Learn more", href: "/en/services" }],
-      },
-      {
-        title: "Event Styling",
-        description: "Sed do eiusmod tempor.",
-        image: { src: placeholderImage, alt: "", width: 256, height: 256 },
-        links: [{ text: "Learn more", href: "/en/services" }],
-      },
-    ]}
+      links: [{ text: "Learn more", href: `/en/services` }],
+    }))}
   >
     <h2>Services</h2>
     <p>Explore our offering tailored to your needs.</p>
@@ -80,27 +61,12 @@ const fm = home.frontmatter as {
   <HowItWorks
     title="Simple steps to get started"
     items={steps.map((s) => ({
-      title: s.frontmatter.title as string,
-      description: s.frontmatter.description as string,
+      title: s.title,
+      description: s.description,
       link_text: s.link_text,
       link_href: s.link_href,
     }))}
   />
-  <FAQBlock
-    items={[
-      {
-        title: "How do sessions work?",
-        description: "Lorem ipsum dolor sit amet.",
-      },
-      {
-        title: "Do you offer virtual?",
-        description: "Consectetur adipiscing elit.",
-      },
-    ]}
-  >
-    <h2>FAQ</h2>
-    <p>Answers to common questions.</p>
-  </FAQBlock>
   <CTABlock
     item={{
       rating: 5,

@@ -12,24 +12,19 @@ export async function getStaticPaths() {
 
 const { slug } = Astro.params;
 const post = await getPost("en", slug!);
-const fm = post.frontmatter as {
-  title?: string;
-  description?: string;
-  image?: string;
-};
-const title = fm.title ?? post.slug;
+const title = post.title;
 ---
 
 <SiteLayout
   lang="en"
   title={`${title} – Personal Shopper`}
-  description={fm.description ?? "Blog post"}
+  description={post.description || "Blog post"}
 >
   <ArticleBlock
     title={title}
-    description={fm.description ?? ""}
+    description={post.description || ""}
     image={{
-      src: fm.image ?? placeholderImage,
+      src: post.image ?? placeholderImage,
       alt: title,
       width: 672,
       height: 378,

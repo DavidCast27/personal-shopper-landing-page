@@ -7,12 +7,12 @@ const placeholderImage = "/uploads/image-placeholder.daj0efyq_29eycw.webp";
 
 const posts = await getBlogPosts("fr");
 const items = posts.map((p) => ({
-  title: (p.frontmatter.title as string) ?? p.slug,
-  description: (p.frontmatter.description as string) ?? "",
+  title: p.title,
+  description: p.description,
   href: `/fr/blog/${p.slug}`,
   image: {
-    src: (p.frontmatter.image as string) ?? placeholderImage,
-    alt: (p.frontmatter.title as string) ?? p.slug,
+    src: p.image || placeholderImage,
+    alt: p.title,
     width: 600,
     height: 338,
   },

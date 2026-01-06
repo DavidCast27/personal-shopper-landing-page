@@ -27,6 +27,7 @@ interface Props {
     href?: string;
   }[];
   items?: {
+    id?: string;
     href?: string;
     tagline?: string;
     title?: string;
@@ -66,8 +67,8 @@ const { class: className, id, links, items } = Astro.props;
   </SectionSpread>
   <SectionGrid>
     {
-      items?.map(({ title, tagline, description, href, image }) => (
-        <Tile href={href} variant="floating">
+      items?.map(({ id, title, tagline, description, href, image }) => (
+        <Tile id={id} href={href} variant="floating">
           <TileMedia class="-mx-6 -mt-6 aspect-4/3">
             <Image class="size-full! object-cover" sizes="600px" {...image} />
           </TileMedia>

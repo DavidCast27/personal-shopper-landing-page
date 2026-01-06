@@ -7,11 +7,13 @@ const placeholderImage = "/uploads/image-placeholder.daj0efyq_29eycw.webp";
 
 const services = await getServices("en");
 const items = services.map((s) => ({
-  title: (s.frontmatter.title as string) ?? s.slug,
-  description: (s.frontmatter.description as string) ?? "",
+  id: s.slug,
+  href: `#${s.slug}`,
+  title: s.title,
+  description: s.description,
   image: {
-    src: (s.frontmatter.image as string) ?? placeholderImage,
-    alt: (s.frontmatter.title as string) ?? s.slug,
+    src: s.image || placeholderImage,
+    alt: s.title,
     width: 256,
     height: 256,
   },

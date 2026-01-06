@@ -4,8 +4,8 @@
 4. [complete] revisar el home creo que esta hard code y no usa el cms... se paso todo al cms
 5. [complete] usar tokens en lugar de valores hardcode de tailwind
 6. revisar cuales acciones como el formulario o el theme toggle podemos pasarlos a preact o react o svelte para quitar muchos micro scripts
-7. desplegar en vercel
+7. [complete] desplegar en vercel
 8. agregar documentacion como arquitectura buenas practicas todo lo necesario para ia
 9. [complete] unificar imports de íconos (lucide) para eliminar warnings de Vite (adoptar una única estrategia: estáticos o dinámicos)
 10. crear componente de empty state reutilizable (listas vacías, blog sin posts, etc.)
-11. agregar página 404 con SiteLayout, mensajes y enlaces por idioma
+11. [complete]  agregar página 404 con SiteLayout, mensajes y enlaces por idioma

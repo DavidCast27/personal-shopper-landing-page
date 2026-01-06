@@ -104,6 +104,14 @@ collections:
           - { label: Title, name: title, widget: string }
           - { label: Description, name: description, widget: text, required: false }
           - { label: Body, name: body, widget: markdown, required: false }
+      - label: Not Found (404)
+        name: not_found
+        file: content/en/not-found.md
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Description, name: description, widget: text, required: false }
+          - { label: CTA Text, name: cta_text, widget: string, required: false }
+          - { label: CTA Href, name: cta_href, widget: string, required: false }
 
   - name: blog_en
     label: Blog (EN)
@@ -281,6 +289,14 @@ collections:
           - { label: Título, name: title, widget: string }
           - { label: Descripción, name: description, widget: text, required: false }
           - { label: Contenido, name: body, widget: markdown, required: false }
+      - label: No Encontrada (404)
+        name: not_found
+        file: content/es/not-found.md
+        fields:
+          - { label: Título, name: title, widget: string }
+          - { label: Descripción, name: description, widget: text, required: false }
+          - { label: Texto CTA, name: cta_text, widget: string, required: false }
+          - { label: Enlace CTA, name: cta_href, widget: string, required: false }
 
   - name: blog_es
     label: Blog (ES)
@@ -458,6 +474,14 @@ collections:
           - { label: Titre, name: title, widget: string }
           - { label: Description, name: description, widget: text, required: false }
           - { label: Contenu, name: body, widget: markdown, required: false }
+      - label: Introuvable (404)
+        name: not_found
+        file: content/fr/not-found.md
+        fields:
+          - { label: Titre, name: title, widget: string }
+          - { label: Description, name: description, widget: text, required: false }
+          - { label: Texte CTA, name: cta_text, widget: string, required: false }
+          - { label: Lien CTA, name: cta_href, widget: string, required: false }
 
   - name: blog_fr
     label: Blog (FR)

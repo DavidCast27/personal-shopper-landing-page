@@ -504,6 +504,78 @@ export async function getFooterLinks(locale: Locale): Promise<FooterLinkItem[]> 
   return items
 }
 
+// Not Found (404) content
+export interface NotFoundFrontmatter extends Frontmatter {
+  title?: string
+  description?: string
+  cta_text?: string
+  cta_href?: string
+}
+
+export interface NotFoundPage extends PageContent<NotFoundFrontmatter> {
+  title: string
+  description: string
+  cta_text: string
+  cta_href: string
+}
+
+const NOT_FOUND_DEFAULTS: Record<Locale, {
+  title: string
+  description: string
+  cta_text: string
+  cta_href: string
+}> = {
+  en: {
+    title: 'Page not found',
+    description: "The page you're looking for doesn’t exist or was moved.",
+    cta_text: 'Back to home',
+    cta_href: '/en',
+  },
+  es: {
+    title: 'Página no encontrada',
+    description: 'La página que buscas no existe o se ha movido.',
+    cta_text: 'Volver al inicio',
+    cta_href: '/es',
+  },
+  fr: {
+    title: 'Page introuvable',
+    description: "La page que vous cherchez n’existe pas ou a été déplacée.",
+    cta_text: 'Retour à l’accueil',
+    cta_href: '/fr',
+  },
+}
+
+export async function getNotFound(locale: Locale): Promise<NotFoundPage> {
+  ensureLocale(locale)
+  const path = `/content/${locale}/not-found.md`
+  const raw = getRaw(path)
+  const d = NOT_FOUND_DEFAULTS[locale]
+  if (!raw) {
+    return {
+      locale,
+      path,
+      frontmatter: {},
+      body: '',
+      title: d.title,
+      description: d.description,
+      cta_text: d.cta_text,
+      cta_href: d.cta_href,
+    }
+  }
+  const { frontmatter, body } = parseFrontmatter(raw)
+  const fm = frontmatter as NotFoundFrontmatter
+  return {
+    locale,
+    path,
+    frontmatter: fm,
+    body,
+    title: fm.title || d.title,
+    description: fm.description || d.description,
+    cta_text: fm.cta_text || d.cta_text,
+    cta_href: fm.cta_href || d.cta_href,
+  }
+}
+
 export interface HowItWorksItem extends PageContent {
   order?: number
   icon?: string

@@ -1,0 +1,38 @@
+---
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import { getNotFound } from "@/lib/content";
+
+const SUPPORTED = ["en", "es", "fr"] as const;
+type Supported = (typeof SUPPORTED)[number];
+
+function detectLang(pathname: string): Supported {
+  const seg = pathname.split("/").filter(Boolean)[0] as string | undefined;
+  if (seg && (SUPPORTED as readonly string[]).includes(seg)) return seg as Supported;
+  return "en";
+}
+
+const lang = detectLang(Astro.url.pathname);
+const notFound = await getNotFound(lang);
+const title = `404 — ${notFound.title}`;
+const description = notFound.description;
+---
+
+<SiteLayout title={title} description={description} lang={lang}>
+  <main class="mx-auto flex min-h-[60vh] max-w-3xl flex-col items-center justify-center px-6 text-center">
+    <p class="mb-3 text-sm font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400">
+      404
+    </p>
+    <h1 class="mb-4 text-4xl font-bold tracking-tight sm:text-5xl">
+      {notFound.title}
+    </h1>
+    <p class="mb-8 text-balance text-gray-600 dark:text-gray-300">
+      {notFound.description}
+    </p>
+
+    <div class="flex flex-wrap items-center justify-center gap-3">
+      <a href={notFound.cta_href} class="inline-flex items-center rounded-md bg-black px-4 py-2 text-white shadow hover:opacity-90 dark:bg-white dark:text-black">
+        {notFound.cta_text}
+      </a>
+    </div>
+  </main>
+</SiteLayout>

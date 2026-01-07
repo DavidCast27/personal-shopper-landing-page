@@ -3,8 +3,8 @@
 Esta guía explica cómo agregar un nuevo idioma (p. ej. `pt`) al sitio.
 
 Requisitos previos:
-- Estructura actual con rutas dinámicas `src/pages/[lang]/...`.
-- Contenido en `/content/<lang>/...`.
+- Rutas dinámicas `src/pages/[lang]/...`.
+- Contenido unificado en YAML bajo `src/content/**` (no hace falta crear carpetas por idioma).
 
 ## 1) Declarar el idioma en el código
 
@@ -45,42 +45,28 @@ const pt: Dict = {
 const D: Record<Lang, Dict> = { en, es, fr, pt }
 ```
 
-## 3) Contenido por idioma
+## 3) Contenido por idioma (YAML unificado)
 
-Crea la carpeta `content/pt` con los archivos mínimos. Estructura recomendada:
+No se crean carpetas por idioma. En su lugar, agrega campos con sufijo `_pt` en los YAML existentes dentro de `src/content/**`.
 
-```
-content/pt/
-  site.md                  # Ajustes del sitio (logo, CTA, etc.)
-  home.md                  # Portada
-  about.md                 # Sobre mí/nosotros
-  blog/                    # Entradas del blog (opcional)
-    minha-primeira-postagem.md
-  services/                # Servicios (cada servicio en un .md)
-    servico-1.md
-    servico-2.md
-  faq/
-    pergunta-1.md
-  testimonials/
-    depoimento-1.md
-  howitworks/
-    passo-1.md
-  nav/
-    header/
-      link-1.md
-  footer/
-    links/
-      categoria-1.md
-  not-found.md             # Copia para 404 (opcional; hay defaults)
-```
+Dónde editar:
+- Páginas: `src/content/pages/*.yml` (home, about, blog, services, testimonials, faq, contact, not-found)
+- Blog: `src/content/blog_entries/*.yml`
+- Servicios: `src/content/service_entries/*.yml`
+- How It Works: `src/content/howitworks_entries/*.yml`
+- Testimonios: `src/content/testimonial_entries/*.yml`
+- FAQ: `src/content/faq_entries/*.yml`
+- Menús: `src/content/menus/{header,footer}.yml`
+- Ajustes: `src/content/settings.yml`
 
-Campos útiles de frontmatter (según `src/lib/content.ts`):
-- Páginas (`home.md`, `about.md`, `services.md`, `blog.md`, `faq.md`, `testimonials.md`, `contact.md`): `title`, `description`.
-- Home: `hero_*`, `services_*`, `steps_title`, `cta_*`.
-- Servicios: por archivo en `services/` → `title`, `description`, `image`, `price`, `order`.
-- FAQ: `question`, `order`.
-- Testimonios: `title`, `author`, `role`, `avatar`, `rating`, `order`.
-- Navegación/footers: `text`, `href`, `order`, etc.
+Convenciones de campos:
+- Campos localizados: añade sufijo `_pt` (ej.: `title_pt`, `description_pt`, `body_pt`, `hero_title_pt`, `question_pt`, `link_text_pt`, etc.).
+- Campos globales: sin sufijo (ej.: `slug`, `date`, `image`, `order`).
+- Precio en servicios: el loader ya usa `price_pt` si existe, y si no, cae en `price`.
+
+Importante: reflejar estos campos en el CMS.
+- Edita `public/admin/config.yml` y agrega los campos para PT en cada colección y página (p. ej., “Title (PT) → name: title_pt”, “Body (PT) → name: body_pt”, etc.).
+- En servicios puedes añadir “Price (PT) → name: price_pt” si deseas precio localizado.
 
 ## 4) Rutas dinámicas `[lang]`
 
@@ -111,6 +97,16 @@ export async function getStaticPaths() { return staticPathsForSlugs(getAlgo) }
 - `src/layouts/SiteLayout.astro` ya usa `Lang`.
 - `src/components/ui/lang-switcher` también consume `SUPPORTED`, por lo que el nuevo idioma aparece automáticamente.
 
+## 5.5) Carga de YAML localizada
+
+El helper `localizeYaml` actualmente mapea claves con sufijo fijo. Si agregas un idioma nuevo, asegúrate de que soporte ese sufijo:
+
+Opciones:
+- Rápida: añade `pt` al regex dentro de `localizeYaml` en `src/lib/content.ts`.
+- Recomendado: generaliza `localizeYaml` para usar la lista `SUPPORTED` y detectar cualquier sufijo dinámicamente.
+
+¿Quieres que lo deje dinámico ahora? Puedo actualizarlo en el código.
+
 ## 6) Acciones del formulario de contacto
 
 - `src/actions/index.ts` ya valida el idioma con `isLang`/`Lang` desde `src/lib/lang.ts`. No requiere cambios.
@@ -134,12 +130,14 @@ npm run build && npm run preview
   - `/<lang>/services` y `/<lang>/services/<slug>`
   - `/<lang>/blog` y `/<lang>/blog/<slug>`
   - `/<lang>/faq`, `/<lang>/testimonials`, `/<lang>/contact`, `/<lang>/contact/success`
+  - Revisa que el contenido PT aparezca al completar campos `_pt` en YAML.
 
 ## 9) Checklist rápido
 
 - [ ] `SUPPORTED` actualizado y tipos consistentes.
 - [ ] Diccionario `i18n` con todas las claves necesarias.
-- [ ] Contenido base creado en `content/<lang>/...`.
+- [ ] Campos `_pt` añadidos en `src/content/**` según corresponda.
+- [ ] `public/admin/config.yml` actualizado con campos PT en Pages y colecciones.
 - [ ] SEO `mapOgLocale` ajustado si aplica.
 - [ ] Build y preview sin errores.
 

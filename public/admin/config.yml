@@ -29,7 +29,7 @@ collections:
     files:
       - label: Home
         name: home
-        file: content/pages/home.yml
+        file: src/content/pages/home.yml
         fields:
           - { label: Hero Image, name: hero_image, widget: image, required: false }
           - { label: Title (EN), name: title_en, widget: string }
@@ -91,7 +91,7 @@ collections:
           - { label: Body (FR), name: body_fr, widget: markdown, required: false }
       - label: About
         name: about
-        file: content/pages/about.yml
+        file: src/content/pages/about.yml
         fields:
           - { label: Title (EN), name: title_en, widget: string }
           - { label: Description (EN), name: description_en, widget: text, required: false }
@@ -104,7 +104,7 @@ collections:
           - { label: Body (FR), name: body_fr, widget: markdown, required: false }
       - label: Blog
         name: blog
-        file: content/pages/blog.yml
+        file: src/content/pages/blog.yml
         fields:
           - { label: Title (EN), name: title_en, widget: string }
           - { label: Description (EN), name: description_en, widget: text, required: false }
@@ -117,7 +117,7 @@ collections:
           - { label: Body (FR), name: body_fr, widget: markdown, required: false }
       - label: Services (page)
         name: services
-        file: content/pages/services.yml
+        file: src/content/pages/services.yml
         fields:
           - { label: Title (EN), name: title_en, widget: string }
           - { label: Description (EN), name: description_en, widget: text, required: false }
@@ -130,7 +130,7 @@ collections:
           - { label: Body (FR), name: body_fr, widget: markdown, required: false }
       - label: Testimonials (page)
         name: testimonials
-        file: content/pages/testimonials.yml
+        file: src/content/pages/testimonials.yml
         fields:
           - { label: Title (EN), name: title_en, widget: string }
           - { label: Description (EN), name: description_en, widget: text, required: false }
@@ -143,7 +143,7 @@ collections:
           - { label: Body (FR), name: body_fr, widget: markdown, required: false }
       - label: FAQ (page)
         name: faq
-        file: content/pages/faq.yml
+        file: src/content/pages/faq.yml
         fields:
           - { label: Title (EN), name: title_en, widget: string }
           - { label: Description (EN), name: description_en, widget: text, required: false }
@@ -156,7 +156,7 @@ collections:
           - { label: Body (FR), name: body_fr, widget: markdown, required: false }
       - label: Contact
         name: contact
-        file: content/pages/contact.yml
+        file: src/content/pages/contact.yml
         fields:
           - { label: Title (EN), name: title_en, widget: string }
           - { label: Description (EN), name: description_en, widget: text, required: false }
@@ -220,7 +220,7 @@ collections:
           - { label: Body (FR), name: body_fr, widget: markdown, required: false }
       - label: Not Found (404)
         name: not_found
-        file: content/pages/not-found.yml
+        file: src/content/pages/not-found.yml
         fields:
           - { label: Title (EN), name: title_en, widget: string }
           - { label: Description (EN), name: description_en, widget: text, required: false }
@@ -240,7 +240,7 @@ collections:
 
   - name: "services_entries"
     label: "Services"
-    folder: "content/service_entries"
+    folder: "src/content/service_entries"
     create: true
     slug: "{{slug}}"
     summary: "#{{order}} · {{title_en}} · {{price}}"
@@ -268,7 +268,7 @@ collections:
 
   - name: "faq_entries"
     label: "FAQ"
-    folder: "content/faq_entries"
+    folder: "src/content/faq_entries"
     create: true
     slug: "{{slug}}"
     summary: "#{{order}} · {{question_en}}"
@@ -289,7 +289,7 @@ collections:
 
   - name: "testimonials_entries"
     label: "Testimonials"
-    folder: "content/testimonial_entries"
+    folder: "src/content/testimonial_entries"
     create: true
     slug: "{{slug}}"
     summary: "#{{order}} · {{author}} · {{title_en}}"
@@ -339,7 +339,7 @@ collections:
 
   - name: "howitworks_entries"
     label: "How It Works"
-    folder: "content/howitworks_entries"
+    folder: "src/content/howitworks_entries"
     create: true
     slug: "{{slug}}"
     summary: "#{{order}} · {{title_en}}"
@@ -372,7 +372,7 @@ collections:
     files:
       - label: "Global Settings"
         name: "global_settings"
-        file: "content/settings.yml"
+        file: "src/content/settings.yml"
         fields:
           - { label: "Logo Image", name: "logo_src", widget: "image", required: false }
           - { label: "Logo Href", name: "logo_href", widget: "string", required: false }
@@ -393,7 +393,7 @@ collections:
           - { label: "Footer Description (FR)", name: "footer_description_fr", widget: "text", required: false }
       - label: "Header Menu"
         name: "header_menu"
-        file: "content/menus/header.yml"
+        file: "src/content/menus/header.yml"
         fields:
           - name: "links"
             label: "Links"
@@ -411,7 +411,7 @@ collections:
               - { label: "URL (FR)", name: "url_fr", widget: "string" }
       - label: "Footer Links"
         name: "footer_links"
-        file: "content/menus/footer.yml"
+        file: "src/content/menus/footer.yml"
         fields:
           - name: "links"
             label: "Links"
@@ -430,7 +430,7 @@ collections:
   # Unified Blog (single file per post with locale-suffixed fields)
   - name: "blog_entries"
     label: "Blog"
-    folder: "content/blog_entries"
+    folder: "src/content/blog_entries"
     create: true
     slug: "{{slug}}"
     summary: "{{title_en}} · {{date}}"

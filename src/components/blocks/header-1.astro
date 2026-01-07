@@ -140,7 +140,7 @@ const { logo, menus, links, socials, lang, path } = Astro.props;
       <Icon name="menu" class="size-5" />
     </SheetTrigger>
     <SheetContent class="overflow-y-auto px-4 py-12">
-      <SidebarMenu>
+      <SidebarMenu class="mb-auto">
         {
           menus?.map((menu) => (
             <SidebarMenuItem>
@@ -175,6 +175,17 @@ const { logo, menus, links, socials, lang, path } = Astro.props;
           ))
         }
       </SidebarMenu>
+      {lang && path && <LangSwitcher lang={lang} pathname={path} />}
+
+      <HeaderActions>
+        {
+          socials?.map((social) => (
+            <Button variant="ghost" size="icon" href={social}>
+              <Icon href={social} />
+            </Button>
+          ))
+        }
+      </HeaderActions>
       <HeaderActions class="flex flex-col gap-2">
         {
           links?.map(({ icon, text, ...link }, i) => (
@@ -185,16 +196,6 @@ const { logo, menus, links, socials, lang, path } = Astro.props;
             >
               {icon && <Icon name={icon} />}
               {text}
-            </Button>
-          ))
-        }
-      </HeaderActions>
-      <HeaderActions>
-        {lang && path && <LangSwitcher lang={lang} pathname={path} />}
-        {
-          socials?.map((social) => (
-            <Button variant="ghost" size="icon" href={social}>
-              <Icon href={social} />
             </Button>
           ))
         }

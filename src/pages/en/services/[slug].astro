@@ -1,0 +1,31 @@
+---
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+import { getService, getServices } from "@/lib/content";
+import { renderMarkdown } from "@/lib/markdown";
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const services = await getServices("en");
+  return services.map((service) => ({
+    params: { slug: service.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+const lang = "en";
+const service = await getService(lang, slug as string);
+const fm = service.frontmatter;
+---
+
+<SiteLayout
+  lang={lang}
+  title={fm.title}
+  description={fm.description}
+>
+  <article class="prose dark:prose-invert mx-auto py-8">
+    {fm.title && <h1>{fm.title}</h1>}
+    {fm.description && <p class="lead">{fm.description}</p>}
+    {service.body && <div set:html={renderMarkdown(service.body)} />}
+  </article>
+</SiteLayout>

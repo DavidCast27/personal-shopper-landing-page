@@ -632,3 +632,24 @@ export async function getHowItWorks(locale: Locale): Promise<HowItWorksItem[]> {
   items.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
   return items
 }
+
+export async function getService(locale: Locale, slug: string): Promise<ServiceItem> {
+  ensureLocale(locale)
+  const path = `/content/${locale}/services/${slug}.md`
+  const raw = getRaw(path)
+  if (!raw) throw new Error(`Service not found: ${path}`)
+  const { frontmatter, body } = parseFrontmatter(raw)
+  const fm = frontmatter as ServiceFrontmatter
+  return {
+    locale,
+    path,
+    slug,
+    frontmatter: fm,
+    body,
+    order: fm.order || undefined,
+    price: fm.price || undefined,
+    title: fm.title || slug,
+    description: fm.description || '',
+    image: fm.image || undefined,
+  } as ServiceItem
+}

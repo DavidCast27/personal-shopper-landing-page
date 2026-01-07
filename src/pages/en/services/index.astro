@@ -1,20 +1,21 @@
 ---
-import SiteLayout from "../../layouts/SiteLayout.astro";
+import SiteLayout from "../../../layouts/SiteLayout.astro";
 import ServicesBlock from "@/components/blocks/services-7.astro";
 import EmptyState from "@/components/blocks/empty-state-1.astro";
 import { getPage, getServices, getSiteSettings } from "@/lib/content";
 import { renderMarkdown } from "@/lib/markdown";
 
+const lang = "en";
 const placeholderImage = "/uploads/image-placeholder.daj0efyq_29eycw.webp";
 
-const services = await getServices("en");
-const page = await getPage('en', 'services');
+const services = await getServices(lang);
+const page = await getPage(lang, 'services');
 const fm = page.frontmatter as { title?: string; description?: string };
-const site = await getSiteSettings('en');
+const site = await getSiteSettings(lang);
 const cta = site?.header_cta_text && site?.header_cta_href ? [{ text: site.header_cta_text, href: site.header_cta_href }] : undefined;
 const items = services.map((s) => ({
   id: s.slug,
-  href: `#${s.slug}`,
+  href: `/${lang}/services/${s.slug}`,
   title: s.title,
   description: s.description,
   image: {
@@ -28,7 +29,7 @@ const items = services.map((s) => ({
 ---
 
 <SiteLayout
-  lang="en"
+  lang={lang}
   title={fm.title}
   description={fm.description}
 >

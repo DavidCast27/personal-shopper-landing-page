@@ -46,7 +46,7 @@ export const GET: APIRoute = async ({ request }) => {
   const cookieLang = normalizeLang(cookies['lang'])
   const picked: Supported = cookieLang ?? fromAcceptLanguage(request.headers.get('accept-language'))
 
-  const location = `/${picked}`
+  const location = `/${picked}/`
   const headers = new Headers({
     Location: location,
     Vary: 'Accept-Language, Cookie',
@@ -61,4 +61,3 @@ export const GET: APIRoute = async ({ request }) => {
 
   return new Response(null, { status: 302, headers })
 }
-

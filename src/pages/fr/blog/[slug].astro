@@ -14,9 +14,41 @@ export async function getStaticPaths() {
 const { slug } = Astro.params;
 const post = await getPost('fr', slug!);
 const title = post.title;
+const origin = Astro.url.origin;
+const canonical = new URL(Astro.url.pathname, origin).toString();
+
+function abs(u?: string) {
+  if (!u) return undefined;
+  try { new URL(u); return u; } catch {}
+  try { return new URL(u, origin).toString(); } catch { return undefined; }
+}
+
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: title,
+  description: post.description || '',
+  image: abs(post.image),
+  datePublished: post.frontmatter?.date || undefined,
+  dateModified: post.frontmatter?.date || undefined,
+  inLanguage: 'fr',
+  mainEntityOfPage: canonical,
+  author: { "@type": "Organization", name: 'Personal Shopper' },
+  publisher: { "@type": "Organization", name: 'Personal Shopper' },
+};
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: 'Accueil', item: new URL('/fr/', origin).toString() },
+    { "@type": "ListItem", position: 2, name: 'Blog', item: new URL('/fr/blog/', origin).toString() },
+    { "@type": "ListItem", position: 3, name: title, item: canonical },
+  ],
+};
 ---
 
-<SiteLayout lang="fr" title={`${title} – Personal Shopper`} description={post.description || ''}>
+<SiteLayout lang="fr" title={`${title} – Personal Shopper`} description={post.description || ''} jsonLd={[articleJsonLd, breadcrumbJsonLd]}>
   <ArticleBlock
     title={title}
     description={post.description || ''}

@@ -27,7 +27,7 @@ const title = `404 — ${notFound.title}`;
 const description = notFound.description;
 ---
 
-<SiteLayout title={title} description={description} lang={lang}>
+<SiteLayout title={title} description={description} lang={lang} noindex={true}>
   <main class="mx-auto flex min-h-[60vh] max-w-3xl items-center justify-center px-6">
     <Empty class="w-full">
       <EmptyHeader>

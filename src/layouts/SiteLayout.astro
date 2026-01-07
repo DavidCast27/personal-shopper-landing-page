@@ -31,6 +31,8 @@ interface Props {
   lang?: "en" | "es" | "fr";
   title?: string;
   description?: string;
+  noindex?: boolean;
+  jsonLd?: any | any[];
   showHeader?: boolean;
   showFooter?: boolean;
   header?: {
@@ -52,6 +54,8 @@ const {
   lang = "en",
   title = "Personal Shopper",
   description = "Personal Shopper landing page",
+  noindex = false,
+  jsonLd,
   showHeader = true,
   showFooter = true,
   header,
@@ -159,12 +163,8 @@ const computedFooter = {
         root.style.colorScheme = theme;
       } catch (e) {}
     </script>
-    <SEOBlock
-      title={title}
-      description={description}
-      lang={lang}
-      ogImage={site?.og_image as string}
-      jsonLd={[
+    {(() => {
+      const base = [
         {
           "@context": "https://schema.org",
           "@type": "WebSite",
@@ -174,12 +174,26 @@ const computedFooter = {
         },
         {
           "@context": "https://schema.org",
-          "@type": "Person",
+          "@type": "Organization",
           name: computedHeader?.logo?.text ?? "Personal Shopper",
           url: Astro.url.origin,
+          ...(computedHeader?.logo?.src
+            ? { logo: new URL(computedHeader.logo.src, Astro.url.origin).toString() }
+            : {}),
         },
-      ]}
-    />
+      ] as any[]
+      const extra = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : []
+      return (
+        <SEOBlock
+          title={title}
+          description={description}
+          lang={lang}
+          noindex={noindex}
+          ogImage={site?.og_image as string}
+          jsonLd={[...base, ...extra]}
+        />
+      )
+    })()}
   </head>
   <body class="min-h-screen antialiased">
     {

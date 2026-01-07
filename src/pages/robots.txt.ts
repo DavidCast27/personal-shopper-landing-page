@@ -7,6 +7,8 @@ export const GET: APIRoute = ({ request }) => {
   const lines = [
     'User-agent: *',
     'Allow: /',
+    'Disallow: /oauth/',
+    'Disallow: /admin.html',
     '',
     `Sitemap: ${origin}/sitemap-index.xml`,
     `Sitemap: ${origin}/sitemap.xml`,
@@ -18,4 +20,3 @@ export const GET: APIRoute = ({ request }) => {
     },
   })
 }
-

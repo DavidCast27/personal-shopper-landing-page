@@ -372,7 +372,7 @@ collections:
     files:
       - label: "Global Settings"
         name: "global_settings"
-        file: "src/content/settings.yml"
+        file: "src/content/settings/settings.yml"
         fields:
           - { label: "Logo Image", name: "logo_src", widget: "image", required: false }
           - { label: "Logo Href", name: "logo_href", widget: "string", required: false }

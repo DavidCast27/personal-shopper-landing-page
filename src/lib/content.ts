@@ -1,6 +1,5 @@
 import { SUPPORTED, type Lang } from './lang'
-import yaml from 'js-yaml';
-import fs from 'fs/promises';
+import { getCollection, getEntry } from 'astro:content'
 
 type Frontmatter = Record<string, unknown>
 
@@ -48,59 +47,7 @@ export interface PageContent<T extends Frontmatter = Frontmatter> {
   body: string
 }
 
-const rawAbs = import.meta.glob('/src/content/**/*.md', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>
-const rawRel = import.meta.glob('src/content/**/*.md', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>
-const rawFiles: Record<string, string> = {
-  ...rawAbs,
-  // normalize relative keys to start with '/'
-  ...Object.fromEntries(Object.entries(rawRel).map(([k, v]) => [k.startsWith('/') ? k : `/${k}`, v])),
-}
-
-function normalizeKey(p: string): string {
-  return p.replace(/\?raw$/, '')
-}
-
 let __printedDebug = false
-
-function parseFrontmatter(raw: string): { frontmatter: Frontmatter; body: string } {
-  if (!raw.startsWith('---')) return { frontmatter: {}, body: raw }
-  const end = raw.indexOf('\n---', 3)
-  if (end === -1) return { frontmatter: {}, body: raw }
-  const fmBlock = raw.slice(3, end).trim()
-  const body = raw.slice(end + 4).replace(/^\s+/, '')
-
-  const lines = fmBlock.split(/\r?\n/)
-  const fm: Frontmatter = {}
-  for (const line of lines) {
-    const m = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/)
-    if (!m) continue
-    const key = m[1]
-    let value: unknown = m[2]?.trim()
-    if (typeof value === 'string') {
-      value = value.replace(/^['"]|['"]$/g, '')
-      if (/^\d{4}-\d{2}-\d{2}/.test(value)) {
-        // likely date
-        fm[key] = value
-        continue
-      }
-      if (value === 'true') value = true
-      else if (value === 'false') value = false
-    }
-    fm[key] = value
-  }
-  return { frontmatter: fm, body }
-}
-
-function getRaw(path: string): string | undefined {
-  // Use suffix matching as primary strategy across environments
-  const rel = path.startsWith('/') ? path.slice(1) : path
-  const suffixes = [path, `/${rel}`, rel]
-  for (const [k, v] of Object.entries(rawFiles)) {
-    const nk = normalizeKey(k)
-    if (suffixes.some((s) => nk.endsWith(s))) return v
-  }
-  return undefined
-}
 
 function ensureLocale(locale: string): asserts locale is Lang {
   if (!(SUPPORTED as readonly string[]).includes(locale)) throw new Error(`Unsupported locale: ${locale}`)
@@ -108,31 +55,19 @@ function ensureLocale(locale: string): asserts locale is Lang {
 
 export async function getPage<T extends Frontmatter = Frontmatter>(locale: Lang, key: 'home' | 'about' | 'services' | 'testimonials' | 'faq' | 'blog' | 'contact'): Promise<PageContent<T>> {
   ensureLocale(locale)
-  // Prefer centralized YAML if present
-  const yamlPath = `src/content/pages/${key}.yml`
-  try {
-    const data = await getYaml(yamlPath)
+  // Prefer centralized pages via Content Collections
+  const entry = await getEntry('pages', key)
+  if (entry) {
+    const data: any = entry.data
     const { localized, body } = localizeYaml(data, locale)
     return {
       locale,
-      path: `/${yamlPath}`,
+      path: (entry as any).id,
       frontmatter: localized as T,
       body: body || '',
     }
-  } catch {
-    // Fallback to legacy per-locale Markdown
-    const path = `/src/content/${locale}/${key}.md`
-    const raw = getRaw(path)
-    if (!raw) {
-      if (import.meta.env?.DEV && !__printedDebug) {
-        console.warn('[content] keys sample:', Object.keys(rawFiles).slice(0, 10))
-        __printedDebug = true
-      }
-      throw new Error(`Content not found: ${path}`)
-    }
-    const { frontmatter, body } = parseFrontmatter(raw)
-    return { locale, path, frontmatter: frontmatter as T, body }
   }
+  throw new Error(`Content not found: pages/${key}.yml`)
 }
 
 // Home frontmatter and normalized page
@@ -257,27 +192,25 @@ export interface BlogListItem extends PageContent<BlogFrontmatter> {
 
 export async function getBlogPosts(locale: Lang): Promise<BlogListItem[]> {
   ensureLocale(locale)
-  // 1) Prefer unified YAML posts (single file with localized fields)
-  const unifiedItems = await loadUnifiedBlogPosts(locale)
-  if (unifiedItems.length > 0) return unifiedItems
-
-  // 2) Fallback to legacy per-locale Markdown posts
-  const prefix = `/src/content/blog/${locale}/`
-  const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix))
-  const items = entries.map(([pathRaw, raw]) => {
-    const path = normalizeKey(pathRaw)
-    const { frontmatter, body } = parseFrontmatter(raw)
-    const slug = path.replace(prefix, '').replace(/\.md$/, '')
-    const fm = frontmatter as BlogFrontmatter
+  const posts = await getCollection('blog_entries')
+  const items = posts.map((entry) => {
+    const data: any = entry.data
+    const slug = data.slug as string
+    const title = data[`title_${locale}`] as string | undefined
+    const description = (data[`description_${locale}`] as string | undefined) || ''
+    const body = (data[`body_${locale}`] as string | undefined) || ''
+    const image = (data.image as string | undefined) || undefined
+    const date = data.date as Date | string | undefined
+    const fm: BlogFrontmatter = { title, description, date: date ? String(date) : undefined, image }
     return {
       locale,
-      path,
+      path: (entry as any).id,
       slug,
       frontmatter: fm,
       body,
-      title: fm.title || slug,
-      description: fm.description || '',
-      image: fm.image || undefined,
+      title: title || slug,
+      description,
+      image,
     } as BlogListItem
   })
   items.sort((a, b) => {
@@ -290,26 +223,27 @@ export async function getBlogPosts(locale: Lang): Promise<BlogListItem[]> {
 
 export async function getPost(locale: Lang, slug: string): Promise<BlogListItem> {
   ensureLocale(locale)
-  // Try unified YAML first
-  const unified = await loadUnifiedBlogPost(locale, slug)
-  if (unified) return unified
-
-  // Fallback to legacy per-locale Markdown
-  const path = `/src/content/blog/${locale}/${slug}.md`
-  const raw = getRaw(path)
-  if (!raw) throw new Error(`Post not found: ${path}`)
-  const { frontmatter, body } = parseFrontmatter(raw)
-  const fm = frontmatter as BlogFrontmatter
-  return {
-    locale,
-    path,
-    slug,
-    frontmatter: fm,
-    body,
-    title: fm.title || slug,
-    description: fm.description || '',
-    image: fm.image || undefined,
+  const entry = await getEntry('blog_entries', slug)
+  if (entry) {
+    const data: any = entry.data
+    const title = data[`title_${locale}`] as string | undefined
+    const description = (data[`description_${locale}`] as string | undefined) || ''
+    const body = (data[`body_${locale}`] as string | undefined) || ''
+    const image = (data.image as string | undefined) || undefined
+    const date = data.date as Date | string | undefined
+    const fm: BlogFrontmatter = { title, description, date: date ? String(date) : undefined, image }
+    return {
+      locale,
+      path: (entry as any).id,
+      slug,
+      frontmatter: fm,
+      body,
+      title: title || slug,
+      description,
+      image,
+    }
   }
+  throw new Error(`Post not found: blog_entries/${slug}.yml`)
 }
 
 export interface SiteSettings extends Frontmatter {
@@ -324,8 +258,9 @@ export interface SiteSettings extends Frontmatter {
 }
 
 export async function getSiteSettings(locale: Lang): Promise<SiteSettings | undefined> {
-  const data = await getYaml('src/content/settings.yml');
-
+  const entry = await getEntry('settings', 'settings')
+  if (!entry) return undefined
+  const data: any = entry.data
   return {
     logo_src: data.logo_src,
     logo_href: data.logo_href,
@@ -335,7 +270,7 @@ export async function getSiteSettings(locale: Lang): Promise<SiteSettings | unde
     header_cta_text: data[`header_cta_text_${locale}`],
     header_cta_href: data[`header_cta_href_${locale}`],
     footer_description: data[`footer_description_${locale}`],
-  };
+  }
 }
 
 export interface ServiceItem extends PageContent<ServiceFrontmatter> {
@@ -350,31 +285,33 @@ export interface ServiceItem extends PageContent<ServiceFrontmatter> {
 
 export async function getServices(locale: Lang): Promise<ServiceItem[]> {
   ensureLocale(locale)
-  // 1) Prefer unified YAML services
-  const unified = await loadUnifiedServices(locale)
-  if (unified.length > 0) return unified
-
-  // 2) Fallback to legacy per-locale Markdown files
-  const prefix = `/src/content/services/${locale}/`
-  const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix))
-  const items = entries.map(([pathRaw, raw]) => {
-    const path = normalizeKey(pathRaw)
-    const { frontmatter, body } = parseFrontmatter(raw)
-    const orderRaw = frontmatter.order as string | number | undefined
-    const order = typeof orderRaw === 'number' ? orderRaw : orderRaw ? parseInt(String(orderRaw), 10) : undefined
-    const slug = path.replace(prefix, '').replace(/\.md$/, '')
-    const fm = frontmatter as ServiceFrontmatter
+  const services = await getCollection('service_entries')
+  const items = services.map((entry) => {
+    const data: any = entry.data
+    const slug = data.slug as string
+    const order = (data.order as number | undefined) ?? undefined
+    const price = (data[`price_${locale}`] as string | undefined) || (data.price as string | undefined) || undefined
+    const title = data[`title_${locale}`] as string | undefined
+    const description = (data[`description_${locale}`] as string | undefined) || ''
+    const body = (data[`body_${locale}`] as string | undefined) || ''
+    const image = (data.image as string | undefined) || undefined
     return {
       locale,
-      path,
+      path: (entry as any).id,
       slug,
-      frontmatter: fm,
+      frontmatter: {
+        title,
+        description,
+        image,
+        price,
+        order,
+      },
       body,
       order,
-      price: (fm.price as string) || undefined,
-      title: fm.title || slug,
-      description: fm.description || '',
-      image: fm.image || undefined,
+      price,
+      title: title || slug,
+      description,
+      image,
     } as ServiceItem
   })
   items.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
@@ -390,28 +327,21 @@ export interface FaqItem extends PageContent<FaqFrontmatter> {
 
 export async function getFaq(locale: Lang): Promise<FaqItem[]> {
   ensureLocale(locale)
-  // 1) Prefer unified YAML FAQ entries
-  const unified = await loadUnifiedFaq(locale)
-  if (unified.length > 0) return unified
-
-  // 2) Fallback to legacy per-locale Markdown files
-  const prefix = `/src/content/faq/${locale}/`
-  const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix))
-  const items = entries.map(([pathRaw, raw]) => {
-    const path = normalizeKey(pathRaw)
-    const { frontmatter, body } = parseFrontmatter(raw)
-    const orderRaw = frontmatter.order as string | number | undefined
-    const order = typeof orderRaw === 'number' ? orderRaw : orderRaw ? parseInt(String(orderRaw), 10) : undefined
-    const slug = path.replace(prefix, '').replace(/\.md$/, '')
-    const fm = frontmatter as FaqFrontmatter
+  const entries = await getCollection('faq_entries')
+  const items = entries.map((entry) => {
+    const data: any = entry.data
+    const slug = data.slug as string
+    const order = (data.order as number | undefined) ?? undefined
+    const question = (data[`question_${locale}`] as string | undefined) || slug
+    const body = (data[`body_${locale}`] as string | undefined) || ''
     return {
       locale,
-      path,
+      path: (entry as any).id,
       slug,
-      frontmatter: fm,
+      frontmatter: { question, order },
       body,
       order,
-      question: fm.question || slug,
+      question,
     } as FaqItem
   })
   items.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
@@ -431,34 +361,29 @@ export interface TestimonialItem extends PageContent<TestimonialFrontmatter> {
 
 export async function getTestimonials(locale: Lang): Promise<TestimonialItem[]> {
   ensureLocale(locale)
-  // 1) Prefer unified YAML testimonials
-  const unified = await loadUnifiedTestimonials(locale)
-  if (unified.length > 0) return unified
-
-  // 2) Fallback to legacy per-locale Markdown files
-  const prefix = `/src/content/testimonials/${locale}/`
-  const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix))
-  const items = entries.map(([pathRaw, raw]) => {
-    const path = normalizeKey(pathRaw)
-    const { frontmatter, body } = parseFrontmatter(raw)
-    const orderRaw = frontmatter.order as string | number | undefined
-    const order = typeof orderRaw === 'number' ? orderRaw : orderRaw ? parseInt(String(orderRaw), 10) : undefined
-    const ratingRaw = frontmatter.rating as string | number | undefined
-    const rating = typeof ratingRaw === 'number' ? ratingRaw : ratingRaw ? parseInt(String(ratingRaw), 10) : undefined
-    const slug = path.replace(prefix, '').replace(/\.md$/, '')
-    const fm = frontmatter as TestimonialFrontmatter
+  const entries = await getCollection('testimonial_entries')
+  const items = entries.map((entry) => {
+    const data: any = entry.data
+    const slug = data.slug as string
+    const order = (data.order as number | undefined) ?? undefined
+    const rating = (data.rating as number | undefined) ?? undefined
+    const title = (data[`title_${locale}`] as string | undefined) || slug
+    const author = (data.author as string | undefined) || undefined
+    const role = (data[`role_${locale}`] as string | undefined) || undefined
+    const avatar = (data.avatar as string | undefined) || undefined
+    const body = (data[`body_${locale}`] as string | undefined) || ''
     return {
       locale,
-      path,
+      path: (entry as any).id,
       slug,
-      frontmatter: fm,
+      frontmatter: { title, author, role, avatar, rating, order },
       body,
       order,
       rating,
-      title: fm.title || slug,
-      author: (fm.author as string) || undefined,
-      role: (fm.role as string) || undefined,
-      avatar: (fm.avatar as string) || undefined,
+      title,
+      author,
+      role,
+      avatar,
     } as TestimonialItem
   })
   items.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
@@ -510,9 +435,10 @@ const NOT_FOUND_DEFAULTS: Record<Lang, {
 
 export async function getNotFound(locale: Lang): Promise<NotFoundPage> {
   ensureLocale(locale)
-  // Prefer centralized YAML if present
-  try {
-    const data = await getYaml('src/content/pages/not-found.yml')
+  // Prefer centralized page via Content Collections
+  const entry = await getEntry('pages', 'not-found')
+  if (entry) {
+    const data: any = entry.data
     const { localized } = localizeYaml(data, locale)
     const d = NOT_FOUND_DEFAULTS[locale]
     const title = (localized.title as string) || d.title
@@ -521,7 +447,7 @@ export async function getNotFound(locale: Lang): Promise<NotFoundPage> {
     const cta_href = (localized.cta_href as string) || d.cta_href
     return {
       locale,
-      path: '/src/content/pages/not-found.yml',
+      path: (entry as any).id,
       frontmatter: localized,
       body: '',
       title,
@@ -529,34 +455,17 @@ export async function getNotFound(locale: Lang): Promise<NotFoundPage> {
       cta_text,
       cta_href,
     }
-  } catch {
-    const path = `/src/content/${locale}/not-found.md`
-    const raw = getRaw(path)
-    const d = NOT_FOUND_DEFAULTS[locale]
-    if (!raw) {
-      return {
-        locale,
-        path,
-        frontmatter: {},
-        body: '',
-        title: d.title,
-        description: d.description,
-        cta_text: d.cta_text,
-        cta_href: d.cta_href,
-      }
-    }
-    const { frontmatter, body } = parseFrontmatter(raw)
-    const fm = frontmatter as NotFoundFrontmatter
-    return {
-      locale,
-      path,
-      frontmatter: fm,
-      body,
-      title: fm.title || d.title,
-      description: fm.description || d.description,
-      cta_text: fm.cta_text || d.cta_text,
-      cta_href: fm.cta_href || d.cta_href,
-    }
+  }
+  const d = NOT_FOUND_DEFAULTS[locale]
+  return {
+    locale,
+    path: 'pages/not-found',
+    frontmatter: {},
+    body: '',
+    title: d.title,
+    description: d.description,
+    cta_text: d.cta_text,
+    cta_href: d.cta_href,
   }
 }
 
@@ -590,32 +499,28 @@ export interface HowItWorksItem extends PageContent<HowItWorksFrontmatter> {
 
 export async function getHowItWorks(locale: Lang): Promise<HowItWorksItem[]> {
   ensureLocale(locale)
-  // 1) Prefer unified YAML items (single file with localized fields)
-  const unified = await loadUnifiedHowItWorks(locale)
-  if (unified.length > 0) return unified
-
-  // 2) Fallback to legacy per-locale Markdown files
-  const prefix = `/src/content/howitworks/${locale}/`
-  const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix))
-  const items = entries.map(([pathRaw, raw]) => {
-    const path = normalizeKey(pathRaw)
-    const { frontmatter, body } = parseFrontmatter(raw)
-    const orderRaw = frontmatter.order as string | number | undefined
-    const order = typeof orderRaw === 'number' ? orderRaw : orderRaw ? parseInt(String(orderRaw), 10) : undefined
-    const slug = path.replace(prefix, '').replace(/\.md$/, '')
-    const fm = frontmatter as HowItWorksFrontmatter
+  const entries = await getCollection('howitworks_entries')
+  const items = entries.map((entry) => {
+    const data: any = entry.data
+    const slug = data.slug as string
+    const order = (data.order as number | undefined) ?? undefined
+    const title = (data[`title_${locale}`] as string | undefined) || slug
+    const description = (data[`description_${locale}`] as string | undefined) || ''
+    const icon = (data.icon as string | undefined) || undefined
+    const link_text = (data[`link_text_${locale}`] as string | undefined) || undefined
+    const link_href = (data[`link_href_${locale}`] as string | undefined) || undefined
     return {
       locale,
-      path,
+      path: (entry as any).id,
       slug,
-      frontmatter: fm,
-      body,
+      frontmatter: { title, description, icon, link_text, link_href, order },
+      body: '',
       order,
-      title: fm.title || slug,
-      description: fm.description || '',
-      icon: (fm.icon as string) || undefined,
-      link_text: (fm.link_text as string) || undefined,
-      link_href: (fm.link_href as string) || undefined,
+      title,
+      description,
+      icon,
+      link_text,
+      link_href,
     } as HowItWorksItem
   })
   items.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
@@ -624,27 +529,26 @@ export async function getHowItWorks(locale: Lang): Promise<HowItWorksItem[]> {
 
 export async function getService(locale: Lang, slug: string): Promise<ServiceItem> {
   ensureLocale(locale)
-  // Try unified YAML first
-  const unified = await loadUnifiedService(locale, slug)
-  if (unified) return unified
-
-  // Fallback to legacy per-locale Markdown
-  const path = `/src/content/services/${locale}/${slug}.md`
-  const raw = getRaw(path)
-  if (!raw) throw new Error(`Service not found: ${path}`)
-  const { frontmatter, body } = parseFrontmatter(raw)
-  const fm = frontmatter as ServiceFrontmatter
+  const entry = await getEntry('service_entries', slug)
+  if (!entry) throw new Error(`Service not found: service_entries/${slug}.yml`)
+  const data: any = entry.data
+  const order = (data.order as number | undefined) ?? undefined
+  const price = (data[`price_${locale}`] as string | undefined) || (data.price as string | undefined) || undefined
+  const title = (data[`title_${locale}`] as string | undefined) || slug
+  const description = (data[`description_${locale}`] as string | undefined) || ''
+  const body = (data[`body_${locale}`] as string | undefined) || ''
+  const image = (data.image as string | undefined) || undefined
   return {
     locale,
-    path,
+    path: (entry as any).id,
     slug,
-    frontmatter: fm,
+    frontmatter: { title, description, image, price, order },
     body,
-    order: fm.order || undefined,
-    price: fm.price || undefined,
-    title: fm.title || slug,
-    description: fm.description || '',
-    image: fm.image || undefined,
+    order,
+    price,
+    title,
+    description,
+    image,
   } as ServiceItem
 }
 
@@ -654,11 +558,6 @@ export interface NewHeaderMenuItem {
   parent?: string;
   text: string;
   href: string;
-}
-
-async function getYaml(path: string): Promise<any> {
-  const raw = await fs.readFile(path, 'utf-8');
-  return yaml.load(raw);
 }
 
 function localizeYaml(data: any, locale: Lang): { localized: Record<string, any>; body?: string } {
@@ -680,16 +579,17 @@ function localizeYaml(data: any, locale: Lang): { localized: Record<string, any>
 }
 
 export async function getNewHeaderMenu(locale: Lang): Promise<NewHeaderMenuItem[]> {
-  const data = await getYaml('src/content/menus/header.yml');
-  const items = data.links.map((link: any) => ({
+  const entry = await getEntry('menus', 'header')
+  const data: any = entry?.data
+  const items = (data?.links || []).map((link: any) => ({
     slug: link.slug,
     order: link.order,
     parent: link.parent,
     text: link[`text_${locale}`],
     href: link[`url_${locale}`],
-  }));
-  items.sort((a: any, b: any) => (a.order ?? 0) - (b.order ?? 0));
-  return items;
+  }))
+  items.sort((a: any, b: any) => (a.order ?? 0) - (b.order ?? 0))
+  return items
 }
 
 export interface NewFooterLinkItem {
@@ -701,252 +601,17 @@ export interface NewFooterLinkItem {
 }
 
 export async function getNewFooterLinks(locale: Lang): Promise<NewFooterLinkItem[]> {
-  const data = await getYaml('src/content/menus/footer.yml');
-  const items = data.links.map((link: any) => ({
+  const entry = await getEntry('menus', 'footer')
+  const data: any = entry?.data
+  const items = (data?.links || []).map((link: any) => ({
     slug: link.slug,
     order: link.order,
     section: link.section,
     text: link[`text_${locale}`],
     href: link[`url_${locale}`],
-  }));
-  items.sort((a: any, b: any) => (a.order ?? 0) - (b.order ?? 0));
-  return items;
-}
-
-// --- Unified Blog (single YAML per post) helpers ---
-async function listYamlFiles(dir: string): Promise<string[]> {
-  try {
-    const entries = await fs.readdir(dir, { withFileTypes: true })
-    return entries.filter((e) => e.isFile() && e.name.endsWith('.yml')).map((e) => `${dir}/${e.name}`)
-  } catch {
-    return []
-  }
-}
-
-async function loadUnifiedBlogPosts(locale: Lang): Promise<BlogListItem[]> {
-  const files = await listYamlFiles('src/content/blog_entries')
-  if (files.length === 0) return []
-  const items: BlogListItem[] = []
-  for (const file of files) {
-    const data = await getYaml(file)
-    const { localized, body } = localizeYaml(data, locale)
-    const slug = String(data.slug || file.replace(/^.*\/(.+)\.yml$/, '$1'))
-    const fm: BlogFrontmatter = {
-      title: localized.title,
-      description: localized.description,
-      date: data.date,
-      image: data.image,
-    }
-    items.push({
-      locale,
-      path: `/${file}`,
-      slug,
-      frontmatter: fm,
-      body: body || '',
-      title: fm.title || slug,
-      description: fm.description || '',
-      image: fm.image || undefined,
-    })
-  }
-  items.sort((a, b) => {
-    const da = new Date((a.frontmatter?.date as string) || 0).getTime()
-    const db = new Date((b.frontmatter?.date as string) || 0).getTime()
-    return db - da
-  })
+  }))
+  items.sort((a: any, b: any) => (a.order ?? 0) - (b.order ?? 0))
   return items
 }
 
-async function loadUnifiedBlogPost(locale: Lang, slug: string): Promise<BlogListItem | undefined> {
-  const path = `src/content/blog_entries/${slug}.yml`
-  try {
-    const data = await getYaml(path)
-    const { localized, body } = localizeYaml(data, locale)
-    const fm: BlogFrontmatter = {
-      title: localized.title,
-      description: localized.description,
-      date: data.date,
-      image: data.image,
-    }
-    return {
-      locale,
-      path: `/${path}`,
-      slug,
-      frontmatter: fm,
-      body: body || '',
-      title: fm.title || slug,
-      description: fm.description || '',
-      image: fm.image || undefined,
-    }
-  } catch {
-    return undefined
-  }
-}
-
-// --- Unified How It Works (single YAML per step) helpers ---
-async function loadUnifiedHowItWorks(locale: Lang): Promise<HowItWorksItem[]> {
-  const files = await listYamlFiles('src/content/howitworks_entries')
-  if (files.length === 0) return []
-  const items: HowItWorksItem[] = []
-  for (const file of files) {
-    const data = await getYaml(file)
-    const { localized, body } = localizeYaml(data, locale)
-    const slug = String(data.slug || file.replace(/^.*\/(.+)\.yml$/, '$1'))
-    const orderRaw = data.order
-    const order = typeof orderRaw === 'number' ? orderRaw : orderRaw ? parseInt(String(orderRaw), 10) : undefined
-    items.push({
-      locale,
-      path: `/${file}`,
-      slug,
-      frontmatter: {
-        title: localized.title,
-        description: localized.description,
-        icon: data.icon,
-        link_text: localized.link_text,
-        link_href: localized.link_href,
-        order,
-      },
-      body: body || '',
-      order,
-      title: (localized.title as string) || slug,
-      description: (localized.description as string) || '',
-      icon: (data.icon as string) || undefined,
-      link_text: (localized.link_text as string) || undefined,
-      link_href: (localized.link_href as string) || undefined,
-    })
-  }
-  items.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
-  return items
-}
-
-// --- Unified Services (single YAML per service) helpers ---
-async function loadUnifiedServices(locale: Lang): Promise<ServiceItem[]> {
-  const files = await listYamlFiles('src/content/service_entries')
-  if (files.length === 0) return []
-  const items: ServiceItem[] = []
-  for (const file of files) {
-    const data = await getYaml(file)
-    const { localized, body } = localizeYaml(data, locale)
-    const slug = String(data.slug || file.replace(/^.*\/(.+)\.yml$/, '$1'))
-    const orderRaw = data.order
-    const order = typeof orderRaw === 'number' ? orderRaw : orderRaw ? parseInt(String(orderRaw), 10) : undefined
-    const price = (data[`price_${locale}`] as string) || (data.price as string) || undefined
-    items.push({
-      locale,
-      path: `/${file}`,
-      slug,
-      frontmatter: {
-        title: localized.title,
-        description: localized.description,
-        image: data.image,
-        price,
-        order,
-      },
-      body: body || '',
-      order,
-      price,
-      title: (localized.title as string) || slug,
-      description: (localized.description as string) || '',
-      image: (data.image as string) || undefined,
-    })
-  }
-  items.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
-  return items
-}
-
-async function loadUnifiedService(locale: Lang, slug: string): Promise<ServiceItem | undefined> {
-  const path = `src/content/service_entries/${slug}.yml`
-  try {
-    const data = await getYaml(path)
-    const { localized, body } = localizeYaml(data, locale)
-    const orderRaw = data.order
-    const order = typeof orderRaw === 'number' ? orderRaw : orderRaw ? parseInt(String(orderRaw), 10) : undefined
-    const price = (data[`price_${locale}`] as string) || (data.price as string) || undefined
-    return {
-      locale,
-      path: `/${path}`,
-      slug,
-      frontmatter: {
-        title: localized.title,
-        description: localized.description,
-        image: data.image,
-        price,
-        order,
-      },
-      body: body || '',
-      order,
-      price,
-      title: (localized.title as string) || slug,
-      description: (localized.description as string) || '',
-      image: (data.image as string) || undefined,
-    }
-  } catch {
-    return undefined
-  }
-}
-
-// --- Unified Testimonials (single YAML per testimonial) helpers ---
-async function loadUnifiedTestimonials(locale: Lang): Promise<TestimonialItem[]> {
-  const files = await listYamlFiles('src/content/testimonial_entries')
-  if (files.length === 0) return []
-  const items: TestimonialItem[] = []
-  for (const file of files) {
-    const data = await getYaml(file)
-    const { localized, body } = localizeYaml(data, locale)
-    const slug = String(data.slug || file.replace(/^.*\/(.+)\.yml$/, '$1'))
-    const orderRaw = data.order
-    const order = typeof orderRaw === 'number' ? orderRaw : orderRaw ? parseInt(String(orderRaw), 10) : undefined
-    const ratingRaw = data.rating
-    const rating = typeof ratingRaw === 'number' ? ratingRaw : ratingRaw ? parseInt(String(ratingRaw), 10) : undefined
-    items.push({
-      locale,
-      path: `/${file}`,
-      slug,
-      frontmatter: {
-        title: localized.title,
-        author: data.author,
-        role: localized.role,
-        avatar: data.avatar,
-        rating,
-        order,
-      },
-      body: body || '',
-      order,
-      rating,
-      title: (localized.title as string) || slug,
-      author: (data.author as string) || undefined,
-      role: (localized.role as string) || undefined,
-      avatar: (data.avatar as string) || undefined,
-    })
-  }
-  items.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
-  return items
-}
-
-// --- Unified FAQ (single YAML per question) helpers ---
-async function loadUnifiedFaq(locale: Lang): Promise<FaqItem[]> {
-  const files = await listYamlFiles('src/content/faq_entries')
-  if (files.length === 0) return []
-  const items: FaqItem[] = []
-  for (const file of files) {
-    const data = await getYaml(file)
-    const { localized, body } = localizeYaml(data, locale)
-    const slug = String(data.slug || file.replace(/^.*\/(.+)\.yml$/, '$1'))
-    const orderRaw = data.order
-    const order = typeof orderRaw === 'number' ? orderRaw : orderRaw ? parseInt(String(orderRaw), 10) : undefined
-    const question = (localized.question as string) || slug
-    items.push({
-      locale,
-      path: `/${file}`,
-      slug,
-      frontmatter: {
-        question,
-        order,
-      },
-      body: body || '',
-      order,
-      question,
-    })
-  }
-  items.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
-  return items
-}
+// Helpers removed: legacy file-system loaders are no longer needed.

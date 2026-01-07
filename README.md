@@ -74,7 +74,7 @@ src/content/
 ```
 
 ## Content & CMS
- - Content is centralized in YAML files under `src/content/`:
+- Content is centralized in YAML files under `src/content/`:
   - Pages: `src/content/pages/*.yml` (e.g., `home.yml`, `about.yml`, `blog.yml`, `services.yml`, `testimonials.yml`, `faq.yml`, `contact.yml`, `not-found.yml`).
   - Blog: `src/content/blog_entries/*.yml` (1 file por post con campos localizados).
   - Services: `src/content/service_entries/*.yml` (1 file por servicio con `price`, `price_es`, `price_fr`).
@@ -88,6 +88,22 @@ src/content/
 - Edita todo via Decap CMS en `/admin`:
   - Colecciones: “Blog (Unified)”, “Services (Unified)”, “How It Works (Unified)”, “Testimonials (Unified)”, “FAQ (Unified)”, “Pages”, “Settings”.
   - Cada item usa `slug` como identificador y URL/anchor canónico.
+
+## Content Collections (astro:content)
+
+Este proyecto usa Astro Content Collections para tipar y validar el contenido YAML.
+
+- Configuración: `src/content/config.ts` con Zod (esquemas por colección).
+- Colecciones: `blog_entries`, `service_entries`, `howitworks_entries`, `testimonial_entries`, `faq_entries`, `menus`, `pages`, `settings`.
+- Acceso a datos:
+  ```ts
+  import { getCollection, getEntry } from 'astro:content'
+  const posts = await getCollection('blog_entries')
+  const home = await getEntry('pages', 'home')
+  ```
+- Cargadores del sitio: `src/lib/content.ts` ya usa `astro:content` en todas las funciones (`getBlogPosts`, `getServices`, etc.).
+- Localización: los YAML usan sufijos `_en`, `_es`, `_fr`. La resolución de campos localizados la hace `localizeYaml` en `src/lib/content.ts`.
+- Añadir un idioma: añade los sufijos en YAML y actualiza los esquemas en `src/content/config.ts` (o generaliza el helper si quieres soportar sufijos dinámicos). Consulta `docs/add-language.md`.
 
 ### Mapas de URL
 - Blog post: `/{lang}/blog/{slug}` (un solo `slug` para todos los idiomas).

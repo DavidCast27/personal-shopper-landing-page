@@ -3,6 +3,7 @@ import type { Lang } from './lang'
 type Dict = Record<string, string>
 
 const en: Dict = {
+  'aria.lang_selector': 'Language selector',
   'breadcrumb.home': 'Home',
   'breadcrumb.blog': 'Blog',
 
@@ -24,6 +25,7 @@ const en: Dict = {
 }
 
 const es: Dict = {
+  'aria.lang_selector': 'Selector de idioma',
   'breadcrumb.home': 'Inicio',
   'breadcrumb.blog': 'Blog',
 
@@ -45,6 +47,7 @@ const es: Dict = {
 }
 
 const fr: Dict = {
+  'aria.lang_selector': 'Sélecteur de langue',
   'breadcrumb.home': 'Accueil',
   'breadcrumb.blog': 'Blog',
 

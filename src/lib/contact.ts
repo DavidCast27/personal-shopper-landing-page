@@ -1,13 +1,12 @@
 import { Resend } from 'resend';
 import { RESEND_API_KEY, EMAIL_FROM, EMAIL_TO, EMAIL_BCC } from '@/lib/env';
-
-export type Langs = 'en' | 'es' | 'fr';
+import type { Lang } from '@/lib/lang';
 export type ContactInput = {
   name: string;
   email: string;
   message: string;
   company: string; // honeypot
-  lang: Langs;
+  lang: Lang;
   ip: string;
 };
 

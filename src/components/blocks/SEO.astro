@@ -1,14 +1,15 @@
 ---
 const placeholderImage = "/uploads/image-placeholder.daj0efyq_29eycw.webp";
+import { SUPPORTED, type Lang } from '@/lib/lang'
 interface Alternate {
-  lang: 'en' | 'es' | 'fr' | 'x-default'
+  lang: Lang | 'x-default'
   href: string
 }
 
 interface Props {
   title: string
   description?: string
-  lang: 'en' | 'es' | 'fr'
+  lang: Lang
   canonical?: string
   noindex?: boolean
   ogImage?: string
@@ -51,20 +52,21 @@ function computeCanonical() {
 
 function computeAlternates(): Alternate[] {
   if (alternates && alternates.length) return alternates
-  const supported = ['en', 'es', 'fr'] as const
   const parts = pathname.split('/')
   const currentPrefix = parts[1]
-  const hasPrefix = supported.includes(currentPrefix as any)
+  const hasPrefix = (SUPPORTED as readonly string[]).includes(currentPrefix as any)
   const result: Alternate[] = []
-  for (const l of supported) {
+  for (const l of SUPPORTED) {
     const p = [...parts]
     if (hasPrefix) p[1] = l
     else p.splice(1, 0, l)
     const href = `${origin}${normalizePath(p.join('/'))}`
     result.push({ lang: l, href })
   }
-  // x-default -> English
-  const xDefault = result.find((r) => r.lang === 'en')?.href || `${origin}/en`
+  // x-default -> English if present, else first supported
+  const enAlt = result.find((r) => r.lang === 'en' as Lang)?.href
+  const fallback = `${origin}/${SUPPORTED[0]}`
+  const xDefault = enAlt || fallback
   result.push({ lang: 'x-default', href: xDefault })
   return result
 }
@@ -73,7 +75,7 @@ const canonicalUrl = computeCanonical()
 const hrefAlternates = computeAlternates()
 const robots = noindex ? 'noindex, nofollow' : 'index, follow'
 
-function mapOgLocale(l: 'en' | 'es' | 'fr'): string {
+function mapOgLocale(l: Lang): string {
   // Adjust per target market; defaults chosen based on project context
   if (l === 'en') return 'en_CA'
   if (l === 'fr') return 'fr_CA'

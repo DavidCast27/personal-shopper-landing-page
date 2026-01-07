@@ -1,5 +1,6 @@
 import { ActionError, defineAction } from 'astro:actions';
-import { validateContact, sendContactEmail, type ContactInput, type Langs } from '@/lib/contact';
+import { validateContact, sendContactEmail, type ContactInput } from '@/lib/contact';
+import { isLang, type Lang } from '@/lib/lang';
 
 // Basic in-memory rate limit for Actions as well
 const WINDOW_MS = 10 * 60 * 1000;
@@ -17,7 +18,8 @@ export const server = {
         const raw = Object.fromEntries(form.entries());
 
         const ip = fwd ? fwd.split(',')[0].trim() : (request.headers.get('x-real-ip') ?? '');
-        const lang: Langs = ['en','es','fr'].includes(raw.lang as Langs) ? raw.lang as Langs : 'en';
+        const rawLang = String(raw.lang ?? '');
+        const lang: Lang = isLang(rawLang) ? (rawLang as Lang) : 'en';
 
         const data : ContactInput= {
           name: String(raw.name ?? '').trim(),

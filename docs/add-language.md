@@ -84,39 +84,36 @@ Campos útiles de frontmatter (según `src/lib/content.ts`):
 
 ## 4) Rutas dinámicas `[lang]`
 
-Las páginas usan arrays estáticos en `getStaticPaths`. Agrega el nuevo idioma a cada archivo:
-- `src/pages/[lang]/index.astro`
-- `src/pages/[lang]/about.astro`
-- `src/pages/[lang]/faq.astro`
-- `src/pages/[lang]/testimonials.astro`
-- `src/pages/[lang]/blog/index.astro`
-- `src/pages/[lang]/blog/[slug].astro` (genera `{ lang, slug }` para cada post del idioma)
-- `src/pages/[lang]/services/index.astro`
-- `src/pages/[lang]/services/[slug].astro` (genera `{ lang, slug }` para cada servicio del idioma)
+Ya no necesitas tocar `getStaticPaths` al agregar un idioma.
 
-Ejemplo en páginas sin slug:
+Todas las páginas usan helpers centrales desde `src/lib/lang.ts`:
+- `staticPathsForLang()` en páginas sin slug
+- `staticPathsForSlugs(fetchByLang)` en páginas con slug (blog/services)
+
+Si creas una nueva página `[lang]/algo.astro`, usa:
 
 ```ts
-export function getStaticPaths() {
-  return [
-    { params: { lang: 'en' } },
-    { params: { lang: 'es' } },
-    { params: { lang: 'fr' } },
-    { params: { lang: 'pt' } },
-  ]
-}
+import { staticPathsForLang } from '@/lib/lang'
+export function getStaticPaths() { return staticPathsForLang() }
 ```
 
-Sugerencia: puedes importar `SUPPORTED` desde `src/lib/lang.ts` y mapear para evitar tocar cada vez.
+Si creas una nueva colección `[lang]/algo/[slug].astro`, usa:
 
-## 5) SEO y layout
+```ts
+import { staticPathsForSlugs } from '@/lib/lang'
+// asumiendo getAlgo(lang) -> { slug: string }[]
+export async function getStaticPaths() { return staticPathsForSlugs(getAlgo) }
+```
 
-- `src/components/blocks/SEO.astro`: actualiza tipos `lang` y `mapOgLocale` para incluir el nuevo idioma y su mapeo OG (p. ej., `pt_BR` o `pt_PT`).
-- `src/layouts/SiteLayout.astro`: el prop `lang` usa una unión de `'en' | 'es' | 'fr'`. Amplíalo o reemplázalo por `Lang` desde `src/lib/lang.ts`.
+## 5) SEO, layout y selector de idioma
+
+- `src/components/blocks/SEO.astro` ya usa `SUPPORTED`/`Lang` para alternates (`hreflang`). Solo ajusta `mapOgLocale` si deseas un locale OG específico (p. ej., `pt_BR` o `pt_PT`).
+- `src/layouts/SiteLayout.astro` ya usa `Lang`.
+- `src/components/ui/lang-switcher` también consume `SUPPORTED`, por lo que el nuevo idioma aparece automáticamente.
 
 ## 6) Acciones del formulario de contacto
 
-- `src/actions/index.ts`: hay una validación/typing del idioma en el handler de `contact`. Agrega el nuevo código al tipo o usa `Lang`/`SUPPORTED` para validar.
+- `src/actions/index.ts` ya valida el idioma con `isLang`/`Lang` desde `src/lib/lang.ts`. No requiere cambios.
 
 ## 7) Redirecciones e index
 
@@ -143,9 +140,7 @@ npm run build && npm run preview
 - [ ] `SUPPORTED` actualizado y tipos consistentes.
 - [ ] Diccionario `i18n` con todas las claves necesarias.
 - [ ] Contenido base creado en `content/<lang>/...`.
-- [ ] `getStaticPaths` actualizado en todas las páginas `[lang]`.
-- [ ] SEO (`SEO.astro`) y `SiteLayout.astro` soportan el nuevo idioma.
-- [ ] Acciones de contacto validan el nuevo idioma.
+- [ ] SEO `mapOgLocale` ajustado si aplica.
 - [ ] Build y preview sin errores.
 
 ---

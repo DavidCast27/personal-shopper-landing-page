@@ -4,6 +4,7 @@ import HeaderBlock from "@/components/blocks/header-1.astro";
 import FooterBlock from "@/components/blocks/footer-1.astro";
 import SEOBlock from "@/components/blocks/SEO.astro";
 import { getSiteSettings, getHeaderMenu, getFooterLinks } from "@/lib/content";
+import type { Lang } from "@/lib/lang";
 
 interface HeaderLink {
   icon?: string;
@@ -28,7 +29,7 @@ interface Logo {
 }
 
 interface Props {
-  lang?: "en" | "es" | "fr";
+  lang?: Lang;
   title?: string;
   description?: string;
   noindex?: boolean;
@@ -65,9 +66,9 @@ const {
 // Remove hardcoded defaults; rely on CMS + optional props
 
 // Load CMS-driven navigation
-const site = await getSiteSettings(lang as any).catch(() => undefined);
-const headerMenu = await getHeaderMenu(lang as any).catch(() => []);
-const footerLinks = await getFooterLinks(lang as any).catch(() => []);
+const site = await getSiteSettings(lang).catch(() => undefined);
+const headerMenu = await getHeaderMenu(lang).catch(() => []);
+const footerLinks = await getFooterLinks(lang).catch(() => []);
 
 // Map header menu with optional submenus via `parent` linking to parent's slug
 const headerChildren = headerMenu

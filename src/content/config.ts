@@ -87,7 +87,7 @@ const menus = defineCollection({
       parent: z.string().optional(),
       section: z.string().optional(),
       ...localized('text'),
-      ...localized('url'),
+      ...localized('url', false),
     })),
   }),
 })

@@ -581,13 +581,28 @@ function localizeYaml(data: any, locale: Lang): { localized: Record<string, any>
 export async function getNewHeaderMenu(locale: Lang): Promise<NewHeaderMenuItem[]> {
   const entry = await getEntry('menus', 'header')
   const data: any = entry?.data
-  const items = (data?.links || []).map((link: any) => ({
-    slug: link.slug,
-    order: link.order,
-    parent: link.parent,
-    text: link[`text_${locale}`],
-    href: link[`url_${locale}`],
-  }))
+  // Build a set of known service slugs to auto-generate URLs
+  const services = await getCollection('service_entries')
+  const serviceSlugs = new Set(services.map((s: any) => s.data?.slug))
+  const topLevelKnown = new Set(['about', 'services', 'blog', 'testimonials', 'faq', 'contact'])
+
+  const items = (data?.links || []).map((link: any) => {
+    const maybeServiceSlug = link.slug?.endsWith('-sub') ? link.slug.slice(0, -4) : link.slug
+    const isServiceChild = link.parent === 'services' && serviceSlugs.has(maybeServiceSlug)
+    const isTopLevelKnown = !link.parent && topLevelKnown.has(link.slug)
+    const href = isServiceChild
+      ? `/${locale}/services/${maybeServiceSlug}`
+      : isTopLevelKnown
+        ? `/${locale}/${link.slug}`
+        : link[`url_${locale}`]
+    return {
+      slug: link.slug,
+      order: link.order,
+      parent: link.parent,
+      text: link[`text_${locale}`],
+      href,
+    }
+  })
   items.sort((a: any, b: any) => (a.order ?? 0) - (b.order ?? 0))
   return items
 }

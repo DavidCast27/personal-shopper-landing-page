@@ -404,11 +404,8 @@ collections:
               - { label: "Parent", name: "parent", widget: "string", required: false, hint: "Slug of the parent item" }
               - { label: "Slug", name: "slug", widget: "string", hint: "Unique identifier for this link (e.g. 'home', 'about')" }
               - { label: "Text (EN)", name: "text_en", widget: "string" }
-              - { label: "URL (EN)", name: "url_en", widget: "string" }
               - { label: "Text (ES)", name: "text_es", widget: "string" }
-              - { label: "URL (ES)", name: "url_es", widget: "string" }
               - { label: "Text (FR)", name: "text_fr", widget: "string" }
-              - { label: "URL (FR)", name: "url_fr", widget: "string" }
       - label: "Footer Links"
         name: "footer_links"
         file: "src/content/menus/footer.yml"

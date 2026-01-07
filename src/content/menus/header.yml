@@ -2,67 +2,43 @@ links:
   - slug: about
     order: 1
     text_en: About
-    url_en: /en/about
     text_es: Acerca
-    url_es: /es/about
     text_fr: À propos
-    url_fr: /fr/about
   - slug: services
     order: 2
     text_en: Services
-    url_en: /en/services
     text_es: Servicios
-    url_es: /es/services
     text_fr: Services
-    url_fr: /fr/services
   - slug: blog
     order: 3
     text_en: Blog
-    url_en: /en/blog
     text_es: Blog
-    url_es: /es/blog
     text_fr: Blog
-    url_fr: /fr/blog
   - slug: testimonials
     order: 5
     text_en: Testimonials
-    url_en: /en/testimonials
     text_es: Testimonios
-    url_es: /es/testimonials
     text_fr: Témoignages
-    url_fr: /fr/testimonials
   - slug: faq
     order: 6
     text_en: FAQ
-    url_en: /en/faq
     text_es: FAQ
-    url_es: /es/faq
     text_fr: FAQ
-    url_fr: /fr/faq
   - slug: personal-shopping-sub
     order: 1
     parent: services
     text_en: Personal Shopping
-    url_en: /en/services/personal-shopping
     text_es: Compra Personal
-    url_es: /es/services/compra-personal
     text_fr: Shopping personnel
-    url_fr: /fr/services/shopping-personnel
   - slug: basic-styling-sub
     order: 2
     parent: services
     text_en: Basic Styling
-    url_en: /en/services/basic-styling
     text_es: Asesoría Básica
-    url_es: /es/services/asesoria-basica
     text_fr: Conseil de base
-    url_fr: /fr/services/conseil-de-base
   - slug: event-styling-sub
     order: 3
     parent: services
     text_en: Event Styling
-    url_en: /en/services/event-styling
     text_es: Estilismo para Eventos
-    url_es: /es/services/estilismo-eventos
     text_fr: Style pour événements
-    url_fr: /fr/services/style-evenements

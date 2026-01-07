@@ -43,7 +43,7 @@ const services = await getServices(lang);
   </HeroBlock>
   <ServicesBlock
     items={services.map((service) => ({
-      href: `/${lang}/services#${service.slug}`,
+      href: `/${lang}/services/${service.slug}`,
       title: service.title,
       description: service.description,
       image: {

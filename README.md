@@ -63,14 +63,45 @@ src/
     index.ts            # Redirect / → /{lang}
     robots.txt.ts       # Robots endpoint
 content/
-  en|es|fr/             # Markdown content per locale
+  pages/                # Centralized pages (YAML): home.yml, about.yml, ...
+  blog_entries/         # Blog posts (YAML, one file per post)
+  service_entries/      # Services (YAML, one file per service)
+  howitworks_entries/   # How It Works steps (YAML)
+  testimonial_entries/  # Testimonials (YAML)
+  faq_entries/          # FAQ questions (YAML)
+  menus/                # header.yml, footer.yml (YAML lists)
+  settings.yml          # Global settings (YAML)
 ```
 
 ## Content & CMS
-- Content lives in `content/{en,es,fr}/...` (home, about, services, testimonials, faq, blog, howitworks).
-- Media uploads go to `public/uploads/`.
-- Site settings (including OG image per locale) via `content/{locale}/site.md`.
-- Edit via Decap CMS at `/admin`.
+- Content is centralized in YAML files under `content/`:
+  - Pages: `content/pages/*.yml` (e.g., `home.yml`, `about.yml`, `blog.yml`, `services.yml`, `testimonials.yml`, `faq.yml`, `contact.yml`, `not-found.yml`).
+  - Blog: `content/blog_entries/*.yml` (1 file por post con campos localizados).
+  - Services: `content/service_entries/*.yml` (1 file por servicio con `price`, `price_es`, `price_fr`).
+  - How It Works: `content/howitworks_entries/*.yml` (pasos con `order`).
+  - Testimonials: `content/testimonial_entries/*.yml` (1 file por testimonio).
+  - FAQ: `content/faq_entries/*.yml` (1 file por pregunta).
+  - Menús: `content/menus/header.yml`, `content/menus/footer.yml`.
+  - Ajustes: `content/settings.yml`.
+- Campos localizados usan sufijos por idioma: `_en`, `_es`, `_fr` (ej.: `title_en`, `body_es`). Los campos globales no llevan sufijo (ej.: `slug`, `date`, `image`).
+- Media uploads van a `public/uploads/`.
+- Edita todo via Decap CMS en `/admin`:
+  - Colecciones: “Blog (Unified)”, “Services (Unified)”, “How It Works (Unified)”, “Testimonials (Unified)”, “FAQ (Unified)”, “Pages”, “Settings”.
+  - Cada item usa `slug` como identificador y URL/anchor canónico.
+
+### Mapas de URL
+- Blog post: `/{lang}/blog/{slug}` (un solo `slug` para todos los idiomas).
+- Service: `/{lang}/services/{slug}`.
+- How It Works: listado en Home; el `slug` sirve como anchor opcional.
+- FAQ, Testimonials: listados en sus páginas índice por idioma.
+
+### Guía de Campos (resumen)
+- Blog entry (`content/blog_entries/*.yml`): `slug`, `date`, `image?`, `title_*`, `description_*`, `body_*`.
+- Service entry (`content/service_entries/*.yml`): `slug`, `order`, `image?`, `price`, `price_es?`, `price_fr?`, `title_*`, `description_*`, `body_*`.
+- How It Works (`content/howitworks_entries/*.yml`): `slug`, `order`, `icon?`, `title_*`, `description_*`, `link_text_*?`, `link_href_*?`.
+- Testimonial (`content/testimonial_entries/*.yml`): `slug`, `order`, `rating?`, `avatar?`, `author`, `role_*?`, `title_*`, `body_*`.
+- FAQ (`content/faq_entries/*.yml`): `slug`, `order`, `question_*`, `body_*`.
+- Pages (`content/pages/*.yml`): campos por página con sufijos de idioma (ej.: `title_en`, `body_es`) y campos globales como imágenes.
 
 ## Internationalization
 - Locales: `en`, `es`, `fr`.

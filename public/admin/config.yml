@@ -243,6 +243,7 @@ collections:
     folder: "content/service_entries"
     create: true
     slug: "{{slug}}"
+    summary: "#{{order}} · {{title_en}} · {{price}}"
     format: "yaml"
     extension: "yml"
     identifier_field: "slug"
@@ -270,6 +271,7 @@ collections:
     folder: "content/faq_entries"
     create: true
     slug: "{{slug}}"
+    summary: "#{{order}} · {{question_en}}"
     format: "yaml"
     extension: "yml"
     identifier_field: "slug"
@@ -290,6 +292,7 @@ collections:
     folder: "content/testimonial_entries"
     create: true
     slug: "{{slug}}"
+    summary: "#{{order}} · {{author}} · {{title_en}}"
     format: "yaml"
     extension: "yml"
     identifier_field: "slug"
@@ -339,6 +342,7 @@ collections:
     folder: "content/howitworks_entries"
     create: true
     slug: "{{slug}}"
+    summary: "#{{order}} · {{title_en}}"
     format: "yaml"
     extension: "yml"
     identifier_field: "slug"
@@ -429,6 +433,7 @@ collections:
     folder: "content/blog_entries"
     create: true
     slug: "{{slug}}"
+    summary: "{{title_en}} · {{date}}"
     format: "yaml"
     extension: "yml"
     identifier_field: "slug"

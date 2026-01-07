@@ -1,0 +1,25 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import { Section, SectionProse } from "@/components/ui/section";
+import { renderMarkdown } from "@/lib/markdown";
+import { getPage } from "@/lib/content";
+import { staticPathsForLang, type Lang } from "@/lib/lang";
+
+export const prerender = true;
+
+export function getStaticPaths() { return staticPathsForLang() }
+
+const { lang } = Astro.params as { lang: Lang };
+const page = await getPage(lang, 'about');
+const fm = page.frontmatter as { title?: string; description?: string };
+---
+
+<SiteLayout lang={lang} title={fm.title} description={fm.description}>
+  <Section>
+    <SectionProse>
+      {fm.title && <h1>{fm.title}</h1>}
+      <div class="contents" set:html={renderMarkdown(page.body || '')} />
+    </SectionProse>
+  </Section>
+  
+</SiteLayout>

@@ -1,4 +1,4 @@
-type Locale = 'en' | 'es' | 'fr'
+import { SUPPORTED, type Lang } from './lang'
 
 type Frontmatter = Record<string, unknown>
 
@@ -33,7 +33,7 @@ export interface TestimonialFrontmatter extends Frontmatter {
 }
 
 export interface PageContent<T extends Frontmatter = Frontmatter> {
-  locale: Locale
+  locale: Lang
   path: string
   slug?: string
   frontmatter: T & {
@@ -99,11 +99,11 @@ function getRaw(path: string): string | undefined {
   return undefined
 }
 
-function ensureLocale(locale: string): asserts locale is Locale {
-  if (!['en', 'es', 'fr'].includes(locale)) throw new Error(`Unsupported locale: ${locale}`)
+function ensureLocale(locale: string): asserts locale is Lang {
+  if (!(SUPPORTED as readonly string[]).includes(locale)) throw new Error(`Unsupported locale: ${locale}`)
 }
 
-export async function getPage<T extends Frontmatter = Frontmatter>(locale: Locale, key: 'home' | 'about' | 'services' | 'testimonials' | 'faq' | 'blog' | 'contact'): Promise<PageContent<T>> {
+export async function getPage<T extends Frontmatter = Frontmatter>(locale: Lang, key: 'home' | 'about' | 'services' | 'testimonials' | 'faq' | 'blog' | 'contact'): Promise<PageContent<T>> {
   ensureLocale(locale)
   const path = `/content/${locale}/${key}.md`
   const raw = getRaw(path)
@@ -164,7 +164,7 @@ export interface HomePage extends PageContent<HomeFrontmatter> {
   cta_link_href?: string
 }
 
-const HOME_DEFAULTS: Record<Locale, {
+const HOME_DEFAULTS: Record<Lang, {
   title: string
   description: string
   hero_title: string
@@ -202,7 +202,7 @@ const HOME_DEFAULTS: Record<Locale, {
   },
 }
 
-export async function getHome(locale: Locale): Promise<HomePage> {
+export async function getHome(locale: Lang): Promise<HomePage> {
   const page = await getPage<HomeFrontmatter>(locale, 'home')
   const fm = page.frontmatter
   const d = HOME_DEFAULTS[locale]
@@ -238,7 +238,7 @@ export interface BlogListItem extends PageContent<BlogFrontmatter> {
   image?: string
 }
 
-export async function getBlogPosts(locale: Locale): Promise<BlogListItem[]> {
+export async function getBlogPosts(locale: Lang): Promise<BlogListItem[]> {
   ensureLocale(locale)
   const prefix = `/content/${locale}/blog/`
   const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix))
@@ -266,7 +266,7 @@ export async function getBlogPosts(locale: Locale): Promise<BlogListItem[]> {
   return items
 }
 
-export async function getPost(locale: Locale, slug: string): Promise<BlogListItem> {
+export async function getPost(locale: Lang, slug: string): Promise<BlogListItem> {
   ensureLocale(locale)
   const path = `/content/${locale}/blog/${slug}.md`
   const raw = getRaw(path)
@@ -296,7 +296,7 @@ export interface SiteSettings extends Frontmatter {
   logo_alt?: string
 }
 
-export async function getSiteSettings(locale: Locale): Promise<SiteSettings | undefined> {
+export async function getSiteSettings(locale: Lang): Promise<SiteSettings | undefined> {
   ensureLocale(locale)
   const path = `/content/${locale}/site.md`
   const raw = getRaw(path)
@@ -315,7 +315,7 @@ export interface ServiceItem extends PageContent<ServiceFrontmatter> {
   image?: string
 }
 
-export async function getServices(locale: Locale): Promise<ServiceItem[]> {
+export async function getServices(locale: Lang): Promise<ServiceItem[]> {
   ensureLocale(locale)
   const prefix = `/content/${locale}/services/`
   const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix))
@@ -350,7 +350,7 @@ export interface FaqItem extends PageContent<FaqFrontmatter> {
   question: string
 }
 
-export async function getFaq(locale: Locale): Promise<FaqItem[]> {
+export async function getFaq(locale: Lang): Promise<FaqItem[]> {
   ensureLocale(locale)
   const prefix = `/content/${locale}/faq/`
   const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix))
@@ -386,7 +386,7 @@ export interface TestimonialItem extends PageContent<TestimonialFrontmatter> {
   avatar?: string
 }
 
-export async function getTestimonials(locale: Locale): Promise<TestimonialItem[]> {
+export async function getTestimonials(locale: Lang): Promise<TestimonialItem[]> {
   ensureLocale(locale)
   const prefix = `/content/${locale}/testimonials/`
   const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix))
@@ -433,7 +433,7 @@ export interface HeaderMenuItem extends PageContent<HeaderNavFrontmatter> {
   parent?: string
 }
 
-export async function getHeaderMenu(locale: Locale): Promise<HeaderMenuItem[]> {
+export async function getHeaderMenu(locale: Lang): Promise<HeaderMenuItem[]> {
   ensureLocale(locale)
   const prefix = `/content/${locale}/nav/header/`
   const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix))
@@ -476,7 +476,7 @@ export interface FooterLinkItem extends PageContent<FooterLinkFrontmatter> {
   href: string
 }
 
-export async function getFooterLinks(locale: Locale): Promise<FooterLinkItem[]> {
+export async function getFooterLinks(locale: Lang): Promise<FooterLinkItem[]> {
   ensureLocale(locale)
   const prefix = `/content/${locale}/footer/links/`
   const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix))
@@ -519,7 +519,7 @@ export interface NotFoundPage extends PageContent<NotFoundFrontmatter> {
   cta_href: string
 }
 
-const NOT_FOUND_DEFAULTS: Record<Locale, {
+const NOT_FOUND_DEFAULTS: Record<Lang, {
   title: string
   description: string
   cta_text: string
@@ -545,7 +545,7 @@ const NOT_FOUND_DEFAULTS: Record<Locale, {
   },
 }
 
-export async function getNotFound(locale: Locale): Promise<NotFoundPage> {
+export async function getNotFound(locale: Lang): Promise<NotFoundPage> {
   ensureLocale(locale)
   const path = `/content/${locale}/not-found.md`
   const raw = getRaw(path)
@@ -604,7 +604,7 @@ export interface HowItWorksItem extends PageContent<HowItWorksFrontmatter> {
   link_href?: string
 }
 
-export async function getHowItWorks(locale: Locale): Promise<HowItWorksItem[]> {
+export async function getHowItWorks(locale: Lang): Promise<HowItWorksItem[]> {
   ensureLocale(locale)
   const prefix = `/content/${locale}/howitworks/`
   const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix))
@@ -633,7 +633,7 @@ export async function getHowItWorks(locale: Locale): Promise<HowItWorksItem[]> {
   return items
 }
 
-export async function getService(locale: Locale, slug: string): Promise<ServiceItem> {
+export async function getService(locale: Lang, slug: string): Promise<ServiceItem> {
   ensureLocale(locale)
   const path = `/content/${locale}/services/${slug}.md`
   const raw = getRaw(path)

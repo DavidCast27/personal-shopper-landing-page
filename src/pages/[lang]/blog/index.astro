@@ -4,16 +4,23 @@ import ArticlesBlock from "@/components/blocks/articles-4.astro";
 import EmptyState from "@/components/blocks/empty-state-1.astro";
 import { getBlogPosts, getPage } from "@/lib/content";
 import { renderMarkdown } from "@/lib/markdown";
+import { t } from "@/lib/i18n";
+import { staticPathsForLang, type Lang } from "@/lib/lang";
+
+export const prerender = true;
+
+export function getStaticPaths() { return staticPathsForLang() }
 
 const placeholderImage = "/uploads/image-placeholder.daj0efyq_29eycw.webp";
 
-const posts = await getBlogPosts("fr");
-const page = await getPage('fr', 'blog');
+const { lang } = Astro.params as { lang: Lang };
+const posts = await getBlogPosts(lang);
+const page = await getPage(lang, 'blog');
 const fm = page.frontmatter as { title?: string; description?: string };
 const items = posts.map((p) => ({
   title: p.title,
   description: p.description,
-  href: `/fr/blog/${p.slug}`,
+  href: `/${lang}/blog/${p.slug}`,
   image: {
     src: p.image || placeholderImage,
     alt: p.title,
@@ -25,7 +32,7 @@ const items = posts.map((p) => ({
 ---
 
 <SiteLayout
-  lang="fr"
+  lang={lang}
   title={fm.title}
   description={fm.description}
 >
@@ -38,8 +45,8 @@ const items = posts.map((p) => ({
   {items.length === 0 && (
     <EmptyState
       icon="file-plus-2"
-      title="Aucun article pour le moment"
-      description="Nous préparons du contenu. Revenez bientôt."
+      title={t(lang, 'empty.blog.title')}
+      description={t(lang, 'empty.blog.description')}
     />
   )}
 </SiteLayout>

@@ -1,7 +1,5 @@
 import type { APIRoute } from 'astro'
-
-const SUPPORTED = ['en', 'es', 'fr'] as const
-type Supported = (typeof SUPPORTED)[number]
+import { SUPPORTED, type Lang } from '@/lib/lang'
 
 function parseCookies(header: string | null): Record<string, string> {
   if (!header) return {}
@@ -13,15 +11,15 @@ function parseCookies(header: string | null): Record<string, string> {
   }, {})
 }
 
-function normalizeLang(code: string | null | undefined): Supported | null {
+function normalizeLang(code: string | null | undefined): Lang | null {
   if (!code) return null
   const lower = code.toLowerCase()
   // Map full tags like en-US -> en
   const base = lower.split('-')[0]
-  return (SUPPORTED as readonly string[]).includes(base) ? (base as Supported) : null
+  return (SUPPORTED as readonly string[]).includes(base) ? (base as Lang) : null
 }
 
-function fromAcceptLanguage(header: string | null): Supported {
+function fromAcceptLanguage(header: string | null): Lang {
   if (!header) return 'en'
   // Simple parser: split by comma, consider order/quality (q) roughly
   const parts = header.split(',').map((s) => s.trim())
@@ -44,7 +42,7 @@ function fromAcceptLanguage(header: string | null): Supported {
 export const GET: APIRoute = async ({ request }) => {
   const cookies = parseCookies(request.headers.get('cookie'))
   const cookieLang = normalizeLang(cookies['lang'])
-  const picked: Supported = cookieLang ?? fromAcceptLanguage(request.headers.get('accept-language'))
+  const picked: Lang = cookieLang ?? fromAcceptLanguage(request.headers.get('accept-language'))
 
   const location = `/${picked}/`
   const headers = new Headers({

@@ -4,10 +4,16 @@ import ServicesBlock from "@/components/blocks/services-7.astro";
 import EmptyState from "@/components/blocks/empty-state-1.astro";
 import { getPage, getServices, getSiteSettings } from "@/lib/content";
 import { renderMarkdown } from "@/lib/markdown";
+import { t } from "@/lib/i18n";
+import { staticPathsForLang, type Lang } from "@/lib/lang";
 
-const lang = "en";
+export const prerender = true;
+
+export function getStaticPaths() { return staticPathsForLang() }
+
 const placeholderImage = "/uploads/image-placeholder.daj0efyq_29eycw.webp";
 
+const { lang } = Astro.params as { lang: Lang };
 const services = await getServices(lang);
 const page = await getPage(lang, 'services');
 const fm = page.frontmatter as { title?: string; description?: string };
@@ -40,8 +46,8 @@ const items = services.map((s) => ({
   {items.length === 0 && (
     <EmptyState
       icon="package-open"
-      title="No services available yet"
-      description="We’re getting our services ready. Please check back soon."
+      title={t(lang, 'empty.services.title')}
+      description={t(lang, 'empty.services.description')}
     />
   )}
 </SiteLayout>

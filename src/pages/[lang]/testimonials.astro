@@ -1,0 +1,47 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import ReviewsBlock from "@/components/blocks/reviews-1.astro";
+import EmptyState from "@/components/blocks/empty-state-1.astro";
+import { getPage, getTestimonials } from "@/lib/content";
+import { renderMarkdown } from "@/lib/markdown";
+import { t } from "@/lib/i18n";
+import { staticPathsForLang, type Lang } from "@/lib/lang";
+
+export const prerender = true;
+
+export function getStaticPaths() { return staticPathsForLang() }
+
+const placeholderImage = "/uploads/image-placeholder.daj0efyq_29eycw.webp";
+const { lang } = Astro.params as { lang: Lang };
+const testimonials = await getTestimonials(lang);
+const page = await getPage(lang, 'testimonials');
+const fm = page.frontmatter as { title?: string; description?: string };
+const items = testimonials.map((tItem) => ({
+  title: tItem.title,
+  description: tItem.body || "",
+  rating: tItem.rating,
+  item: {
+    title: tItem.author,
+    description: tItem.role,
+    image: tItem.avatar ? { src: tItem.avatar } : { src: placeholderImage },
+  },
+}));
+---
+
+<SiteLayout
+  lang={lang}
+  title={fm.title}
+  description={fm.description}
+>
+  <ReviewsBlock items={items}>
+    {fm.title && <h1>{fm.title}</h1>}
+    {page.body && <div class="contents" set:html={renderMarkdown(page.body)} />}
+  </ReviewsBlock>
+  {items.length === 0 && (
+    <EmptyState
+      icon="messages-square"
+      title={t(lang, 'empty.testimonials.title')}
+      description={t(lang, 'empty.testimonials.description')}
+    />
+  )}
+</SiteLayout>

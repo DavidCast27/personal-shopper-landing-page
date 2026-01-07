@@ -5,17 +5,22 @@ import ServicesBlock from "@/components/blocks/services-7.astro";
 import HowItWorks from "@/components/blocks/how-it-works-1.astro";
 import CTABlock from "@/components/blocks/cta-8.astro";
 import { getHome, getHowItWorks, getServices } from "@/lib/content";
+import { staticPathsForLang, type Lang } from "@/lib/lang";
+
+export const prerender = true;
+
+export function getStaticPaths() { return staticPathsForLang() }
 
 const placeholderImage = "/uploads/image-placeholder.daj0efyq_29eycw.webp";
 
-const home = await getHome("en");
-const steps = await getHowItWorks("en");
-const services = await getServices("en");
-// Home content is normalized in lib/content.ts
+const { lang } = Astro.params as { lang: Lang };
+const home = await getHome(lang);
+const steps = await getHowItWorks(lang);
+const services = await getServices(lang);
 ---
 
 <SiteLayout
-  lang="en"
+  lang={lang}
   title={home.title}
   description={home.description}
 >
@@ -34,15 +39,11 @@ const services = await getServices("en");
     ]}
   >
     <h1>{home.hero_title}</h1>
-    <p>
-      {
-        home.hero_subtitle
-      }
-    </p>
+    <p>{home.hero_subtitle}</p>
   </HeroBlock>
   <ServicesBlock
     items={services.map((service) => ({
-      href: `/en/services#${service.slug}`,
+      href: `/${lang}/services#${service.slug}`,
       title: service.title,
       description: service.description,
       image: {

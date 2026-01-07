@@ -7,13 +7,19 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { actions } from "astro:actions";
- 
-const page = await getPage('es', 'contact');
+import { staticPathsForLang, type Lang } from "@/lib/lang";
+
+export const prerender = true;
+
+export function getStaticPaths() { return staticPathsForLang() }
+
+const { lang } = Astro.params as { lang: Lang };
+const page = await getPage(lang, 'contact');
 const fm = page.frontmatter as { title?: string; description?: string };
 ---
 
 <SiteLayout
-  lang="es"
+  lang={lang}
   title={fm.title}
   description={fm.description}
 >
@@ -25,7 +31,7 @@ const fm = page.frontmatter as { title?: string; description?: string };
       action={actions.contact}
       class="mt-6 grid gap-4"
     >
-      <input type="hidden" name="lang" value="es" />
+      <input type="hidden" name="lang" value={lang} />
       <input
         type="text"
         name="company"

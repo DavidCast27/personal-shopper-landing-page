@@ -11,13 +11,11 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import { Icon } from "@/components/ui/icon";
+import { SUPPORTED, type Lang } from "@/lib/lang";
 
-const SUPPORTED = ["en", "es", "fr"] as const;
-type Supported = (typeof SUPPORTED)[number];
-
-function detectLang(pathname: string): Supported {
+function detectLang(pathname: string): Lang {
   const seg = pathname.split("/").filter(Boolean)[0] as string | undefined;
-  if (seg && (SUPPORTED as readonly string[]).includes(seg)) return seg as Supported;
+  if (seg && (SUPPORTED as readonly string[]).includes(seg)) return seg as Lang;
   return "en";
 }
 

@@ -2,19 +2,16 @@
 import SiteLayout from "../../../layouts/SiteLayout.astro";
 import { getService, getServices } from "@/lib/content";
 import { renderMarkdown } from "@/lib/markdown";
+import { staticPathsForSlugs, type Lang } from "@/lib/lang";
 
 export const prerender = true;
 
 export async function getStaticPaths() {
-  const services = await getServices("en");
-  return services.map((service) => ({
-    params: { slug: service.slug },
-  }));
+  return staticPathsForSlugs(getServices)
 }
 
-const { slug } = Astro.params;
-const lang = "en";
-const service = await getService(lang, slug as string);
+const { lang, slug } = Astro.params as { lang: Lang; slug: string };
+const service = await getService(lang, slug);
 const fm = service.frontmatter;
 ---
 

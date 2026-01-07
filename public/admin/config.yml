@@ -178,27 +178,7 @@ collections:
           - { label: Footer Description, name: footer_description, widget: text, required: false }
           - { label: OG Image (default), name: og_image, widget: image, required: false }
 
-  - name: header_menu_en
-    label: Header Menu (EN)
-    folder: content/en/nav/header
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: Text, name: text, widget: string }
-      - { label: Href, name: href, widget: string }
-      - { label: Order, name: order, widget: number, value_type: int, min: 0 }
-      - { label: Parent (optional), name: parent, widget: string, required: false }
 
-  - name: footer_links_en
-    label: Footer Links (EN)
-    folder: content/en/footer/links
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: Section, name: section, widget: string }
-      - { label: Text, name: text, widget: string }
-      - { label: Href, name: href, widget: string }
-      - { label: Order, name: order, widget: number, value_type: int, min: 0 }
 
   # Spanish (ES)
   - name: pages_es
@@ -363,27 +343,7 @@ collections:
           - { label: Descripción del pie, name: footer_description, widget: text, required: false }
           - { label: Imagen OG (predeterminada), name: og_image, widget: image, required: false }
 
-  - name: header_menu_es
-    label: Menú Header (ES)
-    folder: content/es/nav/header
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: Texto, name: text, widget: string }
-      - { label: Enlace, name: href, widget: string }
-      - { label: Orden, name: order, widget: number, value_type: int, min: 0 }
-      - { label: Padre (opcional), name: parent, widget: string, required: false }
 
-  - name: footer_links_es
-    label: Enlaces Footer (ES)
-    folder: content/es/footer/links
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: Sección, name: section, widget: string }
-      - { label: Texto, name: text, widget: string }
-      - { label: Enlace, name: href, widget: string }
-      - { label: Orden, name: order, widget: number, value_type: int, min: 0 }
 
   # French (FR)
   - name: pages_fr
@@ -548,27 +508,7 @@ collections:
           - { label: Description du pied de page, name: footer_description, widget: text, required: false }
           - { label: Image OG (défaut), name: og_image, widget: image, required: false }
 
-  - name: header_menu_fr
-    label: Menu Header (FR)
-    folder: content/fr/nav/header
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: Texte, name: text, widget: string }
-      - { label: Lien, name: href, widget: string }
-      - { label: Ordre, name: order, widget: number, value_type: int, min: 0 }
-      - { label: Parent (optionnel), name: parent, widget: string, required: false }
 
-  - name: footer_links_fr
-    label: Liens Footer (FR)
-    folder: content/fr/footer/links
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: Section, name: section, widget: string }
-      - { label: Texte, name: text, widget: string }
-      - { label: Lien, name: href, widget: string }
-      - { label: Ordre, name: order, widget: number, value_type: int, min: 0 }
 
   - name: howitworks_fr
     label: Comment ça marche (FR)
@@ -608,3 +548,44 @@ collections:
       - { label: Orden, name: order, widget: number, value_type: int, min: 0 }
       - { label: Texto del enlace, name: link_text, widget: string, required: false }
       - { label: Enlace, name: link_href, widget: string, required: false }
+
+  - name: "menus"
+    label: "Menus"
+    editor:
+      preview: false
+    files:
+      - label: "Header Menu"
+        name: "header_menu"
+        file: "content/menus/header.yml"
+        fields:
+          - name: "links"
+            label: "Links"
+            widget: "list"
+            summary: "{{fields.text_en}}"
+            fields:
+              - { label: "Order", name: "order", widget: "number", value_type: "int", min: 0 }
+              - { label: "Parent", name: "parent", widget: "string", required: false, hint: "Slug of the parent item" }
+              - { label: "Slug", name: "slug", widget: "string", hint: "Unique identifier for this link (e.g. 'home', 'about')" }
+              - { label: "Text (EN)", name: "text_en", widget: "string" }
+              - { label: "URL (EN)", name: "url_en", widget: "string" }
+              - { label: "Text (ES)", name: "text_es", widget: "string" }
+              - { label: "URL (ES)", name: "url_es", widget: "string" }
+              - { label: "Text (FR)", name: "text_fr", widget: "string" }
+              - { label: "URL (FR)", name: "url_fr", widget: "string" }
+      - label: "Footer Links"
+        name: "footer_links"
+        file: "content/menus/footer.yml"
+        fields:
+          - name: "links"
+            label: "Links"
+            widget: "list"
+            summary: "{{fields.text_en}}"
+            fields:
+              - { label: "Order", name: "order", widget: "number", value_type: "int", min: 0 }
+              - { label: "Section", name: "section", widget: "string", hint: "e.g. 'Company', 'Product'" }
+              - { label: "Text (EN)", name: "text_en", widget: "string" }
+              - { label: "URL (EN)", "name": "url_en", widget: "string" }
+              - { label: "Text (ES)", name: "text_es", widget: "string" }
+              - { label: "URL (ES)", "name": "url_es", widget: "string" }
+              - { label: "Text (FR)", name: "text_fr", widget: "string" }
+              - { label: "URL (FR)", "name": "url_fr", widget: "string" }

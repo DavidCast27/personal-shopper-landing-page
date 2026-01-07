@@ -1,0 +1,37 @@
+links:
+  - slug: company-about
+    order: 1
+    section: Company
+    text_en: About
+    url_en: /en/about
+    text_es: Acerca
+    url_es: /es/about
+    text_fr: À propos
+    url_fr: /fr/about
+  - slug: company-contact
+    order: 2
+    section: Company
+    text_en: Contact
+    url_en: /en/contact
+    text_es: Contacto
+    url_es: /es/contact
+    text_fr: Contact
+    url_fr: /fr/contact
+  - slug: explore-services
+    order: 1
+    section: Explore
+    text_en: Services
+    url_en: /en/services
+    text_es: Servicios
+    url_es: /es/services
+    text_fr: Services
+    url_fr: /fr/services
+  - slug: explore-blog
+    order: 2
+    section: Explore
+    text_en: Blog
+    url_en: /en/blog
+    text_es: Blog
+    url_es: /es/blog
+    text_fr: Blog
+    url_fr: /fr/blog

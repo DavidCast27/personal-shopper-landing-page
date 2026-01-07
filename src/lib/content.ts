@@ -1,6 +1,9 @@
 import { SUPPORTED, type Lang } from './lang'
+import yaml from 'js-yaml';
+import fs from 'fs/promises';
 
 type Frontmatter = Record<string, unknown>
+
 
 // Common typed frontmatter shapes per collection
 export interface BlogFrontmatter extends Frontmatter {
@@ -417,92 +420,7 @@ export async function getTestimonials(locale: Lang): Promise<TestimonialItem[]> 
   return items
 }
 
-export interface HeaderNavFrontmatter extends Frontmatter {
-  text?: string
-  href?: string
-  order?: number
-  parent?: string
-}
 
-export interface HeaderMenuItem extends PageContent<HeaderNavFrontmatter> {
-  slug: string
-  order?: number
-  // normalized
-  text: string
-  href: string
-  parent?: string
-}
-
-export async function getHeaderMenu(locale: Lang): Promise<HeaderMenuItem[]> {
-  ensureLocale(locale)
-  const prefix = `/content/${locale}/nav/header/`
-  const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix))
-  const items = entries.map(([pathRaw, raw]) => {
-    const path = normalizeKey(pathRaw)
-    const { frontmatter, body } = parseFrontmatter(raw)
-    const orderRaw = frontmatter.order as string | number | undefined
-    const order = typeof orderRaw === 'number' ? orderRaw : orderRaw ? parseInt(String(orderRaw), 10) : undefined
-    const slug = path.replace(prefix, '').replace(/\.md$/, '')
-    const fm = frontmatter as HeaderNavFrontmatter
-    return {
-      locale,
-      path,
-      slug,
-      frontmatter: fm,
-      body,
-      order,
-      text: fm.text || slug,
-      href: fm.href || '#',
-      parent: (fm.parent as string) || undefined,
-    } as HeaderMenuItem
-  })
-  items.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
-  return items
-}
-
-export interface FooterLinkFrontmatter extends Frontmatter {
-  section?: string
-  text?: string
-  href?: string
-  order?: number
-}
-
-export interface FooterLinkItem extends PageContent<FooterLinkFrontmatter> {
-  slug: string
-  order?: number
-  // normalized
-  section: string
-  text: string
-  href: string
-}
-
-export async function getFooterLinks(locale: Lang): Promise<FooterLinkItem[]> {
-  ensureLocale(locale)
-  const prefix = `/content/${locale}/footer/links/`
-  const entries = Object.entries(rawFiles).filter(([p]) => p.startsWith(prefix))
-  const items = entries.map(([pathRaw, raw]) => {
-    const path = normalizeKey(pathRaw)
-    const { frontmatter, body } = parseFrontmatter(raw)
-    const orderRaw = frontmatter.order as string | number | undefined
-    const order = typeof orderRaw === 'number' ? orderRaw : orderRaw ? parseInt(String(orderRaw), 10) : undefined
-    const slug = path.replace(prefix, '').replace(/\.md$/, '')
-    const fm = frontmatter as FooterLinkFrontmatter
-    const section = (fm.section as string) || 'Links'
-    return {
-      locale,
-      path,
-      slug,
-      frontmatter: fm,
-      body,
-      order,
-      section,
-      text: (fm.text as string) || slug,
-      href: (fm.href as string) || '#',
-    } as FooterLinkItem
-  })
-  items.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
-  return items
-}
 
 // Not Found (404) content
 export interface NotFoundFrontmatter extends Frontmatter {
@@ -653,3 +571,51 @@ export async function getService(locale: Lang, slug: string): Promise<ServiceIte
     image: fm.image || undefined,
   } as ServiceItem
 }
+
+export interface NewHeaderMenuItem {
+  slug: string;
+  order?: number;
+  parent?: string;
+  text: string;
+  href: string;
+}
+
+async function getYaml(path: string): Promise<any> {
+  const raw = await fs.readFile(path, 'utf-8');
+  return yaml.load(raw);
+}
+
+export async function getNewHeaderMenu(locale: Lang): Promise<NewHeaderMenuItem[]> {
+  const data = await getYaml('content/menus/header.yml');
+  const items = data.links.map((link: any) => ({
+    slug: link.slug,
+    order: link.order,
+    parent: link.parent,
+    text: link[`text_${locale}`],
+    href: link[`url_${locale}`],
+  }));
+  items.sort((a: any, b: any) => (a.order ?? 0) - (b.order ?? 0));
+  return items;
+}
+
+export interface NewFooterLinkItem {
+  slug: string;
+  order?: number;
+  section: string;
+  text: string;
+  href: string;
+}
+
+export async function getNewFooterLinks(locale: Lang): Promise<NewFooterLinkItem[]> {
+  const data = await getYaml('content/menus/footer.yml');
+  const items = data.links.map((link: any) => ({
+    slug: link.slug,
+    order: link.order,
+    section: link.section,
+    text: link[`text_${locale}`],
+    href: link[`url_${locale}`],
+  }));
+  items.sort((a: any, b: any) => (a.order ?? 0) - (b.order ?? 0));
+  return items;
+}
+

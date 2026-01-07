@@ -3,7 +3,7 @@ import "../styles/tailwind.css";
 import HeaderBlock from "@/components/blocks/header-1.astro";
 import FooterBlock from "@/components/blocks/footer-1.astro";
 import SEOBlock from "@/components/blocks/SEO.astro";
-import { getSiteSettings, getHeaderMenu, getFooterLinks } from "@/lib/content";
+import { getSiteSettings, getNewHeaderMenu, getNewFooterLinks } from "@/lib/content";
 import type { Lang } from "@/lib/lang";
 
 interface HeaderLink {
@@ -67,8 +67,8 @@ const {
 
 // Load CMS-driven navigation
 const site = await getSiteSettings(lang).catch(() => undefined);
-const headerMenu = await getHeaderMenu(lang).catch(() => []);
-const footerLinks = await getFooterLinks(lang).catch(() => []);
+const headerMenu = await getNewHeaderMenu(lang).catch(() => []);
+const footerLinks = await getNewFooterLinks(lang).catch(() => []);
 
 // Map header menu with optional submenus via `parent` linking to parent's slug
 const headerChildren = headerMenu

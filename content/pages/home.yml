@@ -1,0 +1,63 @@
+title_en: Home
+description_en: Personal shopping and styling services in Canadaaaaa.
+hero_image: /uploads/image-placeholder.daj0efyq_29eycw.webp
+hero_image_alt_en: Personal Shopper
+hero_title_en: Personal Shopper in Canada
+hero_subtitle_en: Personal shopping and styling services in Canada.
+hero_cta_text_en: Book a consult
+hero_cta_href_en: /en/contact
+hero_secondary_cta_text_en: Learn more
+hero_secondary_cta_href_en: /en/services
+services_title_en: Services
+services_description_en: Explore our offering tailored to your needs.
+services_cta_text_en: Learn more
+services_cta_href_en: /en/services
+steps_title_en: Simple steps to get started
+cta_text_en: Ready to elevate your style?
+cta_description_en: Trusted by happy clients
+cta_link_text_en: Contact us
+cta_link_href_en: /en/contact
+body_en: |
+  Welcome to the Personal Shopper site (EN).
+
+title_es: Inicio
+description_es: Servicios de personal shopper en Canadá.
+hero_image_alt_es: Personal Shopper
+hero_title_es: Personal Shopper en Canadá
+hero_subtitle_es: Servicios de personal shopper en Canadá.
+hero_cta_text_es: Reservar
+hero_cta_href_es: /es/contact
+hero_secondary_cta_text_es: Saber más
+hero_secondary_cta_href_es: /es/services
+services_title_es: Servicios
+services_description_es: Conoce nuestra oferta adaptada a ti.
+services_cta_text_es: Saber más
+services_cta_href_es: /es/services
+steps_title_es: Pasos simples para empezar
+cta_text_es: ¿Listo para elevar tu estilo?
+cta_description_es: Clientes satisfechos nos recomiendan
+cta_link_text_es: Contáctanos
+cta_link_href_es: /es/contact
+body_es: |
+  Bienvenido al sitio de Personal Shopper (ES).
+
+title_fr: Accueil
+description_fr: Services de personal shopper au Canada.
+hero_image_alt_fr: Personal Shopper
+hero_title_fr: Personal Shopper au Canada
+hero_subtitle_fr: Services de personal shopper au Canada.
+hero_cta_text_fr: Réserver
+hero_cta_href_fr: /fr/contact
+hero_secondary_cta_text_fr: En savoir plus
+hero_secondary_cta_href_fr: /fr/services
+services_title_fr: Services
+services_description_fr: Découvrez notre offre adaptée à vos besoins.
+services_cta_text_fr: En savoir plus
+services_cta_href_fr: /fr/services
+steps_title_fr: Étapes simples pour commencer
+cta_text_fr: Prêt à améliorer votre style ?
+cta_description_fr: Approuvé par nos clients
+cta_link_text_fr: Nous contacter
+cta_link_href_fr: /fr/contact
+body_fr: |
+  Bienvenue sur le site Personal Shopper (FR).

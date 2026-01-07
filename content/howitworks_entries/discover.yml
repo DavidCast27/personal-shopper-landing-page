@@ -1,0 +1,18 @@
+slug: discover
+order: 1
+
+title_en: Discover your style
+description_en: Book a quick consult to understand your goals, budget, and lifestyle.
+link_text_en: Book a consult
+link_href_en: /en/contact
+
+title_es: Descubrir tu estilo
+description_es: Agenda una consulta para conocer tus objetivos, presupuesto y estilo de vida.
+link_text_es: Reservar
+link_href_es: /es/contact
+
+title_fr: Découvrir votre style
+description_fr: Planifiez une consultation pour vos objectifs, budget et style de vie.
+link_text_fr: Réserver
+link_href_fr: /fr/contact
+

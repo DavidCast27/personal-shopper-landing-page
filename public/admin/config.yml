@@ -14,546 +14,379 @@ local_backend:
 media_folder: public/uploads
 public_folder: /uploads
 
+# Global i18n configuration for unified folder collections
+i18n:
+  structure: multiple_folders
+  locales: [en, es, fr]
+  default_locale: en
+
 collections:
-  # English (EN)
-  - name: pages_en
-    label: Pages (EN)
+  # Centralized Pages (YAML)
+  - name: pages
+    label: Pages
     editor:
       preview: false
     files:
       - label: Home
         name: home
-        file: content/en/home.md
+        file: content/pages/home.yml
         fields:
-          - { label: Title, name: title, widget: string }
-          - { label: Description, name: description, widget: text, required: false }
-          - { label: Hero Title, name: hero_title, widget: string, required: false }
-          - { label: Hero Subtitle, name: hero_subtitle, widget: text, required: false }
-          - { label: Hero CTA Text, name: hero_cta_text, widget: string, required: false }
-          - { label: Hero CTA Href, name: hero_cta_href, widget: string, required: false }
-          - { label: Hero Secondary CTA Text, name: hero_secondary_cta_text, widget: string, required: false }
-          - { label: Hero Secondary CTA Href, name: hero_secondary_cta_href, widget: string, required: false }
           - { label: Hero Image, name: hero_image, widget: image, required: false }
-          - { label: Hero Image Alt, name: hero_image_alt, widget: string, required: false }
-          - { label: Services Title, name: services_title, widget: string, required: false }
-          - { label: Services Description, name: services_description, widget: text, required: false }
-          - { label: Services CTA Text, name: services_cta_text, widget: string, required: false }
-          - { label: Services CTA Href, name: services_cta_href, widget: string, required: false }
-          - { label: Steps Title, name: steps_title, widget: string, required: false }
-          - { label: CTA Text, name: cta_text, widget: string, required: false }
-          - { label: CTA Description, name: cta_description, widget: text, required: false }
-          - { label: CTA Link Text, name: cta_link_text, widget: string, required: false }
-          - { label: CTA Link Href, name: cta_link_href, widget: string, required: false }
-          - { label: Body, name: body, widget: markdown, required: false }
-      - label: Blog
-        name: blog
-        file: content/en/blog.md
-        fields:
-          - { label: Title, name: title, widget: string }
-          - { label: Description, name: description, widget: text, required: false }
-          - { label: Body, name: body, widget: markdown, required: false }
-      - label: Contact
-        name: contact
-        file: content/en/contact.md
-        fields:
-          - { label: Title, name: title, widget: string }
-          - { label: Description, name: description, widget: text, required: false }
-          - { label: Name Label, name: name_label, widget: string, required: false }
-          - { label: Name Placeholder, name: name_placeholder, widget: string, required: false }
-          - { label: Email Label, name: email_label, widget: string, required: false }
-          - { label: Email Placeholder, name: email_placeholder, widget: string, required: false }
-          - { label: Message Label, name: message_label, widget: string, required: false }
-          - { label: Message Placeholder, name: message_placeholder, widget: string, required: false }
-          - { label: Form Helper, name: form_helper, widget: string, required: false }
-          - { label: Submit Text, name: submit_text, widget: string, required: false }
-          - { label: "Status: Sending", name: messages_sending, widget: string, required: false }
-          - { label: "Status: Success", name: messages_success, widget: string, required: false }
-          - { label: "Status: Generic Error", name: messages_generic_error, widget: string, required: false }
-          - { label: "Status: Network Error", name: messages_network_error, widget: string, required: false }
-          - { label: "Status: Rate Limit", name: messages_rate_limit, widget: string, required: false }
-          - { label: "Status: Check Fields", name: messages_check_fields, widget: string, required: false }
-          - { label: "Error: Name Length", name: messages_name_length, widget: string, required: false }
-          - { label: "Error: Email Invalid", name: messages_email_invalid, widget: string, required: false }
-          - { label: "Error: Message Length", name: messages_message_length, widget: string, required: false }
-          - { label: Body, name: body, widget: markdown, required: false }
+          - { label: Title (EN), name: title_en, widget: string }
+          - { label: Description (EN), name: description_en, widget: text, required: false }
+          - { label: Hero Title (EN), name: hero_title_en, widget: string, required: false }
+          - { label: Hero Subtitle (EN), name: hero_subtitle_en, widget: text, required: false }
+          - { label: Hero CTA Text (EN), name: hero_cta_text_en, widget: string, required: false }
+          - { label: Hero CTA Href (EN), name: hero_cta_href_en, widget: string, required: false }
+          - { label: Hero Secondary CTA Text (EN), name: hero_secondary_cta_text_en, widget: string, required: false }
+          - { label: Hero Secondary CTA Href (EN), name: hero_secondary_cta_href_en, widget: string, required: false }
+          - { label: Hero Image Alt (EN), name: hero_image_alt_en, widget: string, required: false }
+          - { label: Services Title (EN), name: services_title_en, widget: string, required: false }
+          - { label: Services Description (EN), name: services_description_en, widget: text, required: false }
+          - { label: Services CTA Text (EN), name: services_cta_text_en, widget: string, required: false }
+          - { label: Services CTA Href (EN), name: services_cta_href_en, widget: string, required: false }
+          - { label: Steps Title (EN), name: steps_title_en, widget: string, required: false }
+          - { label: CTA Text (EN), name: cta_text_en, widget: string, required: false }
+          - { label: CTA Description (EN), name: cta_description_en, widget: text, required: false }
+          - { label: CTA Link Text (EN), name: cta_link_text_en, widget: string, required: false }
+          - { label: CTA Link Href (EN), name: cta_link_href_en, widget: string, required: false }
+          - { label: Body (EN), name: body_en, widget: markdown, required: false }
+          - { label: Title (ES), name: title_es, widget: string }
+          - { label: Description (ES), name: description_es, widget: text, required: false }
+          - { label: Hero Title (ES), name: hero_title_es, widget: string, required: false }
+          - { label: Hero Subtitle (ES), name: hero_subtitle_es, widget: text, required: false }
+          - { label: Hero CTA Text (ES), name: hero_cta_text_es, widget: string, required: false }
+          - { label: Hero CTA Href (ES), name: hero_cta_href_es, widget: string, required: false }
+          - { label: Hero Secondary CTA Text (ES), name: hero_secondary_cta_text_es, widget: string, required: false }
+          - { label: Hero Secondary CTA Href (ES), name: hero_secondary_cta_href_es, widget: string, required: false }
+          - { label: Hero Image Alt (ES), name: hero_image_alt_es, widget: string, required: false }
+          - { label: Services Title (ES), name: services_title_es, widget: string, required: false }
+          - { label: Services Description (ES), name: services_description_es, widget: text, required: false }
+          - { label: Services CTA Text (ES), name: services_cta_text_es, widget: string, required: false }
+          - { label: Services CTA Href (ES), name: services_cta_href_es, widget: string, required: false }
+          - { label: Steps Title (ES), name: steps_title_es, widget: string, required: false }
+          - { label: CTA Text (ES), name: cta_text_es, widget: string, required: false }
+          - { label: CTA Description (ES), name: cta_description_es, widget: text, required: false }
+          - { label: CTA Link Text (ES), name: cta_link_text_es, widget: string, required: false }
+          - { label: CTA Link Href (ES), name: cta_link_href_es, widget: string, required: false }
+          - { label: Body (ES), name: body_es, widget: markdown, required: false }
+          - { label: Title (FR), name: title_fr, widget: string }
+          - { label: Description (FR), name: description_fr, widget: text, required: false }
+          - { label: Hero Title (FR), name: hero_title_fr, widget: string, required: false }
+          - { label: Hero Subtitle (FR), name: hero_subtitle_fr, widget: text, required: false }
+          - { label: Hero CTA Text (FR), name: hero_cta_text_fr, widget: string, required: false }
+          - { label: Hero CTA Href (FR), name: hero_cta_href_fr, widget: string, required: false }
+          - { label: Hero Secondary CTA Text (FR), name: hero_secondary_cta_text_fr, widget: string, required: false }
+          - { label: Hero Secondary CTA Href (FR), name: hero_secondary_cta_href_fr, widget: string, required: false }
+          - { label: Hero Image Alt (FR), name: hero_image_alt_fr, widget: string, required: false }
+          - { label: Services Title (FR), name: services_title_fr, widget: string, required: false }
+          - { label: Services Description (FR), name: services_description_fr, widget: text, required: false }
+          - { label: Services CTA Text (FR), name: services_cta_text_fr, widget: string, required: false }
+          - { label: Services CTA Href (FR), name: services_cta_href_fr, widget: string, required: false }
+          - { label: Steps Title (FR), name: steps_title_fr, widget: string, required: false }
+          - { label: CTA Text (FR), name: cta_text_fr, widget: string, required: false }
+          - { label: CTA Description (FR), name: cta_description_fr, widget: text, required: false }
+          - { label: CTA Link Text (FR), name: cta_link_text_fr, widget: string, required: false }
+          - { label: CTA Link Href (FR), name: cta_link_href_fr, widget: string, required: false }
+          - { label: Body (FR), name: body_fr, widget: markdown, required: false }
       - label: About
         name: about
-        file: content/en/about.md
+        file: content/pages/about.yml
         fields:
-          - { label: Title, name: title, widget: string }
-          - { label: Description, name: description, widget: text, required: false }
-          - { label: Body, name: body, widget: markdown, required: false }
-      - label: Services
+          - { label: Title (EN), name: title_en, widget: string }
+          - { label: Description (EN), name: description_en, widget: text, required: false }
+          - { label: Body (EN), name: body_en, widget: markdown, required: false }
+          - { label: Title (ES), name: title_es, widget: string }
+          - { label: Description (ES), name: description_es, widget: text, required: false }
+          - { label: Body (ES), name: body_es, widget: markdown, required: false }
+          - { label: Title (FR), name: title_fr, widget: string }
+          - { label: Description (FR), name: description_fr, widget: text, required: false }
+          - { label: Body (FR), name: body_fr, widget: markdown, required: false }
+      - label: Blog
+        name: blog
+        file: content/pages/blog.yml
+        fields:
+          - { label: Title (EN), name: title_en, widget: string }
+          - { label: Description (EN), name: description_en, widget: text, required: false }
+          - { label: Body (EN), name: body_en, widget: markdown, required: false }
+          - { label: Title (ES), name: title_es, widget: string }
+          - { label: Description (ES), name: description_es, widget: text, required: false }
+          - { label: Body (ES), name: body_es, widget: markdown, required: false }
+          - { label: Title (FR), name: title_fr, widget: string }
+          - { label: Description (FR), name: description_fr, widget: text, required: false }
+          - { label: Body (FR), name: body_fr, widget: markdown, required: false }
+      - label: Services (page)
         name: services
-        file: content/en/services.md
+        file: content/pages/services.yml
         fields:
-          - { label: Title, name: title, widget: string }
-          - { label: Description, name: description, widget: text, required: false }
-          - { label: Body, name: body, widget: markdown, required: false }
-      - label: Testimonials
+          - { label: Title (EN), name: title_en, widget: string }
+          - { label: Description (EN), name: description_en, widget: text, required: false }
+          - { label: Body (EN), name: body_en, widget: markdown, required: false }
+          - { label: Title (ES), name: title_es, widget: string }
+          - { label: Description (ES), name: description_es, widget: text, required: false }
+          - { label: Body (ES), name: body_es, widget: markdown, required: false }
+          - { label: Title (FR), name: title_fr, widget: string }
+          - { label: Description (FR), name: description_fr, widget: text, required: false }
+          - { label: Body (FR), name: body_fr, widget: markdown, required: false }
+      - label: Testimonials (page)
         name: testimonials
-        file: content/en/testimonials.md
+        file: content/pages/testimonials.yml
         fields:
-          - { label: Title, name: title, widget: string }
-          - { label: Description, name: description, widget: text, required: false }
-          - { label: Body, name: body, widget: markdown, required: false }
-      - label: FAQ
+          - { label: Title (EN), name: title_en, widget: string }
+          - { label: Description (EN), name: description_en, widget: text, required: false }
+          - { label: Body (EN), name: body_en, widget: markdown, required: false }
+          - { label: Title (ES), name: title_es, widget: string }
+          - { label: Description (ES), name: description_es, widget: text, required: false }
+          - { label: Body (ES), name: body_es, widget: markdown, required: false }
+          - { label: Title (FR), name: title_fr, widget: string }
+          - { label: Description (FR), name: description_fr, widget: text, required: false }
+          - { label: Body (FR), name: body_fr, widget: markdown, required: false }
+      - label: FAQ (page)
         name: faq
-        file: content/en/faq.md
+        file: content/pages/faq.yml
         fields:
-          - { label: Title, name: title, widget: string }
-          - { label: Description, name: description, widget: text, required: false }
-          - { label: Body, name: body, widget: markdown, required: false }
+          - { label: Title (EN), name: title_en, widget: string }
+          - { label: Description (EN), name: description_en, widget: text, required: false }
+          - { label: Body (EN), name: body_en, widget: markdown, required: false }
+          - { label: Title (ES), name: title_es, widget: string }
+          - { label: Description (ES), name: description_es, widget: text, required: false }
+          - { label: Body (ES), name: body_es, widget: markdown, required: false }
+          - { label: Title (FR), name: title_fr, widget: string }
+          - { label: Description (FR), name: description_fr, widget: text, required: false }
+          - { label: Body (FR), name: body_fr, widget: markdown, required: false }
+      - label: Contact
+        name: contact
+        file: content/pages/contact.yml
+        fields:
+          - { label: Title (EN), name: title_en, widget: string }
+          - { label: Description (EN), name: description_en, widget: text, required: false }
+          - { label: Name Label (EN), name: name_label_en, widget: string, required: false }
+          - { label: Name Placeholder (EN), name: name_placeholder_en, widget: string, required: false }
+          - { label: Email Label (EN), name: email_label_en, widget: string, required: false }
+          - { label: Email Placeholder (EN), name: email_placeholder_en, widget: string, required: false }
+          - { label: Message Label (EN), name: message_label_en, widget: string, required: false }
+          - { label: Message Placeholder (EN), name: message_placeholder_en, widget: string, required: false }
+          - { label: Form Helper (EN), name: form_helper_en, widget: string, required: false }
+          - { label: Submit Text (EN), name: submit_text_en, widget: string, required: false }
+          - { label: "Status: Sending (EN)", name: messages_sending_en, widget: string, required: false }
+          - { label: "Status: Success (EN)", name: messages_success_en, widget: string, required: false }
+          - { label: "Status: Generic Error (EN)", name: messages_generic_error_en, widget: string, required: false }
+          - { label: "Status: Network Error (EN)", name: messages_network_error_en, widget: string, required: false }
+          - { label: "Status: Rate Limit (EN)", name: messages_rate_limit_en, widget: string, required: false }
+          - { label: "Status: Check Fields (EN)", name: messages_check_fields_en, widget: string, required: false }
+          - { label: "Error: Name Length (EN)", name: messages_name_length_en, widget: string, required: false }
+          - { label: "Error: Email Invalid (EN)", name: messages_email_invalid_en, widget: string, required: false }
+          - { label: "Error: Message Length (EN)", name: messages_message_length_en, widget: string, required: false }
+          - { label: Body (EN), name: body_en, widget: markdown, required: false }
+          - { label: Title (ES), name: title_es, widget: string }
+          - { label: Description (ES), name: description_es, widget: text, required: false }
+          - { label: Name Label (ES), name: name_label_es, widget: string, required: false }
+          - { label: Name Placeholder (ES), name: name_placeholder_es, widget: string, required: false }
+          - { label: Email Label (ES), name: email_label_es, widget: string, required: false }
+          - { label: Email Placeholder (ES), name: email_placeholder_es, widget: string, required: false }
+          - { label: Message Label (ES), name: message_label_es, widget: string, required: false }
+          - { label: Message Placeholder (ES), name: message_placeholder_es, widget: string, required: false }
+          - { label: Form Helper (ES), name: form_helper_es, widget: string, required: false }
+          - { label: Submit Text (ES), name: submit_text_es, widget: string, required: false }
+          - { label: "Status: Sending (ES)", name: messages_sending_es, widget: string, required: false }
+          - { label: "Status: Success (ES)", name: messages_success_es, widget: string, required: false }
+          - { label: "Status: Generic Error (ES)", name: messages_generic_error_es, widget: string, required: false }
+          - { label: "Status: Network Error (ES)", name: messages_network_error_es, widget: string, required: false }
+          - { label: "Status: Rate Limit (ES)", name: messages_rate_limit_es, widget: string, required: false }
+          - { label: "Status: Check Fields (ES)", name: messages_check_fields_es, widget: string, required: false }
+          - { label: "Error: Name Length (ES)", name: messages_name_length_es, widget: string, required: false }
+          - { label: "Error: Email Invalid (ES)", name: messages_email_invalid_es, widget: string, required: false }
+          - { label: "Error: Message Length (ES)", name: messages_message_length_es, widget: string, required: false }
+          - { label: Body (ES), name: body_es, widget: markdown, required: false }
+          - { label: Title (FR), name: title_fr, widget: string }
+          - { label: Description (FR), name: description_fr, widget: text, required: false }
+          - { label: Name Label (FR), name: name_label_fr, widget: string, required: false }
+          - { label: Name Placeholder (FR), name: name_placeholder_fr, widget: string, required: false }
+          - { label: Email Label (FR), name: email_label_fr, widget: string, required: false }
+          - { label: Email Placeholder (FR), name: email_placeholder_fr, widget: string, required: false }
+          - { label: Message Label (FR), name: message_label_fr, widget: string, required: false }
+          - { label: Message Placeholder (FR), name: message_placeholder_fr, widget: string, required: false }
+          - { label: Form Helper (FR), name: form_helper_fr, widget: string, required: false }
+          - { label: Submit Text (FR), name: submit_text_fr, widget: string, required: false }
+          - { label: "Status: Sending (FR)", name: messages_sending_fr, widget: string, required: false }
+          - { label: "Status: Success (FR)", name: messages_success_fr, widget: string, required: false }
+          - { label: "Status: Generic Error (FR)", name: messages_generic_error_fr, widget: string, required: false }
+          - { label: "Status: Network Error (FR)", name: messages_network_error_fr, widget: string, required: false }
+          - { label: "Status: Rate Limit (FR)", name: messages_rate_limit_fr, widget: string, required: false }
+          - { label: "Status: Check Fields (FR)", name: messages_check_fields_fr, widget: string, required: false }
+          - { label: "Error: Name Length (FR)", name: messages_name_length_fr, widget: string, required: false }
+          - { label: "Error: Email Invalid (FR)", name: messages_email_invalid_fr, widget: string, required: false }
+          - { label: "Error: Message Length (FR)", name: messages_message_length_fr, widget: string, required: false }
+          - { label: Body (FR), name: body_fr, widget: markdown, required: false }
       - label: Not Found (404)
         name: not_found
-        file: content/en/not-found.md
+        file: content/pages/not-found.yml
         fields:
-          - { label: Title, name: title, widget: string }
-          - { label: Description, name: description, widget: text, required: false }
-          - { label: CTA Text, name: cta_text, widget: string, required: false }
-          - { label: CTA Href, name: cta_href, widget: string, required: false }
+          - { label: Title (EN), name: title_en, widget: string }
+          - { label: Description (EN), name: description_en, widget: text, required: false }
+          - { label: CTA Text (EN), name: cta_text_en, widget: string, required: false }
+          - { label: CTA Href (EN), name: cta_href_en, widget: string, required: false }
+          - { label: Title (ES), name: title_es, widget: string }
+          - { label: Description (ES), name: description_es, widget: text, required: false }
+          - { label: CTA Text (ES), name: cta_text_es, widget: string, required: false }
+          - { label: CTA Href (ES), name: cta_href_es, widget: string, required: false }
+          - { label: Title (FR), name: title_fr, widget: string }
+          - { label: Description (FR), name: description_fr, widget: text, required: false }
+          - { label: CTA Text (FR), name: cta_text_fr, widget: string, required: false }
+          - { label: CTA Href (FR), name: cta_href_fr, widget: string, required: false }
 
-  - name: blog_en
-    label: Blog (EN)
-    folder: content/en/blog
+  # Unified collections with i18n
+  
+
+  - name: "services_entries"
+    label: "Services"
+    folder: "content/service_entries"
     create: true
     slug: "{{slug}}"
+    format: "yaml"
+    extension: "yml"
+    identifier_field: "slug"
+    editor:
+      preview: false
     fields:
-      - { label: Title, name: title, widget: string }
-      - { label: Description, name: description, widget: text, required: false }
-      - { label: Date, name: date, widget: datetime }
-      - { label: Image, name: image, widget: image, required: false }
-      - { label: Body, name: body, widget: markdown }
+      - { label: "Slug", name: "slug", widget: "string", hint: "Used in the URL. Keep stable.", required: true }
+      - { label: "Order", name: "order", widget: "number", value_type: "int", min: 0 }
+      - { label: "Image", name: "image", widget: "image", required: false }
+      - { label: "Price (EN default)", name: "price", widget: "string", required: false }
+      - { label: "Price (ES)", name: "price_es", widget: "string", required: false }
+      - { label: "Price (FR)", name: "price_fr", widget: "string", required: false }
+      - { label: "Title (EN)", name: "title_en", widget: "string" }
+      - { label: "Description (EN)", name: "description_en", widget: "text", required: false }
+      - { label: "Body (EN)", name: "body_en", widget: "markdown", required: false }
+      - { label: "Title (ES)", name: "title_es", widget: "string" }
+      - { label: "Description (ES)", name: "description_es", widget: "text", required: false }
+      - { label: "Body (ES)", name: "body_es", widget: "markdown", required: false }
+      - { label: "Title (FR)", name: "title_fr", widget: "string" }
+      - { label: "Description (FR)", name: "description_fr", widget: "text", required: false }
+      - { label: "Body (FR)", name: "body_fr", widget: "markdown", required: false }
 
-  - name: services_en
-    label: Services (EN)
-    folder: content/en/services
+  - name: "faq_entries"
+    label: "FAQ"
+    folder: "content/faq_entries"
     create: true
     slug: "{{slug}}"
+    format: "yaml"
+    extension: "yml"
+    identifier_field: "slug"
+    editor:
+      preview: false
     fields:
-      - { label: Title, name: title, widget: string }
-      - { label: Description, name: description, widget: text, required: false }
-      - { label: Price, name: price, widget: string, required: false }
-      - { label: Image, name: image, widget: image, required: false }
-      - { label: Order, name: order, widget: number, required: false, value_type: int, min: 0 }
-      - { label: Body, name: body, widget: markdown, required: false }
+      - { label: "Slug", name: "slug", widget: "string", hint: "Used in the URL.", required: true }
+      - { label: "Order", name: "order", widget: "number", required: false, value_type: "int", min: 0 }
+      - { label: "Question (EN)", name: "question_en", widget: "string" }
+      - { label: "Answer (EN)", name: "body_en", widget: "markdown" }
+      - { label: "Question (ES)", name: "question_es", widget: "string" }
+      - { label: "Answer (ES)", name: "body_es", widget: "markdown" }
+      - { label: "Question (FR)", name: "question_fr", widget: "string" }
+      - { label: "Answer (FR)", name: "body_fr", widget: "markdown" }
 
-  - name: faq_items_en
-    label: FAQ Items (EN)
-    folder: content/en/faq
+  - name: "testimonials_entries"
+    label: "Testimonials"
+    folder: "content/testimonial_entries"
     create: true
     slug: "{{slug}}"
+    format: "yaml"
+    extension: "yml"
+    identifier_field: "slug"
+    editor:
+      preview: false
     fields:
-      - { label: Question, name: question, widget: string }
-      - { label: Order, name: order, widget: number, required: false, value_type: int, min: 0 }
-      - { label: Answer, name: body, widget: markdown }
+      - { label: "Slug", name: "slug", widget: "string", hint: "Used as identifier.", required: true }
+      - { label: "Order", name: "order", widget: "number", value_type: "int", min: 0 }
+      - { label: "Rating", name: "rating", widget: "number", value_type: "int", min: 1, max: 5, required: false }
+      - { label: "Avatar", name: "avatar", widget: "image", required: false }
+      - { label: "Author", name: "author", widget: "string" }
+      - { label: "Role (EN)", name: "role_en", widget: "string", required: false }
+      - { label: "Role (ES)", name: "role_es", widget: "string", required: false }
+      - { label: "Role (FR)", name: "role_fr", widget: "string", required: false }
+      - { label: "Title (EN)", name: "title_en", widget: "string" }
+      - { label: "Quote (EN)", name: "body_en", widget: "markdown" }
+      - { label: "Title (ES)", name: "title_es", widget: "string" }
+      - { label: "Quote (ES)", name: "body_es", widget: "markdown" }
+      - { label: "Title (FR)", name: "title_fr", widget: "string" }
+      - { label: "Quote (FR)", name: "body_fr", widget: "markdown" }
 
-  - name: testimonials_en
-    label: Testimonials (EN)
-    folder: content/en/testimonials
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: Title, name: title, widget: string }
-      - { label: Author, name: author, widget: string }
-      - { label: Role, name: role, widget: string, required: false }
-      - { label: Rating, name: rating, widget: number, value_type: int, min: 1, max: 5, required: false }
-      - { label: Avatar, name: avatar, widget: image, required: false }
-      - { label: Order, name: order, widget: number, required: false, value_type: int, min: 0 }
-      - { label: Quote, name: body, widget: markdown }
 
-  - name: site_en
-    label: Site Settings (EN)
-    files:
-      - label: Settings
-        name: settings
-        file: content/en/site.md
-        fields:
-          - { label: Logo Text, name: logo_text, widget: string, required: false }
-          - { label: Logo Href, name: logo_href, widget: string, required: false }
-          - { label: Logo Image, name: logo_src, widget: image, required: false }
-          - { label: Logo Alt, name: logo_alt, widget: string, required: false }
-          - { label: Header CTA Text, name: header_cta_text, widget: string, required: false }
-          - { label: Header CTA Href, name: header_cta_href, widget: string, required: false }
-          - { label: Footer Description, name: footer_description, widget: text, required: false }
-          - { label: OG Image (default), name: og_image, widget: image, required: false }
 
 
 
   # Spanish (ES)
-  - name: pages_es
-    label: Páginas (ES)
-    editor:
-      preview: false
-    files:
-      - label: Home
-        name: home
-        file: content/es/home.md
-        fields:
-          - { label: Título, name: title, widget: string }
-          - { label: Descripción, name: description, widget: text, required: false }
-          - { label: Hero Título, name: hero_title, widget: string, required: false }
-          - { label: Hero Subtítulo, name: hero_subtitle, widget: text, required: false }
-          - { label: Hero CTA Texto, name: hero_cta_text, widget: string, required: false }
-          - { label: Hero CTA Link, name: hero_cta_href, widget: string, required: false }
-          - { label: Hero CTA secundaria (texto), name: hero_secondary_cta_text, widget: string, required: false }
-          - { label: Hero CTA secundaria (enlace), name: hero_secondary_cta_href, widget: string, required: false }
-          - { label: Hero Imagen, name: hero_image, widget: image, required: false }
-          - { label: Hero Alt, name: hero_image_alt, widget: string, required: false }
-          - { label: Servicios Título, name: services_title, widget: string, required: false }
-          - { label: Servicios Descripción, name: services_description, widget: text, required: false }
-          - { label: Servicios CTA Texto, name: services_cta_text, widget: string, required: false }
-          - { label: Servicios CTA Link, name: services_cta_href, widget: string, required: false }
-          - { label: Pasos Título, name: steps_title, widget: string, required: false }
-          - { label: CTA Texto, name: cta_text, widget: string, required: false }
-          - { label: CTA Descripción, name: cta_description, widget: text, required: false }
-          - { label: CTA Link Texto, name: cta_link_text, widget: string, required: false }
-          - { label: CTA Link, name: cta_link_href, widget: string, required: false }
-          - { label: Contenido, name: body, widget: markdown, required: false }
-      - label: Blog
-        name: blog
-        file: content/es/blog.md
-        fields:
-          - { label: Título, name: title, widget: string }
-          - { label: Descripción, name: description, widget: text, required: false }
-          - { label: Contenido, name: body, widget: markdown, required: false }
-      - label: Contacto
-        name: contact
-        file: content/es/contact.md
-        fields:
-          - { label: Título, name: title, widget: string }
-          - { label: Descripción, name: description, widget: text, required: false }
-          - { label: Etiqueta Nombre, name: name_label, widget: string, required: false }
-          - { label: Placeholder Nombre, name: name_placeholder, widget: string, required: false }
-          - { label: Etiqueta Correo, name: email_label, widget: string, required: false }
-          - { label: Placeholder Correo, name: email_placeholder, widget: string, required: false }
-          - { label: Etiqueta Mensaje, name: message_label, widget: string, required: false }
-          - { label: Placeholder Mensaje, name: message_placeholder, widget: string, required: false }
-          - { label: Ayuda del formulario, name: form_helper, widget: string, required: false }
-          - { label: Texto del botón, name: submit_text, widget: string, required: false }
-          - { label: "Estado: Enviando", name: messages_sending, widget: string, required: false }
-          - { label: "Estado: Éxito", name: messages_success, widget: string, required: false }
-          - { label: "Estado: Error genérico", name: messages_generic_error, widget: string, required: false }
-          - { label: "Estado: Error de red", name: messages_network_error, widget: string, required: false }
-          - { label: "Estado: Límite de peticiones", name: messages_rate_limit, widget: string, required: false }
-          - { label: "Estado: Revisar campos", name: messages_check_fields, widget: string, required: false }
-          - { label: "Error: Longitud del nombre", name: messages_name_length, widget: string, required: false }
-          - { label: "Error: Correo inválido", name: messages_email_invalid, widget: string, required: false }
-          - { label: "Error: Longitud del mensaje", name: messages_message_length, widget: string, required: false }
-          - { label: Contenido, name: body, widget: markdown, required: false }
-      - label: Acerca de
-        name: about
-        file: content/es/about.md
-        fields:
-          - { label: Título, name: title, widget: string }
-          - { label: Descripción, name: description, widget: text, required: false }
-          - { label: Contenido, name: body, widget: markdown, required: false }
-      - label: Servicios
-        name: services
-        file: content/es/services.md
-        fields:
-          - { label: Título, name: title, widget: string }
-          - { label: Descripción, name: description, widget: text, required: false }
-          - { label: Contenido, name: body, widget: markdown, required: false }
-      - label: Testimonios
-        name: testimonials
-        file: content/es/testimonials.md
-        fields:
-          - { label: Título, name: title, widget: string }
-          - { label: Descripción, name: description, widget: text, required: false }
-          - { label: Contenido, name: body, widget: markdown, required: false }
-      - label: FAQ
-        name: faq
-        file: content/es/faq.md
-        fields:
-          - { label: Título, name: title, widget: string }
-          - { label: Descripción, name: description, widget: text, required: false }
-          - { label: Contenido, name: body, widget: markdown, required: false }
-      - label: No Encontrada (404)
-        name: not_found
-        file: content/es/not-found.md
-        fields:
-          - { label: Título, name: title, widget: string }
-          - { label: Descripción, name: description, widget: text, required: false }
-          - { label: Texto CTA, name: cta_text, widget: string, required: false }
-          - { label: Enlace CTA, name: cta_href, widget: string, required: false }
+  
 
-  - name: blog_es
-    label: Blog (ES)
-    folder: content/es/blog
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: Título, name: title, widget: string }
-      - { label: Descripción, name: description, widget: text, required: false }
-      - { label: Fecha, name: date, widget: datetime }
-      - { label: Imagen, name: image, widget: image, required: false }
-      - { label: Contenido, name: body, widget: markdown }
+  
 
-  - name: services_es
-    label: Servicios (ES)
-    folder: content/es/services
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: Título, name: title, widget: string }
-      - { label: Descripción, name: description, widget: text, required: false }
-      - { label: Precio, name: price, widget: string, required: false }
-      - { label: Imagen, name: image, widget: image, required: false }
-      - { label: Orden, name: order, widget: number, required: false, value_type: int, min: 0 }
-      - { label: Contenido, name: body, widget: markdown, required: false }
 
-  - name: faq_items_es
-    label: FAQ (ES)
-    folder: content/es/faq
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: Pregunta, name: question, widget: string }
-      - { label: Orden, name: order, widget: number, required: false, value_type: int, min: 0 }
-      - { label: Respuesta, name: body, widget: markdown }
-
-  - name: testimonials_es
-    label: Testimonios (ES)
-    folder: content/es/testimonials
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: Título, name: title, widget: string }
-      - { label: Autor, name: author, widget: string }
-      - { label: Rol, name: role, widget: string, required: false }
-      - { label: Calificación, name: rating, widget: number, value_type: int, min: 1, max: 5, required: false }
-      - { label: Avatar, name: avatar, widget: image, required: false }
-      - { label: Orden, name: order, widget: number, required: false, value_type: int, min: 0 }
-      - { label: Cita, name: body, widget: markdown }
-
-  - name: site_es
-    label: Configuración del sitio (ES)
-    files:
-      - label: Ajustes
-        name: ajustes
-        file: content/es/site.md
-        fields:
-          - { label: Logo Texto, name: logo_text, widget: string, required: false }
-          - { label: Logo Link, name: logo_href, widget: string, required: false }
-          - { label: Logo Imagen, name: logo_src, widget: image, required: false }
-          - { label: Logo Alt, name: logo_alt, widget: string, required: false }
-          - { label: Header CTA Texto, name: header_cta_text, widget: string, required: false }
-          - { label: Header CTA Link, name: header_cta_href, widget: string, required: false }
-          - { label: Descripción del pie, name: footer_description, widget: text, required: false }
-          - { label: Imagen OG (predeterminada), name: og_image, widget: image, required: false }
 
 
 
   # French (FR)
-  - name: pages_fr
-    label: Pages (FR)
+  
+
+  
+
+
+
+
+
+
+  - name: "howitworks_entries"
+    label: "How It Works"
+    folder: "content/howitworks_entries"
+    create: true
+    slug: "{{slug}}"
+    format: "yaml"
+    extension: "yml"
+    identifier_field: "slug"
+    editor:
+      preview: false
+    fields:
+      - { label: "Slug", name: "slug", widget: "string", hint: "Used as anchor id. Keep stable.", required: true }
+      - { label: "Order", name: "order", widget: "number", value_type: "int", min: 0 }
+      - { label: "Icon (optional)", name: "icon", widget: "string", required: false }
+      - { label: "Title (EN)", name: "title_en", widget: "string" }
+      - { label: "Description (EN)", name: "description_en", widget: "text" }
+      - { label: "Link Text (EN)", name: "link_text_en", widget: "string", required: false }
+      - { label: "Link Href (EN)", name: "link_href_en", widget: "string", required: false }
+      - { label: "Title (ES)", name: "title_es", widget: "string" }
+      - { label: "Description (ES)", name: "description_es", widget: "text" }
+      - { label: "Link Text (ES)", name: "link_text_es", widget: "string", required: false }
+      - { label: "Link Href (ES)", name: "link_href_es", widget: "string", required: false }
+      - { label: "Title (FR)", name: "title_fr", widget: "string" }
+      - { label: "Description (FR)", name: "description_fr", widget: "text" }
+      - { label: "Link Text (FR)", name: "link_text_fr", widget: "string", required: false }
+      - { label: "Link Href (FR)", name: "link_href_fr", widget: "string", required: false }
+
+  - name: "settings"
+    label: "Settings"
     editor:
       preview: false
     files:
-      - label: Accueil
-        name: home
-        file: content/fr/home.md
+      - label: "Global Settings"
+        name: "global_settings"
+        file: "content/settings.yml"
         fields:
-          - { label: Titre, name: title, widget: string }
-          - { label: Description, name: description, widget: text, required: false }
-          - { label: Hero Titre, name: hero_title, widget: string, required: false }
-          - { label: Hero Sous-titre, name: hero_subtitle, widget: text, required: false }
-          - { label: Hero CTA Texte, name: hero_cta_text, widget: string, required: false }
-          - { label: Hero CTA Lien, name: hero_cta_href, widget: string, required: false }
-          - { label: Hero CTA secondaire (texte), name: hero_secondary_cta_text, widget: string, required: false }
-          - { label: Hero CTA secondaire (lien), name: hero_secondary_cta_href, widget: string, required: false }
-          - { label: Hero Image, name: hero_image, widget: image, required: false }
-          - { label: Hero Image Alt, name: hero_image_alt, widget: string, required: false }
-          - { label: Services Titre, name: services_title, widget: string, required: false }
-          - { label: Services Description, name: services_description, widget: text, required: false }
-          - { label: Services CTA Texte, name: services_cta_text, widget: string, required: false }
-          - { label: Services CTA Lien, name: services_cta_href, widget: string, required: false }
-          - { label: Étapes Titre, name: steps_title, widget: string, required: false }
-          - { label: CTA Texte, name: cta_text, widget: string, required: false }
-          - { label: CTA Description, name: cta_description, widget: text, required: false }
-          - { label: CTA Lien Texte, name: cta_link_text, widget: string, required: false }
-          - { label: CTA Lien, name: cta_link_href, widget: string, required: false }
-          - { label: Contenu, name: body, widget: markdown, required: false }
-      - label: Blog
-        name: blog
-        file: content/fr/blog.md
-        fields:
-          - { label: Titre, name: title, widget: string }
-          - { label: Description, name: description, widget: text, required: false }
-          - { label: Contenu, name: body, widget: markdown, required: false }
-      - label: Contact
-        name: contact
-        file: content/fr/contact.md
-        fields:
-          - { label: Titre, name: title, widget: string }
-          - { label: Description, name: description, widget: text, required: false }
-          - { label: Label Nom, name: name_label, widget: string, required: false }
-          - { label: Placeholder Nom, name: name_placeholder, widget: string, required: false }
-          - { label: Label E-mail, name: email_label, widget: string, required: false }
-          - { label: Placeholder E-mail, name: email_placeholder, widget: string, required: false }
-          - { label: Label Message, name: message_label, widget: string, required: false }
-          - { label: Placeholder Message, name: message_placeholder, widget: string, required: false }
-          - { label: Aide du formulaire, name: form_helper, widget: string, required: false }
-          - { label: Texte du bouton, name: submit_text, widget: string, required: false }
-          - { label: "Statut: Envoi", name: messages_sending, widget: string, required: false }
-          - { label: "Statut: Succès", name: messages_success, widget: string, required: false }
-          - { label: "Statut: Erreur générique", name: messages_generic_error, widget: string, required: false }
-          - { label: "Statut: Erreur réseau", name: messages_network_error, widget: string, required: false }
-          - { label: "Statut: Limite atteinte", name: messages_rate_limit, widget: string, required: false }
-          - { label: "Statut: Vérifier champs", name: messages_check_fields, widget: string, required: false }
-          - { label: "Erreur: Longueur du nom", name: messages_name_length, widget: string, required: false }
-          - { label: "Erreur: E-mail invalide", name: messages_email_invalid, widget: string, required: false }
-          - { label: "Erreur: Longueur du message", name: messages_message_length, widget: string, required: false }
-          - { label: Contenu, name: body, widget: markdown, required: false }
-      - label: À propos
-        name: about
-        file: content/fr/about.md
-        fields:
-          - { label: Titre, name: title, widget: string }
-          - { label: Description, name: description, widget: text, required: false }
-          - { label: Contenu, name: body, widget: markdown, required: false }
-      - label: Services
-        name: services
-        file: content/fr/services.md
-        fields:
-          - { label: Titre, name: title, widget: string }
-          - { label: Description, name: description, widget: text, required: false }
-          - { label: Contenu, name: body, widget: markdown, required: false }
-      - label: Témoignages
-        name: testimonials
-        file: content/fr/testimonials.md
-        fields:
-          - { label: Titre, name: title, widget: string }
-          - { label: Description, name: description, widget: text, required: false }
-          - { label: Contenu, name: body, widget: markdown, required: false }
-      - label: FAQ
-        name: faq
-        file: content/fr/faq.md
-        fields:
-          - { label: Titre, name: title, widget: string }
-          - { label: Description, name: description, widget: text, required: false }
-          - { label: Contenu, name: body, widget: markdown, required: false }
-      - label: Introuvable (404)
-        name: not_found
-        file: content/fr/not-found.md
-        fields:
-          - { label: Titre, name: title, widget: string }
-          - { label: Description, name: description, widget: text, required: false }
-          - { label: Texte CTA, name: cta_text, widget: string, required: false }
-          - { label: Lien CTA, name: cta_href, widget: string, required: false }
+          - { label: "Logo Image", name: "logo_src", widget: "image", required: false }
+          - { label: "Logo Href", name: "logo_href", widget: "string", required: false }
+          - { label: "OG Image (default)", name: "og_image", widget: "image", required: false }
+          - { label: "Logo Text", name: "logo_text", widget: "string", required: false }
+          - { label: "Logo Alt", name: "logo_alt", widget: "string", required: false }
 
-  - name: blog_fr
-    label: Blog (FR)
-    folder: content/fr/blog
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: Titre, name: title, widget: string }
-      - { label: Description, name: description, widget: text, required: false }
-      - { label: Date, name: date, widget: datetime }
-      - { label: Image, name: image, widget: image, required: false }
-      - { label: Contenu, name: body, widget: markdown }
+          - { label: "Header CTA Text (EN)", name: "header_cta_text_en", widget: "string", required: false }
+          - { label: "Header CTA Href (EN)", name: "header_cta_href_en", widget: "string", required: false }
+          - { label: "Footer Description (EN)", name: "footer_description_en", widget: "text", required: false }
 
-  - name: services_fr
-    label: Services (FR)
-    folder: content/fr/services
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: Titre, name: title, widget: string }
-      - { label: Description, name: description, widget: text, required: false }
-      - { label: Prix, name: price, widget: string, required: false }
-      - { label: Image, name: image, widget: image, required: false }
-      - { label: Ordre, name: order, widget: number, required: false, value_type: int, min: 0 }
-      - { label: Contenu, name: body, widget: markdown, required: false }
-
-  - name: faq_items_fr
-    label: FAQ (FR)
-    folder: content/fr/faq
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: Question, name: question, widget: string }
-      - { label: Ordre, name: order, widget: number, required: false, value_type: int, min: 0 }
-      - { label: Réponse, name: body, widget: markdown }
-
-  - name: testimonials_fr
-    label: Témoignages (FR)
-    folder: content/fr/testimonials
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: Titre, name: title, widget: string }
-      - { label: Auteur, name: author, widget: string }
-      - { label: Rôle, name: role, widget: string, required: false }
-      - { label: Note, name: rating, widget: number, value_type: int, min: 1, max: 5, required: false }
-      - { label: Avatar, name: avatar, widget: image, required: false }
-      - { label: Ordre, name: order, widget: number, required: false, value_type: int, min: 0 }
-      - { label: Citation, name: body, widget: markdown }
-
-  - name: site_fr
-    label: Paramètres du site (FR)
-    files:
-      - label: Paramètres
-        name: parametres
-        file: content/fr/site.md
-        fields:
-          - { label: Logo Texte, name: logo_text, widget: string, required: false }
-          - { label: Logo Lien, name: logo_href, widget: string, required: false }
-          - { label: Logo Image, name: logo_src, widget: image, required: false }
-          - { label: Logo Alt, name: logo_alt, widget: string, required: false }
-          - { label: Header CTA Texte, name: header_cta_text, widget: string, required: false }
-          - { label: Header CTA Lien, name: header_cta_href, widget: string, required: false }
-          - { label: Description du pied de page, name: footer_description, widget: text, required: false }
-          - { label: Image OG (défaut), name: og_image, widget: image, required: false }
-
-
-
-  - name: howitworks_fr
-    label: Comment ça marche (FR)
-    folder: content/fr/howitworks
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: Titre, name: title, widget: string }
-      - { label: Description, name: description, widget: text }
-      - { label: Icône (optionnel), name: icon, widget: string, required: false }
-      - { label: Ordre, name: order, widget: number, value_type: int, min: 0 }
-      - { label: Texte du lien, name: link_text, widget: string, required: false }
-      - { label: Lien, name: link_href, widget: string, required: false }
-
-  - name: howitworks_en
-    label: How It Works (EN)
-    folder: content/en/howitworks
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: Title, name: title, widget: string }
-      - { label: Description, name: description, widget: text }
-      - { label: Icon (optional), name: icon, widget: string, required: false }
-      - { label: Order, name: order, widget: number, value_type: int, min: 0 }
-      - { label: Link Text, name: link_text, widget: string, required: false }
-      - { label: Link Href, name: link_href, widget: string, required: false }
-
-  - name: howitworks_es
-    label: Cómo funciona (ES)
-    folder: content/es/howitworks
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: Título, name: title, widget: string }
-      - { label: Descripción, name: description, widget: text }
-      - { label: Ícono (opcional), name: icon, widget: string, required: false }
-      - { label: Orden, name: order, widget: number, value_type: int, min: 0 }
-      - { label: Texto del enlace, name: link_text, widget: string, required: false }
-      - { label: Enlace, name: link_href, widget: string, required: false }
-
-  - name: "menus"
-    label: "Menus"
-    editor:
-      preview: false
-    files:
+          - { label: "Header CTA Text (ES)", name: "header_cta_text_es", widget: "string", required: false }
+          - { label: "Header CTA Href (ES)", name: "header_cta_href_es", widget: "string", required: false }
+          - { label: "Footer Description (ES)", name: "footer_description_es", widget: "text", required: false }
+          
+          - { label: "Header CTA Text (FR)", name: "header_cta_text_fr", widget: "string", required: false }
+          - { label: "Header CTA Href (FR)", name: "header_cta_href_fr", widget: "string", required: false }
+          - { label: "Footer Description (FR)", name: "footer_description_fr", widget: "text", required: false }
       - label: "Header Menu"
         name: "header_menu"
         file: "content/menus/header.yml"
@@ -589,3 +422,28 @@ collections:
               - { label: "URL (ES)", "name": "url_es", widget: "string" }
               - { label: "Text (FR)", name: "text_fr", widget: "string" }
               - { label: "URL (FR)", "name": "url_fr", widget: "string" }
+
+  # Unified Blog (single file per post with locale-suffixed fields)
+  - name: "blog_entries"
+    label: "Blog"
+    folder: "content/blog_entries"
+    create: true
+    slug: "{{slug}}"
+    format: "yaml"
+    extension: "yml"
+    identifier_field: "slug"
+    editor:
+      preview: false
+    fields:
+      - { label: "Slug", name: "slug", widget: "string", hint: "Used in the URL. Keep stable.", required: true }
+      - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Image", name: "image", widget: "image", required: false }
+      - { label: "Title (EN)", name: "title_en", widget: "string" }
+      - { label: "Description (EN)", name: "description_en", widget: "text", required: false }
+      - { label: "Body (EN)", name: "body_en", widget: "markdown", required: false }
+      - { label: "Title (ES)", name: "title_es", widget: "string" }
+      - { label: "Description (ES)", name: "description_es", widget: "text", required: false }
+      - { label: "Body (ES)", name: "body_es", widget: "markdown", required: false }
+      - { label: "Title (FR)", name: "title_fr", widget: "string" }
+      - { label: "Description (FR)", name: "description_fr", widget: "text", required: false }
+      - { label: "Body (FR)", name: "body_fr", widget: "markdown", required: false }

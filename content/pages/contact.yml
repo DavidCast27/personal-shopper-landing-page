@@ -1,0 +1,65 @@
+title_en: Contact
+description_en: Contact us
+name_label_en: Name
+name_placeholder_en: Name
+email_label_en: Email
+email_placeholder_en: Email
+message_label_en: Message
+message_placeholder_en: Message
+form_helper_en: We reply within 1–2 business days.
+submit_text_en: Send
+messages_sending_en: Sending…
+messages_success_en: Thanks! We will get back to you soon.
+messages_generic_error_en: Something went wrong. Please try again later.
+messages_network_error_en: Network error. Please try again later.
+messages_rate_limit_en: Too many requests. Please try again later.
+messages_check_fields_en: Please check the fields and try again.
+messages_name_length_en: Name must be between 2 and 80 characters.
+messages_email_invalid_en: Please enter a valid email address.
+messages_message_length_en: Message must be between 10 and 2000 characters.
+body_en: |
+  Use the form below and we’ll get back to you.
+
+title_es: Contacto
+description_es: Contáctanos
+name_label_es: Nombre
+name_placeholder_es: Nombre
+email_label_es: Correo electrónico
+email_placeholder_es: Correo electrónico
+message_label_es: Mensaje
+message_placeholder_es: Mensaje
+form_helper_es: Respondemos en 1–2 días hábiles.
+submit_text_es: Enviar
+messages_sending_es: Enviando…
+messages_success_es: ¡Gracias! Te contactaremos pronto.
+messages_generic_error_es: Ha ocurrido un error. Intenta más tarde.
+messages_network_error_es: Error de red. Intenta más tarde.
+messages_rate_limit_es: Demasiadas solicitudes. Intenta más tarde.
+messages_check_fields_es: Por favor revisa los campos e inténtalo de nuevo.
+messages_name_length_es: El nombre debe tener entre 2 y 80 caracteres.
+messages_email_invalid_es: Ingresa un correo electrónico válido.
+messages_message_length_es: El mensaje debe tener entre 10 y 2000 caracteres.
+body_es: |
+  Usa el formulario y te responderemos pronto.
+
+title_fr: Contact
+description_fr: Nous contacter
+name_label_fr: Nom
+name_placeholder_fr: Nom
+email_label_fr: E-mail
+email_placeholder_fr: E-mail
+message_label_fr: Message
+message_placeholder_fr: Message
+form_helper_fr: Réponse sous 1–2 jours ouvrés.
+submit_text_fr: Envoyer
+messages_sending_fr: Envoi…
+messages_success_fr: Merci ! Nous vous répondrons bientôt.
+messages_generic_error_fr: Une erreur est survenue. Réessayez plus tard.
+messages_network_error_fr: Erreur réseau. Réessayez plus tard.
+messages_rate_limit_fr: Trop de demandes. Réessayez plus tard.
+messages_check_fields_fr: Veuillez vérifier les champs et réessayer.
+messages_name_length_fr: Le nom doit contenir entre 2 et 80 caractères.
+messages_email_invalid_fr: Veuillez saisir une adresse e-mail valide.
+messages_message_length_fr: Le message doit contenir entre 10 et 2000 caractères.
+body_fr: |
+  Utilisez le formulaire et nous vous répondrons bientôt.

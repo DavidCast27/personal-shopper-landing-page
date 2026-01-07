@@ -1,0 +1,20 @@
+slug: alex
+order: 1
+rating: 5
+author: Alex
+
+title_en: Amazing service
+role_en: Client
+body_en: |
+  I felt listened to and left with outfits I love.
+
+title_es: Servicio increíble
+role_es: Cliente
+body_es: |
+  Me sentí escuchada y salí con looks que me encantan.
+
+title_fr: Service incroyable
+role_fr: Client
+body_fr: |
+  J’ai été écouté et je repars avec des tenues que j’adore.
+

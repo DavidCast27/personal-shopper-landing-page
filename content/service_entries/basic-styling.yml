@@ -1,0 +1,21 @@
+slug: basic-styling
+order: 1
+image:
+price: $149
+price_fr: 149 €
+
+title_en: Basic Styling Session
+description_en: A focused session to refresh your look.
+body_en: |
+  We cover your goals, refine outfits, and build confidence.
+
+title_es: Asesoría Básica
+description_es: Sesión enfocada para refrescar tu estilo.
+body_es: |
+  Revisamos objetivos, ajustamos looks y ganamos confianza.
+
+title_fr: Conseil de base
+description_fr: Séance ciblée pour rafraîchir votre style.
+body_fr: |
+  Nous clarifions vos objectifs, ajustons des tenues et gagnons en confiance.
+

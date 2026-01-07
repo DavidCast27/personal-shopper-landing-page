@@ -1,0 +1,21 @@
+slug: personal-shopping
+order: 2
+image:
+price: $249
+price_fr: 249 €
+
+title_en: Personal Shopping
+description_en: Guided shopping to find pieces you’ll actually wear.
+body_en: |
+  We define a plan, visit key stores, and curate outfits.
+
+title_es: Compra Personal
+description_es: Acompañamiento para encontrar prendas que vas a usar.
+body_es: |
+  Definimos un plan, visitamos tiendas clave y curamos looks.
+
+title_fr: Shopping personnel
+description_fr: Accompagnement pour trouver des pièces que vous porterez.
+body_fr: |
+  Nous définissons un plan, visitons des enseignes clés et composons des looks.
+
